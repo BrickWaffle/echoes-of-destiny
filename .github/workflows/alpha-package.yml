@@ -1,0 +1,36 @@
+name: Character Sheet Alpha Package
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/character-sheet-echoes
+    paths:
+      - "module.json"
+      - "scripts/**"
+      - "styles/**"
+      - ".github/workflows/alpha-package.yml"
+permissions:
+  contents: read
+  actions: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate module metadata and JavaScript syntax
+        run: |
+          node -e 'const m=require("./module.json"); if(!m.id || !m.esmodules || !m.styles) process.exit(1); console.log("Module metadata OK:",m.id,m.version)'
+          for f in scripts/*.js; do node --check "$f"; done
+      - name: Assemble installable module
+        run: |
+          mkdir -p dist/echoes-tag-state
+          cp module.json dist/echoes-tag-state/
+          cp -r scripts styles dist/echoes-tag-state/
+          cd dist
+          zip -r ../echoes-tag-state-alpha.zip echoes-tag-state
+      - uses: actions/upload-artifact@v4
+        with:
+          name: echoes-tag-state-alpha
+          path: echoes-tag-state-alpha.zip
+          if-no-files-found: error
+          retention-days: 30
