@@ -1,7 +1,7 @@
 {
-  "id": "echoes-tag-state",
+  "id": "echoes-of-destiny",
   "title": "Echoes of Destiny",
-  "description": "Adds persistent equipment tag availability and character-sheet Echoes tracking for the PbtA system on Foundry VTT v14.",
+  "description": "Complete Echoes of Destiny character-sheet and equipment-tag package for the PbtA system on Foundry VTT v14.",
   "version": "1.1.0",
   "compatibility": {
     "minimum": "14",
@@ -25,7 +25,7 @@
   ],
   "url": "https://github.com/BrickWaffle/echoes-of-destiny-tag-state",
   "manifest": "https://raw.githubusercontent.com/BrickWaffle/echoes-of-destiny-tag-state/main/module.json",
-  "download": "https://github.com/BrickWaffle/echoes-of-destiny-tag-state/releases/latest/download/echoes-tag-state.zip",
+  "download": "https://github.com/BrickWaffle/echoes-of-destiny-tag-state/releases/latest/download/echoes-of-destiny.zip",
   "bugs": "https://github.com/BrickWaffle/echoes-of-destiny-tag-state/issues",
   "license": "MIT"
 }
