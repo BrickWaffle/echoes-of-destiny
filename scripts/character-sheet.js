@@ -53,14 +53,22 @@ Hooks.on("renderActorSheet",(app,html)=>{
  if(!root||game.system.id!=="pbta"||!app.actor)return;
  root.addEventListener("click",event=>{
   const tab=event.target.closest('.sheet-tabs a.item[data-tab]');
-  if(tab&&!tab.hidden){
-   const selected=tab.dataset.tab;
-   app._eodTabToRestore=selected;
-   const actor=app.actor;
-   if(actor?.isOwner){
-    const prior=actor.getFlag(MOD,"sheetState")||{past:[],destiny:[]};
-    actor.setFlag(MOD,"sheetState",{...prior,activeTab:selected}).catch(err=>console.error(MOD+": tab state error",err));
-   }
+  if(!tab||tab.hidden)return;
+  const selected=tab.dataset.tab;
+  app._eodTabToRestore=selected;
+  if(selected==="echoes"){
+   // The PbtA sheet's tab controller does not know about this injected tab.
+   // Stop its handler from resetting the sheet to its default tab, then
+   // activate our pane after the current click dispatch completes.
+   event.preventDefault();
+   event.stopPropagation();
+   event.stopImmediatePropagation();
+   requestAnimationFrame(()=>{if(root.isConnected)activateTab(root,"echoes");});
+  }
+  const actor=app.actor;
+  if(actor?.isOwner){
+   const prior=actor.getFlag(MOD,"sheetState")||{past:[],destiny:[]};
+   actor.setFlag(MOD,"sheetState",{...prior,activeTab:selected}).catch(err=>console.error(MOD+": tab state error",err));
   }
  },true);
  renderEchoes(app,root).catch(err=>console.error(MOD+": sheet error",err));
