@@ -1,29 +1,27 @@
-# Echoes of Destiny — Tag State Tracker
+# Echoes of Destiny
 
-A prototype Foundry VTT module for the **Powered by the Apocalypse** system.
+A Foundry VTT module for the **Powered by the Apocalypse** system, combining the Echoes character-sheet tab with persistent equipment-tag availability.
 
 ## Target environment
 
 - Foundry VTT v14 Stable, build 367
 - Powered by the Apocalypse system 1.2.2
 
-## Alpha behavior
+## Character sheet
 
-Adds availability interaction directly to native PbtA equipment tags in an item's expanded description. Click a tag to toggle Available/Unavailable; unavailable tags are dimmed and struck through. The state is stored on the owning equipment Item in `flags.echoes-tag-state.unavailableTagKeys`, so identical tag names on different items are independent. The module does not alter the item's configured tag data.
+Adds a dedicated **Echoes** tab with Echoes of the Past and playbook-specific Echoes of Destiny prompts. Prompt selections persist on the Actor. The native Description tab is hidden; Conditions and End-of-Session Reflections remain configured through the PbtA system's TOML.
 
-Only users with ownership of the Actor may toggle tags. Keyboard Enter/Space is supported on focused tag controls.
+The sheet preserves the selected tab when an Echo prompt update causes a sheet refresh. Existing prompt-selection data remains under the legacy `echoes-character-sheet-alpha` flag namespace.
 
-## Compatibility status
+## Equipment tags
 
-This alpha targets the PbtA actor sheet's native equipment markup and has not yet been live-tested in Foundry. It currently handles equipment tags only; it does not change move tags, actor tags, or mechanical roll calculations. Availability is a visual/table-use aid: the Director and players still apply the game's tag rules.
+Click a native PbtA equipment tag to toggle Available/Unavailable; unavailable tags are dimmed and struck through. State is stored on the owning equipment Item in `flags.echoes-tag-state.unavailableTagKeys`, so identical tag names on different items are independent. Configured tag data is not altered. Only Actor owners may toggle tags; keyboard Enter/Space is supported.
 
-## Upgrade note
-
-The previous 0.1.x prototype stored manually entered actor-level tags in `flags.echoes-tag-state.tags`. This alpha no longer displays that standalone tracker and does not migrate those prototype entries. Existing native PbtA equipment and tags are not deleted or rewritten.
+Availability is a visual/table-use aid. It does not change roll calculations; players and the Director apply the game's tag rules.
 
 ## Install and test
 
-Install only in a backed-up development world until compatibility is confirmed. Expand an equipment entry, then click one of its existing tags. Close/reopen the sheet and verify the unavailable state persists. Test two separate items sharing a tag name, item tag edits, and player/owner permissions.
+Back up the world before installing. Test prompt selection and persistence, tab preservation after edits, equipment-tag toggling and persistence, identical tags on separate items, item tag edits, and player/owner permissions.
 
 Manifest URL:
 `https://raw.githubusercontent.com/BrickWaffle/echoes-of-destiny-tag-state/main/module.json`
