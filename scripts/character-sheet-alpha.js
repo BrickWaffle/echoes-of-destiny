@@ -38,7 +38,7 @@ async function renderEchoes(app,root){
  pane.dataset.eodBuilt="1";
  const stored=actor.getFlag(MOD,"sheetState")||{past:[],destiny:[]};
  let currentTab=stored.restoreEchoesOnce?"echoes":"moves";
- if(stored.restoreEchoesOnce){requestAnimationFrame(()=>activateEchoTab(root));}
+ if(stored.restoreEchoesOnce){requestAnimationFrame(()=>{activateEchoTab(root);const clean=foundry.utils.deepClone(actor.getFlag(MOD,"sheetState")||{});delete clean.restoreEchoesOnce;actor.setFlag(MOD,"sheetState",clean).catch(err=>console.error(MOD+": could not clear tab restore marker",err));});}
  const pb=playbook(actor);const destiny=DEST[pb]||null;
  function build(target,items,kind,checked=[]){const host=pane.querySelector('[data-eod-list="'+target+'"]');if(!host)return;if(!items){host.textContent="Playbook not detected. Set the playbook field to one of: "+Object.keys(DEST).join(", ")+". Prompt tracking will be available once selected.";return;}host.innerHTML=items.map((q,i)=>'<label class="eod-check"><input type="checkbox" data-kind="'+kind+'" data-index="'+i+'" '+(checked.includes(i)?"checked":"")+'><span>'+esc(q)+'</span></label>').join("");}
  build("past",PAST,"past",stored.past);build("destiny",destiny,"destiny",stored.destiny);
