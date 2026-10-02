@@ -1,4 +1,5 @@
-const MODULE_ID = "echoes-tag-state";
+const MODULE_ID = "echoes-of-destiny";
+const LEGACY_MODULE_ID = "echoes-tag-state";
 const FLAG_KEY = "unavailableTagKeys";
 
 function parseItemTags(item) {
@@ -16,6 +17,14 @@ function tagKey(index, tag) {
   return `${index}:${String(tag?.value ?? "")}`;
 }
 
+function readUnavailable(item) {
+  const current = item.getFlag(MODULE_ID, FLAG_KEY);
+  if (Array.isArray(current)) return current;
+  // Read legacy raw flag data without invoking Foundry's inactive-scope validation.
+  const legacy = item.flags?.[LEGACY_MODULE_ID]?.[FLAG_KEY];
+  return Array.isArray(legacy) ? legacy : [];
+}
+
 function decorateNativeTags(root, actor) {
   for (const itemRow of root.querySelectorAll(".items-list .item[data-item-id]")) {
     const item = actor.items.get(itemRow.dataset.itemId);
@@ -23,7 +32,7 @@ function decorateNativeTags(root, actor) {
 
     const tagElements = itemRow.querySelectorAll(".item-description .tags .tag");
     const definitions = parseItemTags(item);
-    const unavailable = new Set(item.getFlag(MODULE_ID, FLAG_KEY) ?? []);
+    const unavailable = new Set(readUnavailable(item));
 
     tagElements.forEach((element, index) => {
       const key = tagKey(index, definitions[index]);
