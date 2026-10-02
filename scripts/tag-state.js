@@ -65,7 +65,11 @@ async function toggleNativeTag(event, app, root) {
   else unavailable.add(key);
 
   await item.setFlag(MODULE_ID, FLAG_KEY, [...unavailable]);
-  app.render(false);
+  const isUnavailable = unavailable.has(key);
+  tagElement.classList.toggle("eod-tag-unavailable", isUnavailable);
+  tagElement.setAttribute("aria-pressed", String(!isUnavailable));
+  tagElement.setAttribute("aria-label", `${tagElement.textContent.trim()}: ${isUnavailable ? "Unavailable" : "Available"}`);
+  tagElement.title = `Click to mark ${isUnavailable ? "available" : "unavailable"}`;
 }
 
 Hooks.on("renderActorSheet", (app, html) => {
