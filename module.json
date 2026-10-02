@@ -1,8 +1,8 @@
 {
-  "id": "echoes-tag-state",
+  "id": "echoes-character-sheet-alpha",
   "title": "Echoes of Destiny — Character Sheet Alpha",
-  "description": "Experimental Echoes and reflection sheet UI with persistent equipment tag availability. Test build; not for production worlds.",
-  "version": "1.1.0-alpha.1",
+  "description": "Experimental Echoes and reflection UI. Requires Foundry v14 and PbtA. Test-only companion module; retain the stable Tag State Tracker for equipment tag toggles.",
+  "version": "0.1.0-alpha.1",
   "compatibility": {
     "minimum": "14",
     "verified": "14.367"
@@ -13,11 +13,9 @@
     }
   ],
   "esmodules": [
-    "scripts/tag-state.js",
     "scripts/character-sheet-alpha.js"
   ],
   "styles": [
-    "styles/tag-state.css",
     "styles/character-sheet-alpha.css"
   ],
   "systems": [
