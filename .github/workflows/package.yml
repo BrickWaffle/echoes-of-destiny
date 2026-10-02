@@ -15,13 +15,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Stage module folder
         run: |
-          mkdir -p dist/echoes-tag-state
-          cp module.json README.md LICENSE dist/echoes-tag-state/
-          cp -R scripts styles dist/echoes-tag-state/
+          mkdir -p dist/echoes-of-destiny
+          cp module.json README.md LICENSE dist/echoes-of-destiny/
+          cp -R scripts styles dist/echoes-of-destiny/
           cd dist
-          zip -r ../echoes-tag-state.zip echoes-tag-state
+          zip -r ../echoes-of-destiny.zip echoes-of-destiny
       - name: Publish release asset
         uses: softprops/action-gh-release@v2
         with:
-          files: echoes-tag-state.zip
+          files: echoes-of-destiny.zip
           generate_release_notes: true
