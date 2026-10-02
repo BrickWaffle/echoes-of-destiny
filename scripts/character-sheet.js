@@ -38,7 +38,7 @@ async function renderEchoes(app,root){
  pane.dataset.eodBuilt="1";
  const stored=actor.getFlag(MOD,"sheetState")||{past:[],destiny:[]};
  const activeNow=root.querySelector(".sheet-body .tab.active")?.dataset.tab;
- const restoreTab=stored.activeTab||app._eodTabToRestore||activeNow||"moves";
+ const restoreTab=app._eodTabToRestore||stored.activeTab||activeNow||"moves";
  requestAnimationFrame(()=>{
   if(root.isConnected)activateTab(root,restoreTab);
   if(app._eodTabToRestore===restoreTab)delete app._eodTabToRestore;
@@ -53,7 +53,15 @@ Hooks.on("renderActorSheet",(app,html)=>{
  if(!root||game.system.id!=="pbta"||!app.actor)return;
  root.addEventListener("click",event=>{
   const tab=event.target.closest('.sheet-tabs a.item[data-tab]');
-  if(tab&&!tab.hidden)app._eodTabToRestore=tab.dataset.tab;
+  if(tab&&!tab.hidden){
+   const selected=tab.dataset.tab;
+   app._eodTabToRestore=selected;
+   const actor=app.actor;
+   if(actor?.isOwner){
+    const prior=actor.getFlag(MOD,"sheetState")||{past:[],destiny:[]};
+    actor.setFlag(MOD,"sheetState",{...prior,activeTab:selected}).catch(err=>console.error(MOD+": tab state error",err));
+   }
+  }
  },true);
  renderEchoes(app,root).catch(err=>console.error(MOD+": sheet error",err));
 });
