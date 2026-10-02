@@ -13,9 +13,21 @@ function addEchoTab(app,root){
  body.append(pane);
  nav.addEventListener("click",e=>{const a=e.target.closest('a.item[data-tab]');if(!a||a.dataset.tab!=="echoes")return;e.preventDefault();for(const n of nav.querySelectorAll("a.item"))n.classList.toggle("active",n===link);for(const p of body.querySelectorAll(".tab"))p.classList.toggle("active",p===pane);});
 }
+function hideDescriptionTab(root){
+ const nav=root.querySelector(".sheet-tabs.tabs"),body=root.querySelector(".sheet-body");
+ const link=nav?.querySelector('a.item[data-tab="description"]');
+ const pane=body?.querySelector('.tab[data-tab="description"]');
+ if(!link||!pane)return;
+ if(pane.classList.contains("active")){
+  const moves=nav.querySelector('a.item[data-tab="moves"]');
+  if(moves)moves.click();
+ }
+ link.hidden=true;pane.hidden=true;
+}
 async function renderEchoes(app,root){
  const actor=app.actor;if(!actor?.isOwner)return;
  addEchoTab(app,root);
+ hideDescriptionTab(root);
  const pane=root.querySelector('.sheet-body .tab[data-tab="echoes"]');if(!pane||pane.dataset.eodBuilt)return;
  pane.dataset.eodBuilt="1";
  const stored=actor.getFlag(MOD,"sheetState")||{past:[],destiny:[],reflections:[0,1,2]};
