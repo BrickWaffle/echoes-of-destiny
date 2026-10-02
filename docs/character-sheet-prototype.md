@@ -14,7 +14,7 @@ Target: Foundry VTT v14.367, Powered by the Apocalypse 1.2.2.
 
 ## Design target
 
-Reflow the existing three Condition text fields into a panel beside Look/Vice/XP while preserving their native form bindings. Add an Echoes tab with Past prompts, Destiny prompts, used-state controls, and independent end-of-session reflection selections. Persist custom Echo data on the Actor under this module's namespace. Do not alter the PbtA roll engine or playbook item data.
+Reflow the existing three Condition text fields into a panel beside Look/Vice/XP while preserving their native form bindings. Add an Echoes tab with Past prompts, Destiny prompts, used-state controls, and independent end-of-session reflection selections (up to three per session). Persist custom Echo data on the Actor under this module's namespace. At session end, players may mark up to three applicable Reflection questions; Echo prompt use is tracked independently. Do not alter the PbtA roll engine or playbook item data.
 
 ## Implementation status
 
