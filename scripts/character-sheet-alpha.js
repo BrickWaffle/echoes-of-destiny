@@ -10,7 +10,7 @@ function addEchoTab(app,root){
  const link=document.createElement("a");link.className="item";link.dataset.tab="echoes";link.dataset.group=group;link.textContent="Echoes";link.setAttribute("role","tab");nav.append(link);
  const pane=document.createElement("div");pane.className="tab";pane.dataset.tab="echoes";pane.dataset.group=group;pane.innerHTML='<section class="eod-echo-layout"><div class="eod-echo-section"><h2>Echoes of the Past</h2><div data-eod-list="past"></div></div><div class="eod-echo-section"><h2>Echoes of Destiny</h2><p class="notes">Playbook prompts are shown when a matching playbook is detected. You can still track use if your playbook name differs.</p><div data-eod-list="destiny"></div></div></section>';
  body.append(pane);
- nav.addEventListener("click",e=>{const a=e.target.closest('a.item[data-tab]');if(!a||a.dataset.tab!=="echoes")return;e.preventDefault();for(const n of nav.querySelectorAll("a.item"))n.classList.toggle("active",n===link);for(const p of body.querySelectorAll(".tab"))p.classList.toggle("active",p===pane);});
+ nav.addEventListener("click",e=>{const a=e.target.closest('a.item[data-tab]');if(!a)return;currentTab=a.dataset.tab;if(a.dataset.tab!=="echoes")return;e.preventDefault();for(const n of nav.querySelectorAll("a.item"))n.classList.toggle("active",n===link);for(const p of body.querySelectorAll(".tab"))p.classList.toggle("active",p===pane);});
 }
 function hideDescriptionTab(root){
  const nav=root.querySelector(".sheet-tabs.tabs"),body=root.querySelector(".sheet-body");
@@ -23,6 +23,13 @@ function hideDescriptionTab(root){
  }
  link.hidden=true;pane.hidden=true;
 }
+function activateEchoTab(root){
+ const nav=root.querySelector(".sheet-tabs.tabs"),body=root.querySelector(".sheet-body");
+ const link=nav?.querySelector('a.item[data-tab="echoes"]'),pane=body?.querySelector('.tab[data-tab="echoes"]');
+ if(!link||!pane)return;
+ for(const n of nav.querySelectorAll("a.item"))n.classList.toggle("active",n===link);
+ for(const p of body.querySelectorAll(".tab"))p.classList.toggle("active",p===pane);
+}
 async function renderEchoes(app,root){
  const actor=app.actor;if(!actor?.isOwner)return;
  addEchoTab(app,root);
@@ -30,9 +37,11 @@ async function renderEchoes(app,root){
  const pane=root.querySelector('.sheet-body .tab[data-tab="echoes"]');if(!pane||pane.dataset.eodBuilt)return;
  pane.dataset.eodBuilt="1";
  const stored=actor.getFlag(MOD,"sheetState")||{past:[],destiny:[]};
+ let currentTab=stored.restoreEchoesOnce?"echoes":"moves";
+ if(stored.restoreEchoesOnce){requestAnimationFrame(()=>activateEchoTab(root));}
  const pb=playbook(actor);const destiny=DEST[pb]||null;
  function build(target,items,kind,checked=[]){const host=pane.querySelector('[data-eod-list="'+target+'"]');if(!host)return;if(!items){host.textContent="Playbook not detected. Set the playbook field to one of: "+Object.keys(DEST).join(", ")+". Prompt tracking will be available once selected.";return;}host.innerHTML=items.map((q,i)=>'<label class="eod-check"><input type="checkbox" data-kind="'+kind+'" data-index="'+i+'" '+(checked.includes(i)?"checked":"")+'><span>'+esc(q)+'</span></label>').join("");}
  build("past",PAST,"past",stored.past);build("destiny",destiny,"destiny",stored.destiny);
- pane.addEventListener("change",async e=>{const el=e.target.closest('input[data-kind]');if(!el)return;const state=foundry.utils.deepClone(actor.getFlag(MOD,"sheetState")||{past:[],destiny:[]});const k=el.dataset.kind,i=Number(el.dataset.index);state[k]=state[k]||[];state[k]=el.checked?[...new Set([...state[k],i])]:state[k].filter(n=>n!==i);await actor.setFlag(MOD,"sheetState",state);});
+ pane.addEventListener("change",async e=>{const el=e.target.closest('input[data-kind]');if(!el)return;const state=foundry.utils.deepClone(actor.getFlag(MOD,"sheetState")||{past:[],destiny:[]});const k=el.dataset.kind,i=Number(el.dataset.index);state[k]=state[k]||[];state[k]=el.checked?[...new Set([...state[k],i])]:state[k].filter(n=>n!==i);state.restoreEchoesOnce=true;await actor.setFlag(MOD,"sheetState",state);});
 }
 Hooks.on("renderActorSheet",(app,html)=>{const root=html?.[0] instanceof HTMLElement?html[0]:html;if(!root||game.system.id!=="pbta"||!app.actor)return;renderEchoes(app,root).catch(err=>console.error(MOD+": sheet alpha error",err));});
