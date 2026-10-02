@@ -26,4 +26,4 @@ Availability is a visual/table-use aid. It does not change roll calculations; pl
 Back up the world before installing. Test prompt selection and persistence, tab preservation after edits, equipment-tag toggling and persistence, identical tags on separate items, item tag edits, and player/owner permissions.
 
 Manifest URL:
-`https://raw.githubusercontent.com/BrickWaffle/echoes-of-destiny-tag-state/main/module.json`
+`https://raw.githubusercontent.com/BrickWaffle/echoes-of-destiny/main/module.json`
