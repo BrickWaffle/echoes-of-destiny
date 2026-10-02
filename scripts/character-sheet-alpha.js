@@ -10,7 +10,7 @@ function addEchoTab(app,root){
  const link=document.createElement("a");link.className="item";link.dataset.tab="echoes";link.dataset.group=group;link.textContent="Echoes";link.setAttribute("role","tab");nav.append(link);
  const pane=document.createElement("div");pane.className="tab";pane.dataset.tab="echoes";pane.dataset.group=group;pane.innerHTML='<section class="eod-echo-layout"><div class="eod-echo-section"><h2>Echoes of the Past</h2><div data-eod-list="past"></div></div><div class="eod-echo-section"><h2>Echoes of Destiny</h2><p class="notes">Playbook prompts are shown when a matching playbook is detected. You can still track use if your playbook name differs.</p><div data-eod-list="destiny"></div></div></section>';
  body.append(pane);
- nav.addEventListener("click",e=>{const a=e.target.closest('a.item[data-tab]');if(!a)return;currentTab=a.dataset.tab;if(a.dataset.tab!=="echoes")return;e.preventDefault();for(const n of nav.querySelectorAll("a.item"))n.classList.toggle("active",n===link);for(const p of body.querySelectorAll(".tab"))p.classList.toggle("active",p===pane);});
+ nav.addEventListener("click",e=>{const a=e.target.closest('a.item[data-tab]');if(!a)return;if(a.dataset.tab!=="echoes")return;e.preventDefault();for(const n of nav.querySelectorAll("a.item"))n.classList.toggle("active",n===link);for(const p of body.querySelectorAll(".tab"))p.classList.toggle("active",p===pane);});
 }
 function hideDescriptionTab(root){
  const nav=root.querySelector(".sheet-tabs.tabs"),body=root.querySelector(".sheet-body");
