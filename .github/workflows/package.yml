@@ -13,6 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Set package version from release tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          jq --arg version "$VERSION" '.version = $version' module.json > module.json.tmp
+          mv module.json.tmp module.json
       - name: Stage module folder
         run: |
           mkdir -p dist/echoes-of-destiny
