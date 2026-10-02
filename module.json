@@ -1,0 +1,29 @@
+{
+  "id": "echoes-tag-state",
+  "title": "Echoes of Destiny — Tag State Tracker",
+  "description": "Prototype tag availability tracker for Echoes of Destiny, targeting Foundry VTT v14 and the PbtA system.",
+  "version": "0.1.0",
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14.367"
+  },
+  "authors": [
+    {
+      "name": "BrickWaffle"
+    }
+  ],
+  "esmodules": [
+    "scripts/tag-state.js"
+  ],
+  "styles": [
+    "styles/tag-state.css"
+  ],
+  "systems": [
+    "pbta"
+  ],
+  "url": "https://github.com/BrickWaffle/echoes-of-destiny-tag-state",
+  "manifest": "https://raw.githubusercontent.com/BrickWaffle/echoes-of-destiny-tag-state/main/module.json",
+  "download": "https://github.com/BrickWaffle/echoes-of-destiny-tag-state/archive/refs/heads/main.zip",
+  "bugs": "https://github.com/BrickWaffle/echoes-of-destiny-tag-state/issues",
+  "license": "MIT"
+}
