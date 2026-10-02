@@ -7,26 +7,23 @@ A prototype Foundry VTT module for the **Powered by the Apocalypse** system.
 - Foundry VTT v14 Stable, build 367
 - Powered by the Apocalypse system 1.2.2
 
-## Current prototype behavior
+## Alpha behavior
 
-Adds a **Tag Availability** panel to actor sheets. It supports creating named entries, toggling Available/Unavailable, restoring, and removing entries. State persists in actor flags under `flags.echoes-tag-state.tags`. Unavailable tags are visually dimmed and struck through, not erased.
+Adds availability interaction directly to native PbtA equipment tags in an item's expanded description. Click a tag to toggle Available/Unavailable; unavailable tags are dimmed and struck through. The state is stored on the owning equipment Item in `flags.echoes-tag-state.unavailableTagKeys`, so identical tag names on different items are independent. The module does not alter the item's configured tag data.
 
-## Important scope limitation
+Only users with ownership of the Actor may toggle tags. Keyboard Enter/Space is supported on focused tag controls.
 
-This is a standalone tracker prototype. It does **not yet read or synchronize PbtA's native configured tags, item tags, or system tag controls**. It currently targets actor sheets; items represented separately do not get their own tracker. Live compatibility with the specified Foundry/PbtA versions remains to be verified.
+## Compatibility status
 
-## Development install
+This alpha targets the PbtA actor sheet's native equipment markup and has not yet been live-tested in Foundry. It currently handles equipment tags only; it does not change move tags, actor tags, or mechanical roll calculations. Availability is a visual/table-use aid: the Director and players still apply the game's tag rules.
 
-Copy this repository's module files into a folder named `echoes-tag-state` inside Foundry's `Data/modules` directory, then enable the module in Manage Modules.
+## Upgrade note
 
-## Manifest install
+The previous 0.1.x prototype stored manually entered actor-level tags in `flags.echoes-tag-state.tags`. This alpha no longer displays that standalone tracker and does not migrate those prototype entries. Existing native PbtA equipment and tags are not deleted or rewritten.
+
+## Install and test
+
+Install only in a backed-up development world until compatibility is confirmed. Expand an equipment entry, then click one of its existing tags. Close/reopen the sheet and verify the unavailable state persists. Test two separate items sharing a tag name, item tag edits, and player/owner permissions.
 
 Manifest URL:
-
 `https://raw.githubusercontent.com/BrickWaffle/echoes-of-destiny-tag-state/main/module.json`
-
-The download currently points to the GitHub source archive. A versioned Foundry-ready release ZIP should replace that source archive URL before treating this as a stable one-click installation.
-
-## Safety
-
-Back up your world before testing. Removing a tracker entry removes only the module's tracked entry, not a native PbtA tag or document. Only actor owners can edit entries.
