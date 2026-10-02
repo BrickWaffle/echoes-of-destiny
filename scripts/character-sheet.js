@@ -38,7 +38,7 @@ async function renderEchoes(app,root){
  pane.dataset.eodBuilt="1";
  const stored=actor.getFlag(MOD,"sheetState")||{past:[],destiny:[]};
  const activeNow=root.querySelector(".sheet-body .tab.active")?.dataset.tab;
- const restoreTab=app._eodTabToRestore||activeNow||"moves";
+ const restoreTab=stored.activeTab||app._eodTabToRestore||activeNow||"moves";
  requestAnimationFrame(()=>{
   if(root.isConnected)activateTab(root,restoreTab);
   if(app._eodTabToRestore===restoreTab)delete app._eodTabToRestore;
@@ -46,7 +46,7 @@ async function renderEchoes(app,root){
  const pb=playbook(actor);const destiny=DEST[pb]||null;
  function build(target,items,kind,checked=[]){const host=pane.querySelector('[data-eod-list="'+target+'"]');if(!host)return;if(!items){host.textContent="Playbook not detected. Set the playbook field to one of: "+Object.keys(DEST).join(", ")+". Prompt tracking will be available once selected.";return;}host.innerHTML=items.map((q,i)=>'<label class="eod-check"><input type="checkbox" data-kind="'+kind+'" data-index="'+i+'" '+(checked.includes(i)?"checked":"")+'><span>'+esc(q)+'</span></label>').join("");}
  build("past",PAST,"past",stored.past);build("destiny",destiny,"destiny",stored.destiny);
- pane.addEventListener("change",async e=>{const el=e.target.closest('input[data-kind]');if(!el)return;const state=foundry.utils.deepClone(actor.getFlag(MOD,"sheetState")||{past:[],destiny:[]});const k=el.dataset.kind,i=Number(el.dataset.index);state[k]=state[k]||[];state[k]=el.checked?[...new Set([...state[k],i])]:state[k].filter(n=>n!==i);app._eodTabToRestore=root.querySelector(".sheet-body .tab.active")?.dataset.tab||"echoes";await actor.setFlag(MOD,"sheetState",state);});
+ pane.addEventListener("change",async e=>{const el=e.target.closest('input[data-kind]');if(!el)return;const state=foundry.utils.deepClone(actor.getFlag(MOD,"sheetState")||{past:[],destiny:[]});const k=el.dataset.kind,i=Number(el.dataset.index);state[k]=state[k]||[];state[k]=el.checked?[...new Set([...state[k],i])]:state[k].filter(n=>n!==i);state.activeTab=root.querySelector(".sheet-body .tab.active")?.dataset.tab||"echoes";app._eodTabToRestore=state.activeTab;await actor.setFlag(MOD,"sheetState",state);});
 }
 Hooks.on("renderActorSheet",(app,html)=>{
  const root=html?.[0] instanceof HTMLElement?html[0]:html;
