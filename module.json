@@ -2,7 +2,7 @@
   "id": "echoes-character-sheet-alpha",
   "title": "Echoes of Destiny — Character Sheet Alpha",
   "description": "Experimental Echoes tab for the PbtA system. Conditions and end-of-session Reflections are configured in PbtA TOML. Requires Foundry v14. Test-only companion module.",
-  "version": "0.1.0-alpha.3",
+  "version": "0.1.0-alpha.4",
   "compatibility": {
     "minimum": "14",
     "verified": "14.367"
