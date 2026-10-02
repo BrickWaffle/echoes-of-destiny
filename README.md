@@ -1,6 +1,6 @@
 # Echoes of Destiny
 
-Foundry module ID: `echoes-of-destiny` (release 1.1.0).
+Foundry module ID: `echoes-of-destiny` (release 1.1.3).
 
 A Foundry VTT module for the **Powered by the Apocalypse** system, combining the Echoes character-sheet tab with persistent equipment-tag availability.
 
@@ -13,11 +13,11 @@ A Foundry VTT module for the **Powered by the Apocalypse** system, combining the
 
 Adds a dedicated **Echoes** tab with Echoes of the Past and playbook-specific Echoes of Destiny prompts. Prompt selections persist on the Actor. The native Description tab is hidden; Conditions and End-of-Session Reflections remain configured through the PbtA system's TOML.
 
-The sheet preserves the selected tab when an Echo prompt update causes a sheet refresh. Existing prompt-selection data remains under the legacy `echoes-character-sheet-alpha` flag namespace.
+The sheet preserves the selected tab when an Echo prompt update causes a sheet refresh. Prompt selections use the `echoes-of-destiny` flag namespace.
 
 ## Equipment tags
 
-Click a native PbtA equipment tag to toggle Available/Unavailable; unavailable tags are dimmed and struck through. State is stored on the owning equipment Item in `flags.echoes-tag-state.unavailableTagKeys` (legacy storage namespace retained for upgrade compatibility), so identical tag names on different items are independent. Configured tag data is not altered. Only Actor owners may toggle tags; keyboard Enter/Space is supported.
+Click a native PbtA equipment tag to toggle Available/Unavailable; unavailable tags are dimmed and struck through. State is stored on the owning equipment Item in `flags.echoes-of-destiny.unavailableTagKeys`, so identical tag names on different items are independent. Configured tag data is not altered. Only Actor owners may toggle tags; keyboard Enter/Space is supported.
 
 Availability is a visual/table-use aid. It does not change roll calculations; players and the Director apply the game's tag rules.
 
