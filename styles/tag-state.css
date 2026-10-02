@@ -1,0 +1,14 @@
+.eod-tag-tracker{margin:1rem 0 0;padding:.75rem;border:1px solid var(--color-border-light-primary,#999);border-radius:6px;background:var(--color-bg,rgba(0,0,0,.04));color:var(--color-text,inherit)}
+.eod-tag-header h3{margin:0 0 .25rem}
+.eod-tag-header small{display:block;opacity:.75;margin-bottom:.6rem}
+.eod-tag-list{list-style:none;padding:0;margin:0 0 .65rem}
+.eod-tag-row{display:flex;align-items:center;gap:.5rem;padding:.35rem .4rem;border-bottom:1px solid var(--color-border-light-2,#aaa)}
+.eod-tag-name{flex:1;font-weight:600}
+.eod-tag-state{font-size:.8em;white-space:nowrap}
+.eod-tag-row.is-unavailable{opacity:.55}
+.eod-tag-row.is-unavailable .eod-tag-name{text-decoration:line-through}
+.eod-tag-empty{opacity:.65;padding:.4rem}
+.eod-tag-add{display:flex;gap:.4rem}
+.eod-tag-add input{flex:1;min-width:0}
+.eod-tag-remove{min-width:1.8rem;font-size:1.1rem}
+@media(max-width:500px){.eod-tag-row{flex-wrap:wrap}.eod-tag-name{flex-basis:45%}}
