@@ -27,7 +27,7 @@ jobs:
           cp module.json dist/echoes-character-sheet-alpha/
           cp -r scripts styles dist/echoes-character-sheet-alpha/
           cd dist
-          zip -r ../echoes-character-sheet-alpha.zip echoes-tag-state
+          zip -r ../echoes-character-sheet-alpha.zip echoes-character-sheet-alpha
       - uses: actions/upload-artifact@v4
         with:
           name: echoes-character-sheet-alpha
