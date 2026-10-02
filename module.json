@@ -1,8 +1,8 @@
 {
   "id": "echoes-tag-state",
-  "title": "Echoes of Destiny — Tag State Tracker",
-  "description": "Adds persistent availability toggles to native PbtA equipment tags for Foundry VTT v14.",
-  "version": "1.0.1",
+  "title": "Echoes of Destiny",
+  "description": "Adds persistent equipment tag availability and character-sheet Echoes tracking for the PbtA system on Foundry VTT v14.",
+  "version": "1.1.0",
   "compatibility": {
     "minimum": "14",
     "verified": "14.367"
@@ -13,10 +13,12 @@
     }
   ],
   "esmodules": [
-    "scripts/tag-state.js"
+    "scripts/tag-state.js",
+    "scripts/character-sheet.js"
   ],
   "styles": [
-    "styles/tag-state.css"
+    "styles/tag-state.css",
+    "styles/character-sheet.css"
   ],
   "systems": [
     "pbta"
