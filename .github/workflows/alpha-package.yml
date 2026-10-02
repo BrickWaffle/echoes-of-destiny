@@ -23,14 +23,14 @@ jobs:
           for f in scripts/*.js; do node --check "$f"; done
       - name: Assemble installable module
         run: |
-          mkdir -p dist/echoes-tag-state
-          cp module.json dist/echoes-tag-state/
-          cp -r scripts styles dist/echoes-tag-state/
+          mkdir -p dist/echoes-character-sheet-alpha
+          cp module.json dist/echoes-character-sheet-alpha/
+          cp -r scripts styles dist/echoes-character-sheet-alpha/
           cd dist
-          zip -r ../echoes-tag-state-alpha.zip echoes-tag-state
+          zip -r ../echoes-character-sheet-alpha.zip echoes-tag-state
       - uses: actions/upload-artifact@v4
         with:
-          name: echoes-tag-state-alpha
-          path: echoes-tag-state-alpha.zip
+          name: echoes-character-sheet-alpha
+          path: echoes-character-sheet-alpha.zip
           if-no-files-found: error
           retention-days: 30
