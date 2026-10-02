@@ -1,80 +1,87 @@
 const MODULE_ID = "echoes-tag-state";
-const FLAG_KEY = "tags";
+const FLAG_KEY = "unavailableTagKeys";
 
-function readTags(actor) {
-  const value = actor.getFlag(MODULE_ID, FLAG_KEY);
-  return Array.isArray(value) ? foundry.utils.deepClone(value) : [];
+function parseItemTags(item) {
+  try {
+    const raw = item.system?.tags;
+    if (!raw) return [];
+    return Array.isArray(raw) ? raw : JSON.parse(raw);
+  } catch (error) {
+    console.warn(`${MODULE_ID}: Could not parse tags for item "${item.name}".`, error);
+    return [];
+  }
 }
 
-function escapeHtml(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-  })[char]);
+function tagKey(index, tag) {
+  return `${index}:${String(tag?.value ?? "")}`;
 }
 
-function renderTracker(actor) {
-  const tags = readTags(actor);
-  const rows = tags.map((tag, index) => `
-    <li class="eod-tag-row ${tag.available ? "is-available" : "is-unavailable"}">
-      <span class="eod-tag-name">${escapeHtml(tag.name)}</span>
-      <span class="eod-tag-state">${tag.available ? "Available" : "Unavailable"}</span>
-      <button type="button" data-action="toggle" data-index="${index}">
-        ${tag.available ? "Mark Unavailable" : "Restore"}
-      </button>
-      <button type="button" data-action="remove" data-index="${index}" aria-label="Remove ${escapeHtml(tag.name)}">×</button>
-    </li>`).join("");
+function decorateNativeTags(root, actor) {
+  for (const itemRow of root.querySelectorAll(".items-list .item[data-item-id]")) {
+    const item = actor.items.get(itemRow.dataset.itemId);
+    if (!item || item.type !== "equipment") continue;
 
-  return `<section class="eod-tag-tracker">
-    <header class="eod-tag-header">
-      <h3>Tag Availability</h3>
-      <small>Unavailable tags remain true in the fiction but cannot be invoked mechanically.</small>
-    </header>
-    <ul class="eod-tag-list">${rows || '<li class="eod-tag-empty">No tracked tags yet.</li>'}</ul>
-    <form class="eod-tag-add">
-      <input name="tagName" type="text" maxlength="100" placeholder="Add a tag…" required>
-      <button type="submit">Add Tag</button>
-    </form>
-  </section>`;
+    const tagElements = itemRow.querySelectorAll(".item-description .tags .tag");
+    const definitions = parseItemTags(item);
+    const unavailable = new Set(item.getFlag(MODULE_ID, FLAG_KEY) ?? []);
+
+    tagElements.forEach((element, index) => {
+      const key = tagKey(index, definitions[index]);
+      const isUnavailable = unavailable.has(key);
+      element.classList.toggle("eod-tag-unavailable", isUnavailable);
+      element.classList.add("eod-tag-toggle");
+      element.dataset.eodTagIndex = String(index);
+      element.setAttribute("role", "button");
+      element.setAttribute("tabindex", actor.isOwner ? "0" : "-1");
+      element.setAttribute("aria-pressed", String(!isUnavailable));
+      element.setAttribute("aria-label", `${element.textContent.trim()}: ${isUnavailable ? "Unavailable" : "Available"}`);
+      element.title = `Click to mark ${isUnavailable ? "available" : "unavailable"}`;
+    });
+  }
+}
+
+async function toggleNativeTag(event, app, root) {
+  const tagElement = event.target.closest(".item-description .tags .tag.eod-tag-toggle");
+  if (!tagElement || !root.contains(tagElement)) return;
+
+  const row = tagElement.closest(".item[data-item-id]");
+  const item = row && app.actor.items.get(row.dataset.itemId);
+  if (!item || item.type !== "equipment") return;
+
+  event.preventDefault();
+  event.stopPropagation();
+  if (!app.actor.isOwner) {
+    ui.notifications.warn("You do not have permission to change this actor's equipment tags.");
+    return;
+  }
+
+  const index = Number(tagElement.dataset.eodTagIndex);
+  const definitions = parseItemTags(item);
+  if (!Number.isInteger(index) || index < 0 || index >= definitions.length) return;
+
+  const key = tagKey(index, definitions[index]);
+  const unavailable = new Set(item.getFlag(MODULE_ID, FLAG_KEY) ?? []);
+  if (unavailable.has(key)) unavailable.delete(key);
+  else unavailable.add(key);
+
+  await item.setFlag(MODULE_ID, FLAG_KEY, [...unavailable]);
+  app.render(false);
 }
 
 Hooks.on("renderActorSheet", (app, html) => {
-  const actor = app.actor;
   const root = html?.[0] instanceof HTMLElement
     ? html[0]
     : (html instanceof HTMLElement ? html : null);
-  if (!actor || !root || root.querySelector(".eod-tag-tracker")) return;
+  if (!root || !app.actor || game.system.id !== "pbta") return;
 
-  const holder = document.createElement("div");
-  holder.innerHTML = renderTracker(actor);
-  const tracker = holder.firstElementChild;
-  const target = root.querySelector(".window-content") || root.querySelector("form") || root;
-  target.appendChild(tracker);
-
-  tracker.addEventListener("submit", async event => {
-    if (!event.target.matches(".eod-tag-add")) return;
-    event.preventDefault();
-    if (!actor.isOwner) return ui.notifications.warn("You do not have permission to edit this actor.");
-    const input = event.target.elements.namedItem("tagName");
-    const name = input?.value?.trim();
-    if (!name) return;
-    const tags = readTags(actor);
-    tags.push({id: foundry.utils.randomID(), name, available: true});
-    await actor.setFlag(MODULE_ID, FLAG_KEY, tags);
-    app.render(false);
-  });
-
-  tracker.addEventListener("click", async event => {
-    const button = event.target.closest("button[data-action]");
-    if (!button) return;
-    if (!actor.isOwner) return ui.notifications.warn("You do not have permission to edit this actor.");
-    const index = Number(button.dataset.index);
-    const tags = readTags(actor);
-    if (!Number.isInteger(index) || index < 0 || index >= tags.length) return;
-    if (button.dataset.action === "toggle") tags[index].available = !tags[index].available;
-    else if (button.dataset.action === "remove") tags.splice(index, 1);
-    else return;
-    await actor.setFlag(MODULE_ID, FLAG_KEY, tags);
-    app.render(false);
+  decorateNativeTags(root, app.actor);
+  root.addEventListener("click", event => toggleNativeTag(event, app, root));
+  root.addEventListener("keydown", event => {
+    if ((event.key === "Enter" || event.key === " ") &&
+        event.target.matches(".item-description .tags .tag.eod-tag-toggle")) {
+      event.preventDefault();
+      event.target.click();
+    }
   });
 });
 
