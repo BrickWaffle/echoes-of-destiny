@@ -1,0 +1,27 @@
+name: Package Foundry Module
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Stage module folder
+        run: |
+          mkdir -p dist/echoes-tag-state
+          cp module.json README.md LICENSE dist/echoes-tag-state/
+          cp -R scripts styles dist/echoes-tag-state/
+          cd dist
+          zip -r ../echoes-tag-state.zip echoes-tag-state
+      - name: Publish release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: echoes-tag-state.zip
+          generate_release_notes: true
