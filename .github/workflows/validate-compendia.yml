@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: 20
       - name: Install dependencies
-        run: npm install --ignore-scripts
+        run: npm install
       - name: Validate source records
         run: |
           node --input-type=module <<'NODE'
