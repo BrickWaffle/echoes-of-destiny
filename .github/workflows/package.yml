@@ -1,20 +1,25 @@
 name: Package Foundry Module
-
 on:
   push:
     tags:
       - "[0-9]*.[0-9]*.[0-9]*"
       - "v[0-9]*.[0-9]*.[0-9]*"
   workflow_dispatch:
-
 permissions:
   contents: write
-
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install build dependencies
+        run: npm install --ignore-scripts
+      - name: Build Foundry compendium packs
+        run: npm run build:packs
       - name: Set package version from release tag
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
@@ -24,7 +29,7 @@ jobs:
         run: |
           mkdir -p dist/echoes-of-destiny
           cp module.json README.md LICENSE dist/echoes-of-destiny/
-          cp -R scripts styles dist/echoes-of-destiny/
+          cp -R scripts styles packs dist/echoes-of-destiny/
           cd dist
           zip -r ../echoes-of-destiny.zip echoes-of-destiny
       - name: Publish release asset

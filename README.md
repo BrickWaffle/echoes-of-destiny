@@ -1,29 +1,13 @@
 # Echoes of Destiny
 
-Foundry module ID: `echoes-of-destiny` (release 1.1.3).
+Foundry VTT module for Echoes of Destiny on PbtA (Foundry v14 / PbtA 1.2.2).
 
-A Foundry VTT module for the **Powered by the Apocalypse** system, combining the Echoes character-sheet tab with persistent equipment-tag availability.
+Includes the Echoes character-sheet tab, persistent equipment-tag availability, and two system-specific Item compendiums: Basic Moves and Playbook Moves.
 
-## Target environment
+## Build compendiums
+Run `npm install`, then `npm run build:packs`. Source records are maintained in `src/compendium-moves.json`; the build emits Foundry LevelDB packs under `packs/`. The release workflow compiles packs before zipping the module.
 
-- Foundry VTT v14 Stable, build 367
-- Powered by the Apocalypse system 1.2.2
+## Test
+Install in a disposable/backed-up Foundry world with PbtA 1.2.2. Confirm both compendiums open, move descriptions render, and imported moves can be used. The build validates that the CLI can re-extract the expected number of entries; it does not replace an in-world compatibility test.
 
-## Character sheet
-
-Adds a dedicated **Echoes** tab with Echoes of the Past and playbook-specific Echoes of Destiny prompts. Prompt selections persist on the Actor. The native Description tab is hidden; Conditions and End-of-Session Reflections remain configured through the PbtA system's TOML.
-
-The sheet preserves the selected tab when an Echo prompt update causes a sheet refresh. Prompt selections use the `echoes-of-destiny` flag namespace.
-
-## Equipment tags
-
-Click a native PbtA equipment tag to toggle Available/Unavailable; unavailable tags are dimmed and struck through. State is stored on the owning equipment Item in `flags.echoes-of-destiny.unavailableTagKeys`, so identical tag names on different items are independent. Configured tag data is not altered. Only Actor owners may toggle tags; keyboard Enter/Space is supported.
-
-Availability is a visual/table-use aid. It does not change roll calculations; players and the Director apply the game's tag rules.
-
-## Install and test
-
-Back up the world before installing. Test prompt selection and persistence, tab preservation after edits, equipment-tag toggling and persistence, identical tags on separate items, item tag edits, and player/owner permissions.
-
-Manifest URL:
-`https://raw.githubusercontent.com/BrickWaffle/echoes-of-destiny/main/module.json`
+Manifest: https://raw.githubusercontent.com/BrickWaffle/echoes-of-destiny/main/module.json
