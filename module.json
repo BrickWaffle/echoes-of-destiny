@@ -39,6 +39,14 @@
       "type": "Item",
       "system": "pbta",
       "private": false
+    },
+    {
+      "name": "playbooks",
+      "label": "Echoes of Destiny: Playbooks",
+      "path": "packs/playbooks",
+      "type": "Item",
+      "system": "pbta",
+      "private": false
     }
   ],
   "url": "https://github.com/BrickWaffle/echoes-of-destiny",

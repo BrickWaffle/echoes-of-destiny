@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "sourceDocument": "Star_Wars_Echoes_of_Destiny_v2.docx",
+  "playbooks": [
+    {
+      "name": "Scoundrel",
+      "slug": "scoundrel",
+      "theme": "Audacity, luck, and deception.",
+      "signature": "eod-scoundrel-never-tell-me-the-odds",
+      "echoes": [
+        "Narrate a flashback to a job that went spectacularly wrong. What were you trying to steal, who was counting on you, and what unexpected consequence followed you afterward?",
+        "Narrate a time when someone placed their trust in you, even though you had every reason to let them down. What did you do with that trust?",
+        "Narrate a scene in which you came closer than ever to losing everything. What choice did you make when the usual rules no longer mattered?",
+        "Narrate the moment you made a promise that could change your life or someone else's. Why did you make it and what would fulfilling it demand?",
+        "What line do you insist you would never cross? Narrate a time when you were tempted to cross that line. What was at stake and what ultimately stopped you?",
+        "Narrate a moment when you found something that made you consider giving up the next job, the next score, or the next escape. Why did you stay?"
+      ],
+      "optional": [
+        "eod-scoundrel-the-debt-comes-due",
+        "eod-scoundrel-nobody-looks-twice",
+        "eod-scoundrel-one-last-hand",
+        "eod-scoundrel-i-know-this-place",
+        "eod-scoundrel-the-trouble-with-me"
+      ]
+    },
+    {
+      "name": "Ace",
+      "slug": "ace",
+      "theme": "Starfighters, vehicles, and spectacular piloting.",
+      "signature": "eod-ace-that-s-impossible",
+      "echoes": [
+        "Narrate a flight when you pushed a ship beyond what its design or crew thought possible. What drove you and what did the experience teach you?",
+        "Who do you most want to impress? Narrate a moment when you had the chance to prove yourself to this person.",
+        "What is the greatest thing you have ever flown? Narrate a scene from your time piloting this craft. Show what made it extraordinary and what happened that you still remember.",
+        "Narrate the flight, mission, or maneuver that went wrong. What were you trying to accomplish, what did you lose, and what do you tell yourself about it now?",
+        "Narrate a moment when you chose to take a flight that others considered suicidal. What were you trying to save, prove, or reach?",
+        "Narrate your first encounter with a pilot whose skill surpassed yours. How did they demonstrate it and how did you react?"
+      ],
+      "optional": [
+        "eod-ace-she-knows-me",
+        "eod-ace-trust-your-instinct",
+        "eod-ace-stay-with-me",
+        "eod-ace-i-ve-seen-worse",
+        "eod-ace-there-s-always-a-way-through"
+      ]
+    },
+    {
+      "name": "Warrior",
+      "slug": "warrior",
+      "theme": "Combat and protection.",
+      "signature": "eod-warrior-stand-your-ground",
+      "echoes": [
+        "What are you willing to kill for? Narrate a moment when someone or something you valued was threatened, and you had to decide how far you would go to protect it.",
+        "Who are you sworn to protect? Narrate the moment you accepted responsibility for this person or group. What happened that made you take on that burden?",
+        "Narrate a time when keeping your word, following your code, or doing what you believed was right came at a personal cost.",
+        "Who taught you how to fight? Narrate a scene from your training with this person. How did they teach you to fight, and what did they teach you about when not to?",
+        "Narrate an encounter with someone who embodied everything you fear becoming. What did they do and why would you never do the same?",
+        "Narrate a moment when you considered walking away from violence for good. What ultimately kept you fighting—or made you stop?"
+      ],
+      "optional": [
+        "eod-warrior-this-is-personal",
+        "eod-warrior-my-word-is-my-bond",
+        "eod-warrior-danger-sense",
+        "eod-warrior-a-warrior-s-mercy",
+        "eod-warrior-you-want-me-"
+      ]
+    },
+    {
+      "name": "Operative",
+      "slug": "operative",
+      "theme": "Infiltration, preparation, intelligence, and slicing.",
+      "signature": "eod-operative-i-was-prepared-for-this",
+      "echoes": [
+        "Narrate the moment you learned, uncovered, or became responsible for a secret that could destroy you. Who else knows and what happened to keep it hidden?",
+        "Who knows the real you? Narrate a scene in which you let this person see past your cover, your profession, or your carefully constructed identity. Why did you trust them with that knowledge?",
+        "What identity have you left behind? Narrate a scene from the life you once lived under another name. What did that identity allow you to do and why were you forced to abandon it?",
+        "Who taught you that trust is dangerous? Narrate the moment this person taught you that lesson. What did it cost you, and how did it change the way you work?",
+        "What information would you kill to obtain? Narrate a past operation in which you came close to obtaining this information. What did you risk? Why does it still matter?",
+        "What truth are you afraid to discover? Narrate a moment when you came close to uncovering this truth but chose to stop, turn away, or destroy the evidence."
+      ],
+      "optional": [
+        "eod-operative-nobody-knows-my-real-name",
+        "eod-operative-dead-drop",
+        "eod-operative-someone-told-me",
+        "eod-operative-burn-the-identity",
+        "eod-operative-the-file"
+      ]
+    },
+    {
+      "name": "Leader",
+      "slug": "leader",
+      "theme": "Teamwork, leadership, and morale.",
+      "signature": "eod-leader-follow-me",
+      "echoes": [
+        "Who follows you, and why? Narrate the moment this person or group first chose to follow you. What do they see in you? What did you promise them?",
+        "Narrate a time when someone placed their future in your hands. What did they need from you and what did you have to sacrifice to provide it?",
+        "What responsibility would you never abandon? Narrate the moment you accepted this responsibility. Who would suffer if you walked away?",
+        "Narrate a moment when you faced a choice between your own future and the needs of those who follow you. What did you choose and what did it cost?",
+        "Narrate a scene in which you witnessed a leader behave in a way you despise. How did their actions affect your own leadership style?",
+        "What would you sacrifice yourself to protect? Narrate a moment when you came close to making that sacrifice. Who tried to stop you?"
+      ],
+      "optional": [
+        "eod-leader-people-follow-me",
+        "eod-leader-i-remember-your-name",
+        "eod-leader-no-one-gets-left-behind",
+        "eod-leader-make-them-believe",
+        "eod-leader-someone-has-to-decide"
+      ]
+    },
+    {
+      "name": "Force User",
+      "slug": "force-user",
+      "theme": "Force abilities, visions, and temptation.",
+      "signature": "eod-force-user-reach-through-the-force",
+      "echoes": [
+        "When did you first feel the Force? Narrate the first moment you experienced something you could not explain. What happened around you and how did you understand—or misunderstand—it?",
+        "Who taught you what the Force means? Narrate a scene in which this person explained or demonstrated their understanding of the Force. What did you take away from the lesson?",
+        "Narrate a moment when you felt the Force answer you in a way that frightened you. What did you do with that power? What did you fear that it revealed?",
+        "What do you believe the Force wants from you? Narrate a vision, encounter, or strange coincidence that shaped this belief. How has it changed your path?",
+        "Narrate a moment when the Force showed you something about another person that you wish you had never known. What did you choose to do with that knowledge?",
+        "Narrate a scene in which someone you cared about—or something you desperately wanted—was threatened in a way that made you touch the Dark Side for the first time. Did you resist or give in to your hatred?"
+      ],
+      "optional": [
+        "eod-force-user-the-force-has-spoken",
+        "eod-force-user-i-remember",
+        "eod-force-user-there-is-always-another-path",
+        "eod-force-user-i-know-your-fear",
+        "eod-force-user-give-in-to-the-dark-side"
+      ]
+    },
+    {
+      "name": "Diplomat",
+      "slug": "diplomat",
+      "theme": "Negotiation, relationships, and politics.",
+      "signature": "eod-diplomat-make-them-an-offer",
+      "echoes": [
+        "Narrate a negotiation that went disastrously wrong. What did you want, what did the other side demand, and what consequence still follows you?",
+        "Who taught you how to read a room? Narrate a moment when their lesson changed the outcome of a conversation.",
+        "What relationship have you risked everything to preserve? Narrate the moment it was tested and what you chose.",
+        "Describe a time when you used your words to prevent violence. What did you promise, and what did that promise cost?",
+        "Who considers you a rival? Narrate the moment your competition became personal. What do they believe you took from them?",
+        "Narrate a moment when you discovered that peace could be more dangerous than conflict. What did you do with that knowledge?"
+      ],
+      "optional": [
+        "eod-diplomat-everyone-knows-someone",
+        "eod-diplomat-let-me-introduce-you",
+        "eod-diplomat-the-table-is-set",
+        "eod-diplomat-find-common-ground",
+        "eod-diplomat-you-don-t-want-a-war"
+      ]
+    }
+  ]
+}
