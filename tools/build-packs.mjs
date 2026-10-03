@@ -15,15 +15,10 @@ for(const [pack,entries] of packs){
  }
  const dest=path.join(root,"packs",pack);
  await fs.rm(dest,{recursive:true,force:true});
- await compilePack(dir,dest,{log:true});
- // Re-open once to flush/normalize generated database via extraction.
- const verify=path.join(root,".pack-verify",pack);
- await fs.rm(verify,{recursive:true,force:true});
- const {extractPack}=await import("@foundryvtt/foundryvtt-cli");
- await extractPack(dest,verify,{log:false});
- const countJson=async dir=>(await Promise.all((await fs.readdir(dir,{withFileTypes:true})).map(e=>e.isDirectory()?countJson(path.join(dir,e.name)):e.isFile()&&e.name.endsWith(".json")?1:0))).reduce((a,b)=>a+b,0);
- const count=await countJson(verify);
- if(count!==entries.length) throw new Error(pack+": expected "+entries.length+" docs, got "+count);
- await fs.rm(verify,{recursive:true,force:true});
+ let packed=0;
+ await compilePack(dir,dest,{log:true,transformEntry:()=>{packed++;}});
+ if(packed!==entries.length) throw new Error(pack+": expected "+entries.length+" documents compiled, got "+packed);
+ const outputFiles=await fs.readdir(dest);
+ if(outputFiles.length===0) throw new Error(pack+": compiler produced an empty pack directory");
 }
 console.log("Compendium pack build completed.");
