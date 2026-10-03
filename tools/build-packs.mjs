@@ -1,10 +1,11 @@
 import { promises as fs } from "node:fs";
+import { createHash } from "node:crypto";
 import path from "node:path";
 import { compilePack } from "@foundryvtt/foundryvtt-cli";
 const root=process.cwd();
 const data=JSON.parse(await fs.readFile(path.join(root,"src/compendium-moves.json"),"utf8"));
 const packs=[["basic-moves",data.basicMoves],["playbook-moves",data.playbookMoves]];
-const idFor=(id)=>Buffer.from(id).toString("hex").slice(0,16).padEnd(16,"0");
+const idFor=(id)=>createHash("sha256").update(id).digest("hex").slice(0,16);
 for(const [pack,entries] of packs){
  const dir=path.join(root,"src/packs",pack);
  await fs.rm(dir,{recursive:true,force:true}); await fs.mkdir(dir,{recursive:true});
@@ -20,8 +21,9 @@ for(const [pack,entries] of packs){
  await fs.rm(verify,{recursive:true,force:true});
  const {extractPack}=await import("@foundryvtt/foundryvtt-cli");
  await extractPack(dest,verify,{log:false});
- const files=(await fs.readdir(verify)).filter(f=>f.endsWith(".json"));
- if(files.length!==entries.length) throw new Error(pack+": expected "+entries.length+" docs, got "+files.length);
+ const countJson=async dir=>(await Promise.all((await fs.readdir(dir,{withFileTypes:true})).map(e=>e.isDirectory()?countJson(path.join(dir,e.name)):e.isFile()&&e.name.endsWith(".json")?1:0))).reduce((a,b)=>a+b,0);
+ const count=await countJson(verify);
+ if(count!==entries.length) throw new Error(pack+": expected "+entries.length+" docs, got "+count);
  await fs.rm(verify,{recursive:true,force:true});
 }
 console.log("Compendium pack build completed.");
