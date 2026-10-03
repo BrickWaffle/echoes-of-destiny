@@ -61,7 +61,7 @@
       "name": "The Trouble With Me",
       "playbook": "Scoundrel",
       "kind": "optional",
-      "text": "When someone you've deceived, betrayed, robbed, or embarrassed finally confronts you, you may ask them: “What do you actually want from me?” They must answer honestly. If you give them what they want, they become a potential ally. If you refuse, the Director tells you what they are prepared to do about it. Ace Signature Move —",
+      "text": "When someone you've deceived, betrayed, robbed, or embarrassed finally confronts you, you may ask them: “What do you actually want from me?” They must answer honestly. If you give them what they want, they become a potential ally. If you refuse, the Director tells you what they are prepared to do about it. Ace",
       "id": "eod-scoundrel-the-trouble-with-me"
     },
     {
@@ -103,7 +103,7 @@
       "name": "There's Always a Way Through",
       "playbook": "Ace",
       "kind": "optional",
-      "text": "Once per session, when you are trapped in a vehicle with no obvious route out, describe the impossible route you intend to take. If the Director agrees that the route is physically possible—even barely—you escape. Warrior Signature Move —",
+      "text": "Once per session, when you are trapped in a vehicle with no obvious route out, describe the impossible route you intend to take. If the Director agrees that the route is physically possible—even barely—you escape. Warrior",
       "id": "eod-ace-there-s-always-a-way-through"
     },
     {
@@ -145,7 +145,7 @@
       "name": "You Want Me?",
       "playbook": "Warrior",
       "kind": "optional",
-      "text": "When someone publicly challenges your skill, honor, or authority, you may accept the challenge instead of allowing the conflict to become something larger. Until the challenge is resolved, nobody else may interfere without breaking the terms you established. Operative Signature Move —",
+      "text": "When someone publicly challenges your skill, honor, or authority, you may accept the challenge instead of allowing the conflict to become something larger. Until the challenge is resolved, nobody else may interfere without breaking the terms you established. Operative",
       "id": "eod-warrior-you-want-me-"
     },
     {
@@ -187,7 +187,7 @@
       "name": "The File",
       "playbook": "Operative",
       "kind": "optional",
-      "text": "When you spend time studying someone, create a dossier on them. Write down what they want, what they fear, who they trust, and one secret they don't want discovered. The Director may correct or complicate your assumptions, but those four things become true. Leader Signature Move —",
+      "text": "When you spend time studying someone, create a dossier on them. Write down what they want, what they fear, who they trust, and one secret they don't want discovered. The Director may correct or complicate your assumptions, but those four things become true. Leader",
       "id": "eod-operative-the-file"
     },
     {
@@ -208,15 +208,8 @@
       "name": "I Remember Your Name",
       "playbook": "Leader",
       "kind": "optional",
-      "text": "",
+      "text": "When you meet someone who serves under, works with, or supports your organization, ask them: “What do you need from me?” They answer honestly. If you fulfill that need, they become personally loyal to you rather than merely loyal to the organization.",
       "id": "eod-leader-i-remember-your-name"
-    },
-    {
-      "name": "I Remember",
-      "playbook": "Force User",
-      "kind": "optional",
-      "text": "Your Name When you meet someone who serves under, works with, or supports your organization, ask them: “What do you need from me?” They answer honestly. If you fulfill that need, they become personally loyal to you rather than merely loyal to the organization.",
-      "id": "eod-force-user-i-remember"
     },
     {
       "name": "No One Gets Left Behind",
@@ -236,7 +229,7 @@
       "name": "Someone Has to Decide",
       "playbook": "Leader",
       "kind": "optional",
-      "text": "When a group is divided between two courses of action and neither side will yield, you may make the decision yourself. Your decision becomes the group's course of action. Then choose one person on the losing side. The Director tells you what they intend to do about your decision. Force User Signature Move —",
+      "text": "When a group is divided between two courses of action and neither side will yield, you may make the decision yourself. Your decision becomes the group's course of action. Then choose one person on the losing side. The Director tells you what they intend to do about your decision. Force User",
       "id": "eod-leader-someone-has-to-decide"
     },
     {
@@ -250,8 +243,15 @@
       "name": "The Force Has Spoken",
       "playbook": "Force User",
       "kind": "optional",
-      "text": "When you quiet your mind and reach through the Force, ask the Director: “What is the Force trying to show me?” The answer may come as a vision, sensation, memory, voice, person, place, or possible future. The Director tells you what the Force reveals—but not necessarily what it means. I Remember When something in the present echoes something you've experienced through the Force before, describe the memory. The Director tells you one thing about the current situation that the memory reveals. Then choose: The memory is incomplete; The memory is wrong; The memory is warning you about something else. Whichever you choose becomes true.",
+      "text": "When you quiet your mind and reach through the Force, ask the Director: “What is the Force trying to show me?” The answer may come as a vision, sensation, memory, voice, person, place, or possible future. The Director tells you what the Force reveals—but not necessarily what it means.",
       "id": "eod-force-user-the-force-has-spoken"
+    },
+    {
+      "name": "I Remember",
+      "playbook": "Force User",
+      "kind": "optional",
+      "text": "When something in the present echoes something you've experienced through the Force before, describe the memory. The Director tells you one thing about the current situation that the memory reveals. Then choose: The memory is incomplete; The memory is wrong; The memory is warning you about something else. Whichever you choose becomes true.",
+      "id": "eod-force-user-i-remember"
     },
     {
       "name": "There Is Always Another Path",
@@ -271,7 +271,7 @@
       "name": "Give In to the Dark Side",
       "playbook": "Force User",
       "kind": "optional",
-      "text": "When you call upon the Force through anger, hatred, fear, cruelty, or a desire to dominate, you may Give In. You accomplish something that should be beyond your normal capabilities. The Director tells you what the Dark Side demands in return (this should be a concrete fictional price, rather than a generic penalty). You may accept its price and succeed or refuse it and face the original consequences. Diplomat Signature Move —",
+      "text": "When you call upon the Force through anger, hatred, fear, cruelty, or a desire to dominate, you may Give In. You accomplish something that should be beyond your normal capabilities. The Director tells you what the Dark Side demands in return (this should be a concrete fictional price, rather than a generic penalty). You may accept its price and succeed or refuse it and face the original consequences. Diplomat",
       "id": "eod-force-user-give-in-to-the-dark-side"
     },
     {
