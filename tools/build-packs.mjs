@@ -58,7 +58,7 @@ for(const [pack,entries] of packs){
   const walk=async d=>{for(const e of await fs.readdir(d,{withFileTypes:true})){const p=path.join(d,e.name);if(e.isDirectory())await walk(p);else if(e.isFile()&&e.name.endsWith(".json"))docs.push(JSON.parse(await fs.readFile(p,"utf8")));}};
   await walk(verify);
   const playDocs=docs.filter(d=>d.type==="playbook");
-  if(playDocs.length!==7||playDocs.some(p=>p.system.choiceSets?.[0]?.choices?.length!==1||p.system.choiceSets?.[1]?.choices?.length!==5)) throw new Error("Playbook grant validation failed");
+  if(playDocs.length!==7||playDocs.some(p=>{const sets=p.system.choiceSets??[];const basics=sets.slice(0,3);const signature=sets.find(s=>s.title==="Signature Move");const optional=sets.find(s=>s.title==="Optional Moves");return basics.length!==3||basics.some(s=>s.choices?.length!==1||s.choices[0]?.granted!==true||s.granted!==true||s.grantOn!==0)||signature?.choices?.length!==1||signature.choices[0]?.granted!==true||optional?.choices?.length!==5||optional.choices.some(c=>c.granted!==false)||optional.granted!==false;})) throw new Error("Playbook grant validation failed");
  }
  if(pack==="playbook-moves"){
   const extracted=(await fs.readdir(verify,{withFileTypes:true}));
