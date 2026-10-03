@@ -34,7 +34,7 @@ for(const [pack,entries] of packs){
    await fs.writeFile(path.join(dir,"eod-playbook-"+entry.slug+".json"),JSON.stringify(item,null,2)+"\n");
    continue;
   }
-  const item={_id:idFor(entry.id),_key:"!items!"+idFor(entry.id),name:entry.name,type:"move",img:"icons/svg/d20.svg",folder:entry.playbook?folderIdFor(entry.playbook):null,system:{moveType:entry.kind==="basic"?"basic":"playbook",description:entry.text,rollFormula:"",moveResults:{failure:{key:"failure",label:"6−",value:entry.results?.failure??""},partial:{key:"partial",label:"7–9",value:entry.results?.partial??""},success:{key:"success",label:"10–11",value:entry.results?.success??""},critical:{key:"critical",label:"12+",value:entry.results?.critical??""}},uses:0,rollType:"ask",rollMod:0,actorType:"character",choices:""},flags:{ "echoes-of-destiny":{sourceId:entry.id,playbook:entry.playbook??null}}};
+  const item={_id:idFor(entry.id),_key:"!items!"+idFor(entry.id),name:entry.name,type:"move",img:"icons/svg/d20.svg",folder:entry.playbook?folderIdFor(entry.playbook):null,system:{moveType:entry.kind==="basic"?"basic":entry.kind==="signature"?"advanced":"playbook",description:entry.text,rollFormula:"",moveResults:{failure:{key:"failure",label:"6−",value:entry.results?.failure??""},partial:{key:"partial",label:"7–9",value:entry.results?.partial??""},success:{key:"success",label:"10–11",value:entry.results?.success??""},critical:{key:"critical",label:"12+",value:entry.results?.critical??""}},uses:0,rollType:"ask",rollMod:0,actorType:"character",choices:""},flags:{ "echoes-of-destiny":{sourceId:entry.id,playbook:entry.playbook??null}}};
   await fs.writeFile(path.join(dir,entry.id+".json"),JSON.stringify(item,null,2)+"\n");
  }
  const dest=path.join(root,"packs",pack);
@@ -68,6 +68,10 @@ for(const [pack,entries] of packs){
   const folders=docs.filter(d=>d.type==="Item"&&d.name&&playbooks.includes(d.name)&&d._key?.startsWith("!folders!"));
   const assigned=docs.filter(d=>d.type==="move"&&d.folder);
   if(folders.length!==7||assigned.length!==42) throw new Error("Playbook folder assignment validation failed: "+folders.length+" folders, "+assigned.length+" assigned moves");
+  const signatures=docs.filter(d=>d.type==="move"&&d.system?.moveType==="advanced");
+  const rolled=["eod-scoundrel-never-tell-me-the-odds","eod-scoundrel-one-last-hand","eod-ace-that-s-impossible","eod-warrior-my-word-is-my-bond","eod-force-user-reach-through-the-force","eod-diplomat-make-them-an-offer","eod-diplomat-you-don-t-want-a-war"];
+  const bySource=new Map(docs.filter(d=>d.type==="move").map(d=>[d.flags?.["echoes-of-destiny"]?.sourceId,d]));
+  if(signatures.length!==7||rolled.some(id=>{const r=bySource.get(id)?.system?.moveResults;return !r||["failure","partial","success","critical"].some(k=>!r[k]?.value);})) throw new Error("Signature category or roll-result validation failed");
  }
  await fs.rm(verify,{recursive:true,force:true});
 }
