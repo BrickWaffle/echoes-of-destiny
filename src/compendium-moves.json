@@ -1,0 +1,320 @@
+{
+  "schemaVersion": 1,
+  "sourceDocument": "Star_Wars_Echoes_of_Destiny_v2.docx",
+  "basicMoves": [
+    {
+      "name": "The Careful Move",
+      "id": "eod-careful-move",
+      "kind": "basic",
+      "text": "When you do something risky or face something you fear, but have time and opportunity to do so carefully, name what you’re afraid will happen if you fail or lose your nerve, then roll with an appropriate ability."
+    },
+    {
+      "name": "The Risky Move",
+      "id": "eod-risky-move",
+      "kind": "basic",
+      "text": "When you do something risky or face something you fear, and can’t afford to be careful, name what you’re afraid will happen if you fail or lose your nerve. The Director will tell you how it is worse than you fear. You can choose to back down or go through with it. If you go through with it, roll with an appropriate ability."
+    },
+    {
+      "name": "The Vulnerable Move",
+      "id": "eod-vulnerable-move",
+      "kind": "basic",
+      "text": "When you have an intimate moment with another character while one of you is engaged in your vice, you may clear an appropriate Condition. If it’s your vice, you can also invite the other character to ask you about your past; you must answer truthfully but not necessarily completely."
+    }
+  ],
+  "playbookMoves": [
+    {
+      "name": "Never Tell Me the Odds",
+      "playbook": "Scoundrel",
+      "kind": "signature",
+      "text": "When you attempt something wildly improbable, reckless, or seemingly impossible, say exactly how you're going to pull it off and roll. On a 10-11, you do it. On a 7–9, you do it, but the Director introduces a complication. On a 6−, you fail and the Director reacts. On a 12+, you do it spectacularly and the Director tells you what additional opportunity you've created.",
+      "id": "eod-scoundrel-never-tell-me-the-odds"
+    },
+    {
+      "name": "The Debt Comes Due",
+      "playbook": "Scoundrel",
+      "kind": "optional",
+      "text": "When you encounter someone who owes you a favor, you may call in that debt. Describe what you did to earn it. They will help you, but the Director decides what it costs them to do so. If you ask them to do something that could seriously endanger them, expect that debt to become a problem later.",
+      "id": "eod-scoundrel-the-debt-comes-due"
+    },
+    {
+      "name": "Nobody Looks Twice",
+      "playbook": "Scoundrel",
+      "kind": "optional",
+      "text": "When you enter a place where you clearly don't belong, describe the identity or role you've adopted and one detail that makes it convincing. For the scene, you are treated as that person unless something happens to expose the deception. If you're exposed, the Director tells you who recognizes you and why they already have a reason to dislike you.",
+      "id": "eod-scoundrel-nobody-looks-twice"
+    },
+    {
+      "name": "One Last Hand",
+      "playbook": "Scoundrel",
+      "kind": "optional",
+      "text": "When you gamble something important on a single reckless chance, name what you're putting at stake before you roll. On a 10-11, you win what you wanted. On a 7–9, you win—but someone else also gets something they wanted. On a 6-, you lose what you wagered, but you may choose to walk away before the consequences become worse. On a 12+, you do it spectacularly and the Director tells you what additional opportunity you've created.",
+      "id": "eod-scoundrel-one-last-hand"
+    },
+    {
+      "name": "I Know This Place",
+      "playbook": "Scoundrel",
+      "kind": "optional",
+      "text": "When you return somewhere you've previously visited, tell the Director one thing you remember about it that could help you now. It is true. Then tell the Director one thing you did here that you hoped nobody would remember. That is true too.",
+      "id": "eod-scoundrel-i-know-this-place"
+    },
+    {
+      "name": "The Trouble With Me",
+      "playbook": "Scoundrel",
+      "kind": "optional",
+      "text": "When someone you've deceived, betrayed, robbed, or embarrassed finally confronts you, you may ask them: “What do you actually want from me?” They must answer honestly. If you give them what they want, they become a potential ally. If you refuse, the Director tells you what they are prepared to do about it. Ace",
+      "id": "eod-scoundrel-the-trouble-with-me"
+    },
+    {
+      "name": "That's Impossible",
+      "playbook": "Ace",
+      "kind": "signature",
+      "text": "When you attempt a maneuver with a vehicle or starship that should be impossible, describe what you do and roll. On a 10-11, you do it. On a 7–9, you do it, but the vehicle suffers a consequence, or a relevant Tag becomes Unavailable. On a 6-, you fail to do it, and a relevant Tag becomes Unavailable. On a 12+, you also create an opening for someone else.",
+      "id": "eod-ace-that-s-impossible"
+    },
+    {
+      "name": "She Knows Me",
+      "playbook": "Ace",
+      "kind": "optional",
+      "text": "Choose a vehicle you regularly fly or drive. Give it a name and a new Tag. When you are behind its controls, it behaves as though it understands what you're asking of it—even when the maneuver should be impossible. Once per session, restore an Unavailable Tag on that vehicle.",
+      "id": "eod-ace-she-knows-me"
+    },
+    {
+      "name": "Trust Your Instinct",
+      "playbook": "Ace",
+      "kind": "optional",
+      "text": "When you commit to a course of action while piloting a vehicle, before rolling any dice, ask the Director what your instincts tell you about the situation. The Director reveals an immediate danger, an opportunity, or something unusual about your surroundings. You may change your approach based on the answer.",
+      "id": "eod-ace-trust-your-instinct"
+    },
+    {
+      "name": "Stay With Me",
+      "playbook": "Ace",
+      "kind": "optional",
+      "text": "When another character is aboard your vehicle and would otherwise suffer the consequences of something you do while piloting, you may take those consequences yourself. Then describe exactly how your flying keeps them alive. If you do, the vehicle gains a new temporary Director tag.",
+      "id": "eod-ace-stay-with-me"
+    },
+    {
+      "name": "I've Seen Worse",
+      "playbook": "Ace",
+      "kind": "optional",
+      "text": "When your vehicle suffers a consequence that would normally leave it unable to continue, tell the Director what previous damage or abuse taught you how to deal with this. The vehicle keeps moving. The Director tells you what new problem that creates.",
+      "id": "eod-ace-i-ve-seen-worse"
+    },
+    {
+      "name": "There's Always a Way Through",
+      "playbook": "Ace",
+      "kind": "optional",
+      "text": "Once per session, when you are trapped in a vehicle with no obvious route out, describe the impossible route you intend to take. If the Director agrees that the route is physically possible—even barely—you escape. Warrior",
+      "id": "eod-ace-there-s-always-a-way-through"
+    },
+    {
+      "name": "Stand Your Ground",
+      "playbook": "Warrior",
+      "kind": "signature",
+      "text": "When you put yourself directly between danger and someone or something you have chosen to protect, you may take the danger upon yourself. If you do, you gain Advantage on your next action against the threat.",
+      "id": "eod-warrior-stand-your-ground"
+    },
+    {
+      "name": "This Is Personal",
+      "playbook": "Warrior",
+      "kind": "optional",
+      "text": "When someone harms, threatens, or betrays someone under your protection, name them as your enemy. Until you confront them, you always know when their actions are connected to the situation you're facing.",
+      "id": "eod-warrior-this-is-personal"
+    },
+    {
+      "name": "My Word Is My Bond",
+      "playbook": "Warrior",
+      "kind": "optional",
+      "text": "When you make a serious promise aloud, write it down. Until you fulfill or deliberately break that promise, you cannot willingly abandon the person or cause you swore yourself to. When fulfilling the promise puts you in genuine danger, gain Advantage on the roll. If you break it, the Director tells you what that does to your reputation.",
+      "id": "eod-warrior-my-word-is-my-bond"
+    },
+    {
+      "name": "Danger Sense",
+      "playbook": "Warrior",
+      "kind": "optional",
+      "text": "When you enter a potentially dangerous situation or something changes around you, ask the Director one of the following questions: What is the most immediate threat to me or someone I'm protecting? Where is the danger coming from? What should I be watching for? The Director answers honestly, if not completely.",
+      "id": "eod-warrior-danger-sense"
+    },
+    {
+      "name": "A Warrior’s Mercy",
+      "playbook": "Warrior",
+      "kind": "optional",
+      "text": "When you spare someone who has reason to fear or hate you, ask them: \"What would it take for you to put down your weapon?\" They answer honestly. If you offer them a genuine path to that outcome, they will consider it, even if they don't accept immediately.",
+      "id": "eod-warrior-a-warrior-s-mercy"
+    },
+    {
+      "name": "You Want Me?",
+      "playbook": "Warrior",
+      "kind": "optional",
+      "text": "When someone publicly challenges your skill, honor, or authority, you may accept the challenge instead of allowing the conflict to become something larger. Until the challenge is resolved, nobody else may interfere without breaking the terms you established. Operative",
+      "id": "eod-warrior-you-want-me-"
+    },
+    {
+      "name": "I Was Prepared for This",
+      "playbook": "Operative",
+      "kind": "signature",
+      "text": "When you reveal that you anticipated a problem, describe what preparation you made beforehand. You may establish a reasonable piece of equipment, information, access, or contingency that helps address the situation. The Director may introduce a complication arising from that preparation.",
+      "id": "eod-operative-i-was-prepared-for-this"
+    },
+    {
+      "name": "Nobody Knows My Real Name",
+      "playbook": "Operative",
+      "kind": "optional",
+      "text": "Create an identity you've used in the past. Give it a name, a profession, a reputation, and one person who still believes you are that person. You may assume this identity whenever the fiction allows it. If someone recognizes you, they know that identity, not who you really are.",
+      "id": "eod-operative-nobody-knows-my-real-name"
+    },
+    {
+      "name": "Dead Drop",
+      "playbook": "Operative",
+      "kind": "optional",
+      "text": "Choose a place where you maintain a hidden cache. It contains three reasonable pieces of equipment, information, or resources. Whenever you return to the cache, replace anything you've used with something new and tell the Director how you obtained it. The Director may introduce complications surrounding the cache.",
+      "id": "eod-operative-dead-drop"
+    },
+    {
+      "name": "Someone Told Me",
+      "playbook": "Operative",
+      "kind": "optional",
+      "text": "When you need information that someone else possesses, name a person who could know it and explain how you came to know them. That person exists. They know the information you need—but they also know something about you that you would prefer remained secret.",
+      "id": "eod-operative-someone-told-me"
+    },
+    {
+      "name": "Burn the Identity",
+      "playbook": "Operative",
+      "kind": "optional",
+      "text": "When one of your identities, safehouses, contacts, or operations is compromised, you may declare that you've prepared for exactly this possibility. Choose one: You disappear before they can catch you; You erase the evidence; You turn the exposure against someone else. Then the Director gives you a Condition related to what you had to sacrifice to prepare for this.",
+      "id": "eod-operative-burn-the-identity"
+    },
+    {
+      "name": "The File",
+      "playbook": "Operative",
+      "kind": "optional",
+      "text": "When you spend time studying someone, create a dossier on them. Write down what they want, what they fear, who they trust, and one secret they don't want discovered. The Director may correct or complicate your assumptions, but those four things become true. Leader",
+      "id": "eod-operative-the-file"
+    },
+    {
+      "name": "Follow Me",
+      "playbook": "Leader",
+      "kind": "signature",
+      "text": "When you lead others into danger and clearly state what you're asking them to accomplish, everyone who follows your plan gains Advantage on their first roll to accomplish it.",
+      "id": "eod-leader-follow-me"
+    },
+    {
+      "name": "People Follow Me",
+      "playbook": "Leader",
+      "kind": "optional",
+      "text": "Create a group connected to you: a squad, crew, cell, militia, activist network, criminal organization, village, or something similar. Give them a name, three Tags, and a reason they follow you. When you call upon them, they can act in the fiction without you being present. The Director determines what responding to your request costs them.",
+      "id": "eod-leader-people-follow-me"
+    },
+    {
+      "name": "I Remember Your Name",
+      "playbook": "Leader",
+      "kind": "optional",
+      "text": "When you meet someone who serves under, works with, or supports your organization, ask them: “What do you need from me?” They answer honestly. If you fulfill that need, they become personally loyal to you rather than merely loyal to the organization.",
+      "id": "eod-leader-i-remember-your-name"
+    },
+    {
+      "name": "No One Gets Left Behind",
+      "playbook": "Leader",
+      "kind": "optional",
+      "text": "When someone under your command is abandoned, captured, or left behind, you may declare: “We're going back for them.” Until that person is safe, you cannot willingly choose an action whose purpose is simply to leave them behind. When you put yourself at serious risk to keep that promise, gain Advantage.",
+      "id": "eod-leader-no-one-gets-left-behind"
+    },
+    {
+      "name": "Make Them Believe",
+      "playbook": "Leader",
+      "kind": "optional",
+      "text": "When morale is collapsing and people are looking to you for an answer, tell them what you believe will happen next. If you speak with conviction, they believe you—for now. The Director then tells you what your followers expect you to do to prove it.",
+      "id": "eod-leader-make-them-believe"
+    },
+    {
+      "name": "Someone Has to Decide",
+      "playbook": "Leader",
+      "kind": "optional",
+      "text": "When a group is divided between two courses of action and neither side will yield, you may make the decision yourself. Your decision becomes the group's course of action. Then choose one person on the losing side. The Director tells you what they intend to do about your decision. Force User",
+      "id": "eod-leader-someone-has-to-decide"
+    },
+    {
+      "name": "Reach Through the Force",
+      "playbook": "Force User",
+      "kind": "signature",
+      "text": "When you attempt something through the Force beyond what should normally be possible, describe what you are trying to accomplish and roll + Force. On a 10-11, the Force answers. On a 7–9, the Force answers, and the Director tells you what the Force demands or what consequence accompanies its use. On a 6-, the Force fails to answer, and you receive the Condition “Quieted.” On a 12+, the Force answers with unexpected clarity or power.",
+      "id": "eod-force-user-reach-through-the-force"
+    },
+    {
+      "name": "The Force Has Spoken",
+      "playbook": "Force User",
+      "kind": "optional",
+      "text": "When you quiet your mind and reach through the Force, ask the Director: “What is the Force trying to show me?” The answer may come as a vision, sensation, memory, voice, person, place, or possible future. The Director tells you what the Force reveals—but not necessarily what it means.",
+      "id": "eod-force-user-the-force-has-spoken"
+    },
+    {
+      "name": "I Remember",
+      "playbook": "Force User",
+      "kind": "optional",
+      "text": "When something in the present echoes something you've experienced through the Force before, describe the memory. The Director tells you one thing about the current situation that the memory reveals. Then choose: The memory is incomplete; The memory is wrong; The memory is warning you about something else. Whichever you choose becomes true.",
+      "id": "eod-force-user-i-remember"
+    },
+    {
+      "name": "There Is Always Another Path",
+      "playbook": "Force User",
+      "kind": "optional",
+      "text": "When you are about to resort to violence, ask the Director: “What other path does the Force reveal?” The Director gives you a possible alternative. It must be genuinely possible—but pursuing it may be harder, slower, or more dangerous.",
+      "id": "eod-force-user-there-is-always-another-path"
+    },
+    {
+      "name": "I Know Your Fear",
+      "playbook": "Force User",
+      "kind": "optional",
+      "text": "When you sense fear in another living being through the Force, ask: “What are they most afraid of?” The Director answers honestly. If you use that knowledge to help rather than dominate them, they must reveal something they would otherwise have hidden.",
+      "id": "eod-force-user-i-know-your-fear"
+    },
+    {
+      "name": "Give In to the Dark Side",
+      "playbook": "Force User",
+      "kind": "optional",
+      "text": "When you call upon the Force through anger, hatred, fear, cruelty, or a desire to dominate, you may Give In. You accomplish something that should be beyond your normal capabilities. The Director tells you what the Dark Side demands in return (this should be a concrete fictional price, rather than a generic penalty). You may accept its price and succeed or refuse it and face the original consequences. Diplomat",
+      "id": "eod-force-user-give-in-to-the-dark-side"
+    },
+    {
+      "name": "Make Them an Offer",
+      "playbook": "Diplomat",
+      "kind": "signature",
+      "text": "When you negotiate with someone who has something you want, tell them what you are offering and what you want from them. The Director tells you what they require before they agree. If you accept their terms, they agree. If you refuse, you may roll + Presence to make them reconsider.",
+      "id": "eod-diplomat-make-them-an-offer"
+    },
+    {
+      "name": "Everyone Knows Someone",
+      "playbook": "Diplomat",
+      "kind": "optional",
+      "text": "Name three people you know in the galaxy. For each, establish where you know them from, what you did for them, and what they want now. They become Side Characters. You may call upon one of them when appropriate, but the Director decides what they ask of you in return.",
+      "id": "eod-diplomat-everyone-knows-someone"
+    },
+    {
+      "name": "Let Me Introduce You",
+      "playbook": "Diplomat",
+      "kind": "optional",
+      "text": "When two people you know meet for the first time, tell the Director why they have reason to respect one another. They begin the relationship with that respect. If either person has good reasons to distrust the other, however, the Director tells you what you failed to account for.",
+      "id": "eod-diplomat-let-me-introduce-you"
+    },
+    {
+      "name": "The Table Is Set",
+      "playbook": "Diplomat",
+      "kind": "optional",
+      "text": "When you arrange a meeting between people who have something to gain from talking, establish three things before the scene begins: where the meeting takes place; what each side wants; what neither side wants the other to know. Those things become true.",
+      "id": "eod-diplomat-the-table-is-set"
+    },
+    {
+      "name": "Find Common Ground",
+      "playbook": "Diplomat",
+      "kind": "optional",
+      "text": "When two parties are negotiating and neither will accept the other's terms, ask each: \"What is the one thing you absolutely need from this agreement?\" The Director answers for each party. If you can propose an agreement that satisfies both needs, they will genuinely consider the agreement acceptable, provided the terms are otherwise feasible.",
+      "id": "eod-diplomat-find-common-ground"
+    },
+    {
+      "name": "You Don't Want a War",
+      "playbook": "Diplomat",
+      "kind": "optional",
+      "text": "When someone is about to escalate a conflict into open violence, you may force the moment into a conversation. Everyone who is present gets one chance to state what they actually want. If anyone tries to attack before the conversation is finished, roll with Advantage to interrupt them. If someone breaks that agreement, they become responsible for starting the violence.",
+      "id": "eod-diplomat-you-don-t-want-a-war"
+    }
+  ]
+}

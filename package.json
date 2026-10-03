@@ -1,0 +1,11 @@
+{
+  "name": "echoes-of-destiny",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@foundryvtt/foundryvtt-cli": "3.0.4"
+  },
+  "scripts": {
+    "build:packs": "node tools/build-packs.mjs"
+  }
+}
