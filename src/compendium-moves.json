@@ -39,7 +39,13 @@
       "playbook": "Scoundrel",
       "kind": "signature",
       "text": "When you attempt something wildly improbable, reckless, or seemingly impossible, say exactly how you're going to pull it off and roll. On a 10-11, you do it. On a 7–9, you do it, but the Director introduces a complication. On a 6−, you fail and the Director reacts. On a 12+, you do it spectacularly and the Director tells you what additional opportunity you've created.",
-      "id": "eod-scoundrel-never-tell-me-the-odds"
+      "id": "eod-scoundrel-never-tell-me-the-odds",
+      "results": {
+        "failure": "You fail, and the Director reacts.",
+        "partial": "You pull it off, but the Director introduces a complication.",
+        "success": "You do it. Describe how your plan succeeds.",
+        "critical": "You do it spectacularly. The Director tells you an additional opportunity you've created."
+      }
     },
     {
       "name": "The Debt Comes Due",
@@ -60,7 +66,13 @@
       "playbook": "Scoundrel",
       "kind": "optional",
       "text": "When you gamble something important on a single reckless chance, name what you're putting at stake before you roll. On a 10-11, you win what you wanted. On a 7–9, you win—but someone else also gets something they wanted. On a 6-, you lose what you wagered, but you may choose to walk away before the consequences become worse. On a 12+, you do it spectacularly and the Director tells you what additional opportunity you've created.",
-      "id": "eod-scoundrel-one-last-hand"
+      "id": "eod-scoundrel-one-last-hand",
+      "results": {
+        "failure": "You lose what you wagered. You may choose to walk away before the consequences become worse.",
+        "partial": "You win, but someone else also gets something they wanted.",
+        "success": "You win what you wanted.",
+        "critical": "You win spectacularly. The Director tells you an additional opportunity you've created."
+      }
     },
     {
       "name": "I Know This Place",
@@ -81,7 +93,13 @@
       "playbook": "Ace",
       "kind": "signature",
       "text": "When you attempt a maneuver with a vehicle or starship that should be impossible, describe what you do and roll. On a 10-11, you do it. On a 7–9, you do it, but the vehicle suffers a consequence, or a relevant Tag becomes Unavailable. On a 6-, you fail to do it, and a relevant Tag becomes Unavailable. On a 12+, you also create an opening for someone else.",
-      "id": "eod-ace-that-s-impossible"
+      "id": "eod-ace-that-s-impossible",
+      "results": {
+        "failure": "You fail to perform the maneuver, and a relevant Tag becomes Unavailable.",
+        "partial": "You perform the maneuver, but the vehicle suffers a consequence or a relevant Tag becomes Unavailable.",
+        "success": "You perform the maneuver.",
+        "critical": "You perform the maneuver and create an opening for someone else."
+      }
     },
     {
       "name": "She Knows Me",
@@ -137,7 +155,13 @@
       "playbook": "Warrior",
       "kind": "optional",
       "text": "When you make a serious promise aloud, write it down. Until you fulfill or deliberately break that promise, you cannot willingly abandon the person or cause you swore yourself to. When fulfilling the promise puts you in genuine danger, gain Advantage on the roll. If you break it, the Director tells you what that does to your reputation.",
-      "id": "eod-warrior-my-word-is-my-bond"
+      "id": "eod-warrior-my-word-is-my-bond",
+      "results": {
+        "failure": "The attempt goes badly; the Director makes a move. Your promise remains in force.",
+        "partial": "You make progress toward fulfilling your promise, but there is a complication or cost.",
+        "success": "You fulfill the immediate intent of your action while keeping your promise.",
+        "critical": "You fulfill the immediate intent of your action, and the Director offers an additional opportunity."
+      }
     },
     {
       "name": "Danger Sense",
@@ -249,7 +273,13 @@
       "playbook": "Force User",
       "kind": "signature",
       "text": "When you attempt something through the Force beyond what should normally be possible, describe what you are trying to accomplish and roll + Force. On a 10-11, the Force answers. On a 7–9, the Force answers, and the Director tells you what the Force demands or what consequence accompanies its use. On a 6-, the Force fails to answer, and you receive the Condition “Quieted.” On a 12+, the Force answers with unexpected clarity or power.",
-      "id": "eod-force-user-reach-through-the-force"
+      "id": "eod-force-user-reach-through-the-force",
+      "results": {
+        "failure": "The Force fails to answer, and you receive the Condition “Quieted.”",
+        "partial": "The Force answers, and the Director tells you what it demands or what consequence accompanies its use.",
+        "success": "The Force answers.",
+        "critical": "The Force answers with unexpected clarity or power."
+      }
     },
     {
       "name": "The Force Has Spoken",
@@ -291,7 +321,13 @@
       "playbook": "Diplomat",
       "kind": "signature",
       "text": "When you negotiate with someone who has something you want, tell them what you are offering and what you want from them. The Director tells you what they require before they agree. If you accept their terms, they agree. If you refuse, you may roll + Presence to make them reconsider.",
-      "id": "eod-diplomat-make-them-an-offer"
+      "id": "eod-diplomat-make-them-an-offer",
+      "results": {
+        "failure": "They refuse to reconsider. The Director makes a move.",
+        "partial": "They reconsider, but the Director tells you what complication, concession, or cost accompanies their willingness.",
+        "success": "They reconsider your offer. Describe what changes their mind.",
+        "critical": "They reconsider, and the Director reveals an additional opportunity in the negotiation."
+      }
     },
     {
       "name": "Everyone Knows Someone",
@@ -326,7 +362,13 @@
       "playbook": "Diplomat",
       "kind": "optional",
       "text": "When someone is about to escalate a conflict into open violence, you may force the moment into a conversation. Everyone who is present gets one chance to state what they actually want. If anyone tries to attack before the conversation is finished, roll with Advantage to interrupt them. If someone breaks that agreement, they become responsible for starting the violence.",
-      "id": "eod-diplomat-you-don-t-want-a-war"
+      "id": "eod-diplomat-you-don-t-want-a-war",
+      "results": {
+        "failure": "You fail to interrupt the attack. The Director makes a move.",
+        "partial": "You interrupt the attack, but the conversation begins under a complication or cost.",
+        "success": "You interrupt the attack and give everyone present their chance to state what they actually want.",
+        "critical": "You interrupt the attack and create an additional opening for the conversation."
+      }
     }
   ]
 }
