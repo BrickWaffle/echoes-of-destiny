@@ -2,7 +2,7 @@
   "id": "echoes-of-destiny",
   "title": "Echoes of Destiny",
   "description": "Echoes of Destiny character-sheet and equipment-tag package for the PbtA system on Foundry VTT v14.",
-  "version": "1.2.4",
+  "version": "1.2.6",
   "compatibility": {
     "minimum": "14",
     "verified": "14.367"
