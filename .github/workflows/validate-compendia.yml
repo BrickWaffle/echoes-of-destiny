@@ -35,9 +35,16 @@ jobs:
           NODE
       - name: Compile and round-trip compendiums
         run: npm run build:packs
-      - name: Upload generated pack folders
+      - name: Assemble test-installable module ZIP
+        run: |
+          mkdir -p dist/echoes-of-destiny
+          cp module.json README.md LICENSE dist/echoes-of-destiny/
+          cp -R scripts styles packs dist/echoes-of-destiny/
+          cd dist
+          zip -r ../echoes-of-destiny-test.zip echoes-of-destiny
+      - name: Upload test-installable module
         uses: actions/upload-artifact@v4
         with:
-          name: echoes-of-destiny-compendium-packs
-          path: packs/
+          name: echoes-of-destiny-test-module
+          path: echoes-of-destiny-test.zip
           if-no-files-found: error
