@@ -10,7 +10,7 @@ for(const [pack,entries] of packs){
  const dir=path.join(root,"src/packs",pack);
  await fs.rm(dir,{recursive:true,force:true}); await fs.mkdir(dir,{recursive:true});
  for(const entry of entries){
-  const item={_id:idFor(entry.id),_key:"!items!"+idFor(entry.id),name:entry.name,type:"move",img:"icons/svg/d20.svg",system:{moveType:entry.kind==="basic"?"basic":"playbook",description:entry.text,rollFormula:"",moveResults:{failure:{key:"failure",label:"6−",value:""},partial:{key:"partial",label:"7–9",value:""},success:{key:"success",label:"10–11",value:""},critical:{key:"critical",label:"12+",value:""}},uses:0,rollType:"ask",rollMod:0,actorType:"character",choices:""},flags:{ "echoes-of-destiny":{sourceId:entry.id,playbook:entry.playbook??null}}};
+  const item={_id:idFor(entry.id),_key:"!items!"+idFor(entry.id),name:entry.name,type:"move",img:"icons/svg/d20.svg",system:{moveType:entry.kind==="basic"?"basic":"playbook",description:entry.text,rollFormula:"",moveResults:{failure:{key:"failure",label:"6−",value:entry.results?.failure??""},partial:{key:"partial",label:"7–9",value:entry.results?.partial??""},success:{key:"success",label:"10–11",value:entry.results?.success??""},critical:{key:"critical",label:"12+",value:entry.results?.critical??""}},uses:0,rollType:"ask",rollMod:0,actorType:"character",choices:""},flags:{ "echoes-of-destiny":{sourceId:entry.id,playbook:entry.playbook??null}}};
   await fs.writeFile(path.join(dir,entry.id+".json"),JSON.stringify(item,null,2)+"\n");
  }
  const dest=path.join(root,"packs",pack);

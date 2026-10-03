@@ -6,13 +6,25 @@
       "name": "The Careful Move",
       "id": "eod-careful-move",
       "kind": "basic",
-      "text": "When you do something risky or face something you fear, but have time and opportunity to do so carefully, name what you’re afraid will happen if you fail or lose your nerve, then roll with an appropriate ability."
+      "text": "When you do something risky or face something you fear, but have time and opportunity to do so carefully, name what you’re afraid will happen if you fail or lose your nerve, then roll with an appropriate ability.",
+      "results": {
+        "failure": "You fail or lose your nerve. The Director makes a move.",
+        "partial": "The Director tells you how your actions would leave you vulnerable. Choose to back down or go through with it. If you proceed, you do what you intended or hold steady.",
+        "success": "You do what you intended or hold steady. Describe what it looks like.",
+        "critical": "You do what you intended or hold steady, and the Director tells you an extra benefit or advantage you receive. Describe what it looks like."
+      }
     },
     {
       "name": "The Risky Move",
       "id": "eod-risky-move",
       "kind": "basic",
-      "text": "When you do something risky or face something you fear, and can’t afford to be careful, name what you’re afraid will happen if you fail or lose your nerve. The Director will tell you how it is worse than you fear. You can choose to back down or go through with it. If you go through with it, roll with an appropriate ability."
+      "text": "When you do something risky or face something you fear, and can’t afford to be careful, name what you’re afraid will happen if you fail or lose your nerve. The Director will tell you how it is worse than you fear. You can choose to back down or go through with it. If you go through with it, roll with an appropriate ability.",
+      "results": {
+        "failure": "You fail or lose your nerve. The Director reacts.",
+        "partial": "You do what you intended or hold steady, but there is a complication or cost. The Director describes what it looks like.",
+        "success": "You do what you intended or hold steady. Describe what it looks like.",
+        "critical": "You do what you intended or hold steady, and the Director tells you an extra benefit or advantage you receive. Describe what it looks like."
+      }
     },
     {
       "name": "The Vulnerable Move",
