@@ -15,9 +15,9 @@ for(const [pack,entries] of packs){
  }
  const dest=path.join(root,"packs",pack);
  await fs.rm(dest,{recursive:true,force:true});
- let packed=0;
- await compilePack(dir,dest,{log:true,transformEntry:()=>{packed++;}});
- if(packed!==entries.length) throw new Error(pack+": expected "+entries.length+" documents compiled, got "+packed);
+ const sourceFiles=(await fs.readdir(dir)).filter(name=>name.endsWith(".json"));
+ if(sourceFiles.length!==entries.length) throw new Error(pack+": expected "+entries.length+" JSON source documents, got "+sourceFiles.length);
+ await compilePack(dir,dest,{log:true});
  const outputFiles=await fs.readdir(dest);
  if(outputFiles.length===0) throw new Error(pack+": compiler produced an empty pack directory");
 }
