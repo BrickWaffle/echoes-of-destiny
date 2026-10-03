@@ -6,11 +6,20 @@ const root=process.cwd();
 const data=JSON.parse(await fs.readFile(path.join(root,"src/compendium-moves.json"),"utf8"));
 const packs=[["basic-moves",data.basicMoves],["playbook-moves",data.playbookMoves]];
 const idFor=(id)=>createHash("sha256").update(id).digest("hex").slice(0,16);
+const playbooks=["Scoundrel","Ace","Warrior","Operative","Leader","Force User","Diplomat"];
+const folderIdFor=(name)=>idFor("playbook-folder:"+name);
 for(const [pack,entries] of packs){
  const dir=path.join(root,"src/packs",pack);
  await fs.rm(dir,{recursive:true,force:true}); await fs.mkdir(dir,{recursive:true});
+ if(pack==="playbook-moves"){
+  for(const playbook of playbooks){
+   const folderId=folderIdFor(playbook);
+   const folder={_id:folderId,_key:"!folders!"+folderId,name:playbook,type:"Item",sorting:"a",folder:null,color:null,flags:{}};
+   await fs.writeFile(path.join(dir,"folder-"+folderId+".json"),JSON.stringify(folder,null,2)+"\\n");
+  }
+ }
  for(const entry of entries){
-  const item={_id:idFor(entry.id),_key:"!items!"+idFor(entry.id),name:entry.name,type:"move",img:"icons/svg/d20.svg",system:{moveType:entry.kind==="basic"?"basic":"playbook",description:entry.text,rollFormula:"",moveResults:{failure:{key:"failure",label:"6−",value:entry.results?.failure??""},partial:{key:"partial",label:"7–9",value:entry.results?.partial??""},success:{key:"success",label:"10–11",value:entry.results?.success??""},critical:{key:"critical",label:"12+",value:entry.results?.critical??""}},uses:0,rollType:"ask",rollMod:0,actorType:"character",choices:""},flags:{ "echoes-of-destiny":{sourceId:entry.id,playbook:entry.playbook??null}}};
+  const item={_id:idFor(entry.id),_key:"!items!"+idFor(entry.id),name:entry.name,type:"move",img:"icons/svg/d20.svg",folder:entry.playbook?folderIdFor(entry.playbook):null,system:{moveType:entry.kind==="basic"?"basic":"playbook",description:entry.text,rollFormula:"",moveResults:{failure:{key:"failure",label:"6−",value:entry.results?.failure??""},partial:{key:"partial",label:"7–9",value:entry.results?.partial??""},success:{key:"success",label:"10–11",value:entry.results?.success??""},critical:{key:"critical",label:"12+",value:entry.results?.critical??""}},uses:0,rollType:"ask",rollMod:0,actorType:"character",choices:""},flags:{ "echoes-of-destiny":{sourceId:entry.id,playbook:entry.playbook??null}}};
   await fs.writeFile(path.join(dir,entry.id+".json"),JSON.stringify(item,null,2)+"\n");
  }
  const dest=path.join(root,"packs",pack);
@@ -26,7 +35,17 @@ for(const [pack,entries] of packs){
  await extractPack(dest,verify,{log:false});
  const countJson=async dir=>(await Promise.all((await fs.readdir(dir,{withFileTypes:true})).map(e=>e.isDirectory()?countJson(path.join(dir,e.name)):e.isFile()&&e.name.endsWith(".json")?1:0))).reduce((a,b)=>a+b,0);
  const count=await countJson(verify);
- if(count!==entries.length) throw new Error(pack+": round-trip expected "+entries.length+" documents, got "+count);
+ const expectedCount=entries.length+(pack==="playbook-moves"?playbooks.length:0);
+ if(count!==expectedCount) throw new Error(pack+": round-trip expected "+expectedCount+" documents including folders, got "+count);
+ if(pack==="playbook-moves"){
+  const extracted=(await fs.readdir(verify,{withFileTypes:true}));
+  const docs=[];
+  const walk=async d=>{for(const e of await fs.readdir(d,{withFileTypes:true})){const p=path.join(d,e.name);if(e.isDirectory())await walk(p);else if(e.isFile()&&e.name.endsWith(".json"))docs.push(JSON.parse(await fs.readFile(p,"utf8")));}};
+  await walk(verify);
+  const folders=docs.filter(d=>d.type==="Item"&&d.name&&playbooks.includes(d.name)&&d._key?.startsWith("!folders!"));
+  const assigned=docs.filter(d=>d.type==="move"&&d.folder);
+  if(folders.length!==7||assigned.length!==42) throw new Error("Playbook folder assignment validation failed: "+folders.length+" folders, "+assigned.length+" assigned moves");
+ }
  await fs.rm(verify,{recursive:true,force:true});
 }
 console.log("Compendium pack build completed.");
