@@ -25,7 +25,8 @@ for(const [pack,entries] of packs){
  const dest=path.join(root,"packs",pack);
  await fs.rm(dest,{recursive:true,force:true});
  const sourceFiles=(await fs.readdir(dir)).filter(name=>name.endsWith(".json"));
- if(sourceFiles.length!==entries.length) throw new Error(pack+": expected "+entries.length+" JSON source documents, got "+sourceFiles.length);
+ const expectedSourceCount=entries.length+(pack==="playbook-moves"?playbooks.length:0);
+ if(sourceFiles.length!==expectedSourceCount) throw new Error(pack+": expected "+expectedSourceCount+" JSON source documents including folders, got "+sourceFiles.length);
  await compilePack(dir,dest,{log:true});
  const outputFiles=await fs.readdir(dest);
  if(!outputFiles.includes("CURRENT") || !outputFiles.some(name=>name.startsWith("MANIFEST-"))) throw new Error(pack+": compiler did not create a LevelDB pack");
