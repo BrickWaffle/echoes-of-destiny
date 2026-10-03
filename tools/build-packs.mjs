@@ -10,7 +10,7 @@ for(const [pack,entries] of packs){
  const dir=path.join(root,"src/packs",pack);
  await fs.rm(dir,{recursive:true,force:true}); await fs.mkdir(dir,{recursive:true});
  for(const entry of entries){
-  const item={_id:idFor(entry.id),name:entry.name,type:"move",img:"icons/svg/d20.svg",system:{moveType:entry.kind==="basic"?"basic":"playbook",description:entry.text,rollFormula:"",moveResults:{failure:{key:"failure",label:"6−",value:""},partial:{key:"partial",label:"7–9",value:""},success:{key:"success",label:"10–11",value:""},critical:{key:"critical",label:"12+",value:""}},uses:0,rollType:"ask",rollMod:0,actorType:"character",choices:""},flags:{ "echoes-of-destiny":{sourceId:entry.id,playbook:entry.playbook??null}}};
+  const item={_id:idFor(entry.id),_key:"!items!"+idFor(entry.id),name:entry.name,type:"move",img:"icons/svg/d20.svg",system:{moveType:entry.kind==="basic"?"basic":"playbook",description:entry.text,rollFormula:"",moveResults:{failure:{key:"failure",label:"6−",value:""},partial:{key:"partial",label:"7–9",value:""},success:{key:"success",label:"10–11",value:""},critical:{key:"critical",label:"12+",value:""}},uses:0,rollType:"ask",rollMod:0,actorType:"character",choices:""},flags:{ "echoes-of-destiny":{sourceId:entry.id,playbook:entry.playbook??null}}};
   await fs.writeFile(path.join(dir,entry.id+".json"),JSON.stringify(item,null,2)+"\n");
  }
  const dest=path.join(root,"packs",pack);
@@ -19,6 +19,14 @@ for(const [pack,entries] of packs){
  if(sourceFiles.length!==entries.length) throw new Error(pack+": expected "+entries.length+" JSON source documents, got "+sourceFiles.length);
  await compilePack(dir,dest,{log:true});
  const outputFiles=await fs.readdir(dest);
- if(outputFiles.length===0) throw new Error(pack+": compiler produced an empty pack directory");
+ if(!outputFiles.includes("CURRENT") || !outputFiles.some(name=>name.startsWith("MANIFEST-"))) throw new Error(pack+": compiler did not create a LevelDB pack");
+ const verify=path.join(root,".pack-verify",pack);
+ await fs.rm(verify,{recursive:true,force:true});
+ const {extractPack}=await import("@foundryvtt/foundryvtt-cli");
+ await extractPack(dest,verify,{log:false});
+ const countJson=async dir=>(await Promise.all((await fs.readdir(dir,{withFileTypes:true})).map(e=>e.isDirectory()?countJson(path.join(dir,e.name)):e.isFile()&&e.name.endsWith(".json")?1:0))).reduce((a,b)=>a+b,0);
+ const count=await countJson(verify);
+ if(count!==entries.length) throw new Error(pack+": round-trip expected "+entries.length+" documents, got "+count);
+ await fs.rm(verify,{recursive:true,force:true});
 }
 console.log("Compendium pack build completed.");
