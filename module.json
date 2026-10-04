@@ -2,7 +2,7 @@
   "id": "echoes-of-destiny",
   "title": "Echoes of Destiny",
   "description": "Echoes of Destiny character-sheet, character-tag, and equipment-tag package for the PbtA system on Foundry VTT v14.",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "compatibility": {"minimum": "14", "verified": "14.367"},
   "authors": [{"name": "BrickWaffle"}],
   "esmodules": ["scripts/sheet-config.js", "scripts/tag-state.js", "scripts/character-sheet.js"],

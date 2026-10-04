@@ -23,6 +23,22 @@ function hideDescriptionTab(root){
  }
  link.hidden=true;pane.hidden=true;
 }
+function hideNonCharacterTabs(root){
+ const nav=root.querySelector(".sheet-tabs.tabs"),body=root.querySelector(".sheet-body");
+ if(!nav||!body)return;
+ const hidden=["moves","echoes"];
+ const activeHidden=hidden.some(name=>body.querySelector('.tab[data-tab="'+name+'"]')?.classList.contains("active"));
+ for(const name of hidden){
+  const link=nav.querySelector('a.item[data-tab="'+name+'"]');
+  const pane=body.querySelector('.tab[data-tab="'+name+'"]');
+  if(link)link.hidden=true;
+  if(pane)pane.hidden=true;
+ }
+ if(activeHidden){
+  const fallback=nav.querySelector('a.item[data-tab="equipment"]:not([hidden]), a.item[data-tab="description"]:not([hidden])');
+  if(fallback)fallback.click();
+ }
+}
 function activateTab(root,tabName){
  const nav=root.querySelector(".sheet-tabs.tabs"),body=root.querySelector(".sheet-body");
  const link=nav?.querySelector('a.item[data-tab="'+tabName+'"]'),pane=body?.querySelector('.tab[data-tab="'+tabName+'"]');
@@ -51,6 +67,11 @@ async function renderEchoes(app,root){
 Hooks.on("renderActorSheet",(app,html)=>{
  const root=html?.[0] instanceof HTMLElement?html[0]:html;
  if(!root||game.system.id!=="pbta"||!app.actor)return;
+ hideDescriptionTab(root);
+ if(app.actor.sheetType!=="character"){
+  hideNonCharacterTabs(root);
+  return;
+ }
  root.addEventListener("click",event=>{
   const tab=event.target.closest('.sheet-tabs a.item[data-tab]');
   if(!tab||tab.hidden)return;
