@@ -102,7 +102,7 @@ function placeActorTagPanel(root, panel) {
     let row = species.closest(".form-group, .attribute, .field, li") || species.parentElement;
     const hasOtherDetails = el => {
       const text = el.textContent.toLowerCase();
-      return /\\blook\\b/.test(text) && /\\bvice\\b/.test(text);
+      return /\blook\b/.test(text) && /\bvice\b/.test(text);
     };
     while (row?.parentElement && !hasOtherDetails(row) && row.parentElement !== root) {
       const parent = row.parentElement;
