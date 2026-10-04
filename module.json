@@ -2,11 +2,11 @@
   "id": "echoes-of-destiny",
   "title": "Echoes of Destiny",
   "description": "Echoes of Destiny character-sheet, character-tag, and equipment-tag package for the PbtA system on Foundry VTT v14.",
-  "version": "1.3.3",
+  "version": "1.4.0",
   "compatibility": {"minimum": "14", "verified": "14.367"},
   "authors": [{"name": "BrickWaffle"}],
   "esmodules": ["scripts/sheet-config.js", "scripts/tag-state.js", "scripts/character-sheet.js"],
-  "styles": ["styles/tag-state.css", "styles/character-sheet.css"],
+  "styles": ["styles/tag-state.css", "styles/character-sheet.css", "styles/eod-theme.css"],
   "systems": ["pbta"],
   "packs": [
     {"name":"basic-moves","label":"Echoes of Destiny: Basic Moves","path":"packs/basic-moves","type":"Item","system":"pbta","private":false},
