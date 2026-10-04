@@ -12,5 +12,6 @@
 .eod-actor-tag-toggle{border:0;background:transparent;color:inherit}
 .eod-actor-tag.eod-tag-unavailable{opacity:.5;text-decoration:line-through}
 .eod-actor-tag-form{display:flex;gap:.35rem;margin-top:.45rem}
-.eod-actor-tag-form input{flex:1;min-width:0}\n.eod-actor-tag-form button{flex:0 0 auto;width:auto;min-width:0;white-space:nowrap;padding:.25rem .65rem}
+.eod-actor-tag-form input{flex:1;min-width:0}
+.eod-actor-tag-form button{flex:0 0 auto;width:auto;min-width:0;white-space:nowrap;padding:.25rem .65rem}
 .eod-actor-tags-empty{margin:0;opacity:.7}
