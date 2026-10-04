@@ -142,7 +142,7 @@ function renderActorTags(root, actor) {
   panel.append(list);
 
   if (actor.isOwner) {
-    const form = document.createElement("form");
+    const form = document.createElement("div");
     form.className = "eod-actor-tag-form";
     const input = document.createElement("input");
     input.type = "text";
@@ -151,11 +151,29 @@ function renderActorTags(root, actor) {
     input.placeholder = "Add a character Tag";
     input.setAttribute("aria-label", "New character Tag");
     const submit = document.createElement("button");
-    submit.type = "submit";
+    submit.type = "button";
     submit.textContent = "Add Tag";
+    submit.addEventListener("click", () => addActorTag(actor, input.value, root));
+    input.addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        addActorTag(actor, input.value, root);
+      }
+    });
     form.append(input, submit);
     panel.append(form);
   }
+}
+
+async function addActorTag(actor, rawValue, root) {
+  if (!actor.isOwner) return;
+  const value = String(rawValue || "").trim();
+  if (!value) return;
+  const tags = actorTagValues(actor);
+  if (!tags.some(tag => tag.toLocaleLowerCase() === value.toLocaleLowerCase())) {
+    await actor.setFlag(MODULE_ID, ACTOR_TAGS_KEY, [...tags, value]);
+  }
+  renderActorTags(root, actor);
 }
 
 async function handleActorTagEvent(event, root, actor) {
@@ -163,24 +181,11 @@ async function handleActorTagEvent(event, root, actor) {
   if (!panel || !root.contains(panel)) return;
   const toggle = event.target.closest(".eod-actor-tag-toggle");
   const remove = event.target.closest(".eod-actor-tag-remove");
-  const form = event.target.closest(".eod-actor-tag-form");
-  if (!toggle && !remove && !form) return;
+  if (!toggle && !remove) return;
   event.stopPropagation();
+  if (!actor.isOwner || event.type !== "click") return;
 
-  if (!actor.isOwner) return;
-  if (form && event.type === "submit") {
-    event.preventDefault();
-    const input = form.elements.tag;
-    const value = String(input.value || "").trim();
-    if (!value) return;
-    const tags = actorTagValues(actor);
-    if (!tags.some(tag => tag.toLocaleLowerCase() === value.toLocaleLowerCase())) {
-      await actor.setFlag(MODULE_ID, ACTOR_TAGS_KEY, [...tags, value]);
-    }
-    renderActorTags(root, actor);
-    return;
-  }
-  if (toggle && event.type === "click") {
+  if (toggle) {
     event.preventDefault();
     const value = toggle.dataset.tagValue;
     const unavailable = actorUnavailableValues(actor);
@@ -188,7 +193,7 @@ async function handleActorTagEvent(event, root, actor) {
     else unavailable.add(value);
     await actor.setFlag(MODULE_ID, ACTOR_UNAVAILABLE_KEY, [...unavailable]);
     renderActorTags(root, actor);
-  } else if (remove && event.type === "click") {
+  } else if (remove) {
     event.preventDefault();
     const value = remove.dataset.tagValue;
     await actor.setFlag(MODULE_ID, ACTOR_TAGS_KEY, actorTagValues(actor).filter(tag => tag !== value));
