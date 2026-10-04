@@ -92,19 +92,31 @@ function actorUnavailableValues(actor) {
 }
 
 function placeActorTagPanel(root, panel) {
-  // Prefer the first character-detail field (Species, then Look/Vice/XP)
-  // so Tags sit below the portrait/abilities and above those fields.
-  const labels = [...root.querySelectorAll("label, .label, dt, strong")];
-  const speciesLabel = labels.find(el => /^species\b/i.test(el.textContent.trim()));
-  const anchor = speciesLabel?.closest(".form-group, .attribute, .field, li");
-  if (anchor?.parentElement) {
-    anchor.parentElement.insertBefore(panel, anchor);
-    return;
+  // Find the Species field and place the panel before its detail row.
+  const all = [...root.querySelectorAll("*")];
+  const exactLabel = name => all.find(el =>
+    el.children.length === 0 && el.textContent.trim().toLowerCase() === name
+  );
+  const species = exactLabel("species");
+  if (species) {
+    let row = species.closest(".form-group, .attribute, .field, li") || species.parentElement;
+    const hasOtherDetails = el => {
+      const text = el.textContent.toLowerCase();
+      return /\\blook\\b/.test(text) && /\\bvice\\b/.test(text);
+    };
+    while (row?.parentElement && !hasOtherDetails(row) && row.parentElement !== root) {
+      const parent = row.parentElement;
+      if (hasOtherDetails(parent)) row = parent;
+      else break;
+    }
+    if (row?.parentElement) {
+      row.parentElement.insertBefore(panel, row);
+      return;
+    }
   }
   const header = root.querySelector(".sheet-header");
   if (header) header.insertAdjacentElement("afterend", panel);
 }
-
 function renderActorTags(root, actor) {
   let panel = root.querySelector(".eod-actor-tags");
   if (!panel) {
