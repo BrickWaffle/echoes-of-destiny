@@ -21,7 +21,8 @@
         "eod-scoundrel-one-last-hand",
         "eod-scoundrel-i-know-this-place",
         "eod-scoundrel-the-trouble-with-me"
-      ]
+      ],
+      "abilityIncrease": "wits"
     },
     {
       "name": "Ace",
@@ -42,7 +43,8 @@
         "eod-ace-stay-with-me",
         "eod-ace-i-ve-seen-worse",
         "eod-ace-there-s-always-a-way-through"
-      ]
+      ],
+      "abilityIncrease": "agility"
     },
     {
       "name": "Warrior",
@@ -63,7 +65,8 @@
         "eod-warrior-danger-sense",
         "eod-warrior-a-warrior-s-mercy",
         "eod-warrior-you-want-me-"
-      ]
+      ],
+      "abilityIncrease": "might"
     },
     {
       "name": "Operative",
@@ -84,7 +87,8 @@
         "eod-operative-someone-told-me",
         "eod-operative-burn-the-identity",
         "eod-operative-the-file"
-      ]
+      ],
+      "abilityIncrease": "wits"
     },
     {
       "name": "Leader",
@@ -105,7 +109,8 @@
         "eod-leader-no-one-gets-left-behind",
         "eod-leader-make-them-believe",
         "eod-leader-someone-has-to-decide"
-      ]
+      ],
+      "abilityIncrease": "presence"
     },
     {
       "name": "Force User",
@@ -126,7 +131,8 @@
         "eod-force-user-there-is-always-another-path",
         "eod-force-user-i-know-your-fear",
         "eod-force-user-give-in-to-the-dark-side"
-      ]
+      ],
+      "abilityIncrease": "force"
     },
     {
       "name": "Diplomat",
@@ -147,7 +153,8 @@
         "eod-diplomat-the-table-is-set",
         "eod-diplomat-find-common-ground",
         "eod-diplomat-you-don-t-want-a-war"
-      ]
+      ],
+      "abilityIncrease": "presence"
     }
   ]
 }
