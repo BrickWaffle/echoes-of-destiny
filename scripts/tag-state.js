@@ -91,16 +91,28 @@ function actorUnavailableValues(actor) {
   return new Set(Array.isArray(tags) ? tags : []);
 }
 
-function renderActorTags(root, actor) {
+function placeActorTagPanel(root, panel) {
+  // Prefer the first character-detail field (Species, then Look/Vice/XP)
+  // so Tags sit below the portrait/abilities and above those fields.
+  const labels = [...root.querySelectorAll("label, .label, dt, strong")];
+  const speciesLabel = labels.find(el => /^species\\b/i.test(el.textContent.trim()));
+  const anchor = speciesLabel?.closest(".form-group, .attribute, .field, li");
+  if (anchor?.parentElement) {
+    anchor.parentElement.insertBefore(panel, anchor);
+    return;
+  }
   const header = root.querySelector(".sheet-header");
-  if (!header) return;
+  if (header) header.insertAdjacentElement("afterend", panel);
+}
+
+function renderActorTags(root, actor) {
   let panel = root.querySelector(".eod-actor-tags");
   if (!panel) {
     panel = document.createElement("section");
     panel.className = "eod-actor-tags";
     panel.setAttribute("aria-label", "Character Tags");
-    header.insertAdjacentElement("afterend", panel);
   }
+  placeActorTagPanel(root, panel);
   const tags = actorTagValues(actor);
   const unavailable = actorUnavailableValues(actor);
   panel.replaceChildren();
