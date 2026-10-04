@@ -95,7 +95,7 @@ function placeActorTagPanel(root, panel) {
   // Prefer the first character-detail field (Species, then Look/Vice/XP)
   // so Tags sit below the portrait/abilities and above those fields.
   const labels = [...root.querySelectorAll("label, .label, dt, strong")];
-  const speciesLabel = labels.find(el => /^species\\b/i.test(el.textContent.trim()));
+  const speciesLabel = labels.find(el => /^species\b/i.test(el.textContent.trim()));
   const anchor = speciesLabel?.closest(".form-group, .attribute, .field, li");
   if (anchor?.parentElement) {
     anchor.parentElement.insertBefore(panel, anchor);
