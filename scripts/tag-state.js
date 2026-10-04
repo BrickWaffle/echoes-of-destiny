@@ -77,6 +77,128 @@ async function toggleNativeTag(event, app, root) {
   tagElement.title = `Click to mark ${isUnavailable ? "available" : "unavailable"}`;
 }
 
+
+const ACTOR_TAGS_KEY = "actorTags";
+const ACTOR_UNAVAILABLE_KEY = "unavailableActorTags";
+
+function actorTagValues(actor) {
+  const tags = actor.getFlag(MODULE_ID, ACTOR_TAGS_KEY);
+  return Array.isArray(tags) ? tags.filter(tag => typeof tag === "string" && tag.trim()) : [];
+}
+
+function actorUnavailableValues(actor) {
+  const tags = actor.getFlag(MODULE_ID, ACTOR_UNAVAILABLE_KEY);
+  return new Set(Array.isArray(tags) ? tags : []);
+}
+
+function renderActorTags(root, actor) {
+  const header = root.querySelector(".sheet-header");
+  if (!header) return;
+  let panel = root.querySelector(".eod-actor-tags");
+  if (!panel) {
+    panel = document.createElement("section");
+    panel.className = "eod-actor-tags";
+    panel.setAttribute("aria-label", "Character Tags");
+    header.insertAdjacentElement("afterend", panel);
+  }
+  const tags = actorTagValues(actor);
+  const unavailable = actorUnavailableValues(actor);
+  panel.replaceChildren();
+
+  const heading = document.createElement("h3");
+  heading.textContent = "Character Tags";
+  panel.append(heading);
+
+  const list = document.createElement("div");
+  list.className = "eod-actor-tag-list";
+  for (const value of tags) {
+    const chip = document.createElement("span");
+    chip.className = "eod-actor-tag" + (unavailable.has(value) ? " eod-tag-unavailable" : "");
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "eod-actor-tag-toggle";
+    toggle.dataset.tagValue = value;
+    toggle.setAttribute("aria-pressed", String(!unavailable.has(value)));
+    toggle.textContent = value;
+    toggle.title = unavailable.has(value) ? "Mark Tag available" : "Mark Tag unavailable";
+    chip.append(toggle);
+    if (actor.isOwner) {
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "eod-actor-tag-remove";
+      remove.dataset.tagValue = value;
+      remove.setAttribute("aria-label", "Remove " + value);
+      remove.textContent = "×";
+      chip.append(remove);
+    }
+    list.append(chip);
+  }
+  if (!tags.length) {
+    const empty = document.createElement("p");
+    empty.className = "eod-actor-tags-empty";
+    empty.textContent = "No character Tags added.";
+    list.append(empty);
+  }
+  panel.append(list);
+
+  if (actor.isOwner) {
+    const form = document.createElement("form");
+    form.className = "eod-actor-tag-form";
+    const input = document.createElement("input");
+    input.type = "text";
+    input.name = "tag";
+    input.maxLength = 80;
+    input.placeholder = "Add a character Tag";
+    input.setAttribute("aria-label", "New character Tag");
+    const submit = document.createElement("button");
+    submit.type = "submit";
+    submit.textContent = "Add Tag";
+    form.append(input, submit);
+    panel.append(form);
+  }
+}
+
+async function handleActorTagEvent(event, root, actor) {
+  const panel = event.target.closest(".eod-actor-tags");
+  if (!panel || !root.contains(panel)) return;
+  const toggle = event.target.closest(".eod-actor-tag-toggle");
+  const remove = event.target.closest(".eod-actor-tag-remove");
+  const form = event.target.closest(".eod-actor-tag-form");
+  if (!toggle && !remove && !form) return;
+  event.stopPropagation();
+
+  if (!actor.isOwner) return;
+  if (form && event.type === "submit") {
+    event.preventDefault();
+    const input = form.elements.tag;
+    const value = String(input.value || "").trim();
+    if (!value) return;
+    const tags = actorTagValues(actor);
+    if (!tags.some(tag => tag.toLocaleLowerCase() === value.toLocaleLowerCase())) {
+      await actor.setFlag(MODULE_ID, ACTOR_TAGS_KEY, [...tags, value]);
+    }
+    renderActorTags(root, actor);
+    return;
+  }
+  if (toggle && event.type === "click") {
+    event.preventDefault();
+    const value = toggle.dataset.tagValue;
+    const unavailable = actorUnavailableValues(actor);
+    if (unavailable.has(value)) unavailable.delete(value);
+    else unavailable.add(value);
+    await actor.setFlag(MODULE_ID, ACTOR_UNAVAILABLE_KEY, [...unavailable]);
+    renderActorTags(root, actor);
+  } else if (remove && event.type === "click") {
+    event.preventDefault();
+    const value = remove.dataset.tagValue;
+    await actor.setFlag(MODULE_ID, ACTOR_TAGS_KEY, actorTagValues(actor).filter(tag => tag !== value));
+    const unavailable = actorUnavailableValues(actor);
+    unavailable.delete(value);
+    await actor.setFlag(MODULE_ID, ACTOR_UNAVAILABLE_KEY, [...unavailable]);
+    renderActorTags(root, actor);
+  }
+}
+
 Hooks.on("renderActorSheet", (app, html) => {
   const root = html?.[0] instanceof HTMLElement
     ? html[0]
@@ -84,7 +206,9 @@ Hooks.on("renderActorSheet", (app, html) => {
   if (!root || !app.actor || game.system.id !== "pbta") return;
 
   decorateNativeTags(root, app.actor);
-  root.addEventListener("click", event => toggleNativeTag(event, app, root));
+  renderActorTags(root, app.actor);
+  root.addEventListener("click", event => { toggleNativeTag(event, app, root); handleActorTagEvent(event, root, app.actor); });
+  root.addEventListener("submit", event => handleActorTagEvent(event, root, app.actor));
   root.addEventListener("keydown", event => {
     if ((event.key === "Enter" || event.key === " ") &&
         event.target.matches(".item-description .tags .tag.eod-tag-toggle")) {
