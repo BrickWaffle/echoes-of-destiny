@@ -17,6 +17,8 @@ jobs:
           node-version: 20
       - name: Install build dependencies
         run: npm install --ignore-scripts
+      - name: Build PbtA sheet configuration
+        run: python3 tools/build-sheet-config.py
       - name: Build Foundry compendium packs
         run: npm run build:packs
       - name: Set package version from release tag
@@ -28,7 +30,7 @@ jobs:
         run: |
           mkdir -p dist/echoes-of-destiny
           cp module.json README.md LICENSE dist/echoes-of-destiny/
-          cp -R scripts styles packs dist/echoes-of-destiny/
+          cp -R scripts styles packs config dist/echoes-of-destiny/
           cd dist
           zip -r ../echoes-of-destiny.zip echoes-of-destiny
       - name: Publish release asset

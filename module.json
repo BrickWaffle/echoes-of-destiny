@@ -2,52 +2,16 @@
   "id": "echoes-of-destiny",
   "title": "Echoes of Destiny",
   "description": "Echoes of Destiny character-sheet, character-tag, and equipment-tag package for the PbtA system on Foundry VTT v14.",
-  "version": "1.2.18",
-  "compatibility": {
-    "minimum": "14",
-    "verified": "14.367"
-  },
-  "authors": [
-    {
-      "name": "BrickWaffle"
-    }
-  ],
-  "esmodules": [
-    "scripts/tag-state.js",
-    "scripts/character-sheet.js"
-  ],
-  "styles": [
-    "styles/tag-state.css",
-    "styles/character-sheet.css"
-  ],
-  "systems": [
-    "pbta"
-  ],
+  "version": "1.3.2",
+  "compatibility": {"minimum": "14", "verified": "14.367"},
+  "authors": [{"name": "BrickWaffle"}],
+  "esmodules": ["scripts/sheet-config.js", "scripts/tag-state.js", "scripts/character-sheet.js"],
+  "styles": ["styles/tag-state.css", "styles/character-sheet.css"],
+  "systems": ["pbta"],
   "packs": [
-    {
-      "name": "basic-moves",
-      "label": "Echoes of Destiny: Basic Moves",
-      "path": "packs/basic-moves",
-      "type": "Item",
-      "system": "pbta",
-      "private": false
-    },
-    {
-      "name": "playbook-moves",
-      "label": "Echoes of Destiny: Playbook Moves",
-      "path": "packs/playbook-moves",
-      "type": "Item",
-      "system": "pbta",
-      "private": false
-    },
-    {
-      "name": "playbooks",
-      "label": "Echoes of Destiny: Playbooks",
-      "path": "packs/playbooks",
-      "type": "Item",
-      "system": "pbta",
-      "private": false
-    }
+    {"name":"basic-moves","label":"Echoes of Destiny: Basic Moves","path":"packs/basic-moves","type":"Item","system":"pbta","private":false},
+    {"name":"playbook-moves","label":"Echoes of Destiny: Playbook Moves","path":"packs/playbook-moves","type":"Item","system":"pbta","private":false},
+    {"name":"playbooks","label":"Echoes of Destiny: Playbooks","path":"packs/playbooks","type":"Item","system":"pbta","private":false}
   ],
   "url": "https://github.com/BrickWaffle/echoes-of-destiny",
   "manifest": "https://raw.githubusercontent.com/BrickWaffle/echoes-of-destiny/main/module.json",
