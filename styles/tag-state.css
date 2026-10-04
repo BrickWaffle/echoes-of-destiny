@@ -3,3 +3,14 @@
 .eod-tag-toggle:focus-visible{outline:2px solid var(--color-border-highlight,#c90);outline-offset:2px}
 .eod-tag-toggle.eod-tag-unavailable{opacity:.48;text-decoration:line-through;text-decoration-thickness:1.5px}
 .eod-tag-toggle.eod-tag-unavailable .tagify__tag-text{text-decoration:line-through}
+
+.eod-actor-tags{margin:.5rem 0;padding:.5rem;border:1px solid var(--color-border-light-primary,#777);border-radius:4px}
+.eod-actor-tags h3{margin:0 0 .4rem;font-size:1rem}
+.eod-actor-tag-list{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center}
+.eod-actor-tag{display:inline-flex;align-items:center;gap:.15rem;padding:.15rem .3rem;border:1px solid var(--color-border-light-primary,#777);border-radius:4px}
+.eod-actor-tag-toggle,.eod-actor-tag-remove,.eod-actor-tag-form button{cursor:pointer}
+.eod-actor-tag-toggle{border:0;background:transparent;color:inherit}
+.eod-actor-tag.eod-tag-unavailable{opacity:.5;text-decoration:line-through}
+.eod-actor-tag-form{display:flex;gap:.35rem;margin-top:.45rem}
+.eod-actor-tag-form input{flex:1;min-width:8rem}
+.eod-actor-tags-empty{margin:0;opacity:.7}
