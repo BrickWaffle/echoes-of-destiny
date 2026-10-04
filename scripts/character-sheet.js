@@ -67,6 +67,8 @@ async function renderEchoes(app,root){
 Hooks.on("renderActorSheet",(app,html)=>{
  const root=html?.[0] instanceof HTMLElement?html[0]:html;
  if(!root||game.system.id!=="pbta"||!app.actor)return;
+ root.classList.add("eod-sheet");
+ root.dataset.eodSheetType=app.actor.sheetType||app.actor.baseType||"actor";
  hideDescriptionTab(root);
  if(app.actor.sheetType!=="character"){
   hideNonCharacterTabs(root);
