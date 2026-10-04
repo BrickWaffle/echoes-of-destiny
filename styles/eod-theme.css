@@ -1,0 +1,28 @@
+/* Echoes of Destiny galactic datapad theme */
+.pbta.sheet.actor.eod-sheet{--eod-bg:#151a1e;--eod-deep:#0d1216;--eod-panel:#20272c;--eod-panel2:#293239;--eod-line:#46545d;--eod-text:#e7e0cf;--eod-muted:#9ca7ad;--eod-gold:#d6a43b;--eod-blue:#5c89a8;--eod-blue-deep:#29475d}
+.pbta.sheet.actor.eod-sheet .window-content{background:linear-gradient(145deg,var(--eod-bg),var(--eod-deep));color:var(--eod-text);padding:10px}
+.pbta.sheet.actor.eod-sheet .sheet-wrapper{color:var(--eod-text)}
+.pbta.sheet.actor.eod-sheet .sheet-header{border-bottom:1px solid var(--eod-line);padding-bottom:8px;margin-bottom:6px}
+.pbta.sheet.actor.eod-sheet input,.pbta.sheet.actor.eod-sheet textarea,.pbta.sheet.actor.eod-sheet select{background:rgba(8,12,15,.78);color:var(--eod-text);border:1px solid var(--eod-line);border-radius:2px}
+.pbta.sheet.actor.eod-sheet input:focus,.pbta.sheet.actor.eod-sheet textarea:focus,.pbta.sheet.actor.eod-sheet select:focus{border-color:var(--eod-gold);outline:none;box-shadow:0 0 0 1px rgba(214,164,59,.35)}
+.pbta.sheet.actor.eod-sheet .profile-img{background:var(--eod-deep);border:1px solid var(--eod-line);border-radius:2px}
+.pbta.sheet.actor.eod-sheet .cell__title,.pbta.sheet.actor.eod-sheet .cell--title,.pbta.sheet.actor.eod-sheet .item-group-label{color:var(--eod-gold);letter-spacing:.035em}
+.pbta.sheet.actor.eod-sheet .stat,.pbta.sheet.actor.eod-sheet .cell--stat{background:linear-gradient(180deg,var(--eod-panel2),var(--eod-panel));border:1px solid var(--eod-blue);border-radius:2px}
+.pbta.sheet.actor.eod-sheet .sheet-tabs{border-bottom:1px solid #9f792b;gap:3px}
+.pbta.sheet.actor.eod-sheet .sheet-tabs .item{background:#1a2025;color:var(--eod-muted);border:0;border-bottom:2px solid transparent;padding:7px 12px;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.pbta.sheet.actor.eod-sheet .sheet-tabs .item.active{background:#11171b;color:var(--eod-gold);border-bottom-color:var(--eod-gold);text-shadow:none}
+.pbta.sheet.actor.eod-sheet .item{border-color:#303b42!important;background:rgba(31,39,44,.52)}
+.pbta.sheet.actor.eod-sheet .item:nth-child(even){background:rgba(41,50,57,.48)}
+.pbta.sheet.actor.eod-sheet .item:hover{background:rgba(214,164,59,.08)}
+.pbta.sheet.actor.eod-sheet .item-control,.pbta.sheet.actor.eod-sheet .item-controls a{color:var(--eod-gold)}
+.pbta.sheet.actor.eod-sheet button{background:linear-gradient(180deg,#273139,#182026);color:var(--eod-text);border:1px solid var(--eod-line);border-radius:2px}
+.pbta.sheet.actor.eod-sheet button:hover{border-color:var(--eod-gold)}
+.pbta.sheet.actor.eod-sheet .editor-content{background:rgba(7,11,14,.52);color:var(--eod-text);border:1px solid #303b42}
+.pbta.sheet.actor.eod-sheet .eod-echo-layout{background:linear-gradient(180deg,rgba(28,36,42,.88),rgba(12,17,21,.75))}
+.pbta.sheet.actor.eod-sheet .eod-echo-section h2{color:var(--eod-gold);border-bottom:1px solid #9f792b;text-transform:uppercase;letter-spacing:.055em}
+.pbta.sheet.actor.eod-sheet .eod-echo-section .notes{color:var(--eod-muted)}
+.pbta.sheet.actor.eod-sheet .eod-check{padding:4px 5px;border-left:2px solid transparent}
+.pbta.sheet.actor.eod-sheet .eod-check:hover{background:rgba(92,137,168,.09);border-left-color:var(--eod-blue)}
+.pbta.sheet.actor.eod-sheet input[type="checkbox"],.pbta.sheet.actor.eod-sheet input[type="radio"]{accent-color:var(--eod-gold)}
+.pbta.sheet.actor.eod-sheet a{color:var(--eod-blue)}
+.pbta.sheet.actor.eod-sheet a:hover{color:var(--eod-gold);text-shadow:none}
