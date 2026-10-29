@@ -100,6 +100,82 @@ class EODCharacterSheet extends ActorSheet {
       });
       if (confirmed) await item.delete();
     });
+    html.find("[data-choose-playbook]").on("click", async event => {
+      event.preventDefault();
+      if (this.actor.type !== "character") return;
+      if (this.actor.items.some(item => item.type === "playbook")) {
+        return ui.notifications.warn("This character already has a playbook.");
+      }
+      const pack = game.packs.get("echoes-of-destiny.playbooks");
+      const movePack = game.packs.get("echoes-of-destiny.playbook-moves");
+      const basicPack = game.packs.get("echoes-of-destiny.basic-moves");
+      if (!pack || !movePack || !basicPack) {
+        return ui.notifications.error("Required Echoes of Destiny compendiums are missing.");
+      }
+      const index = await pack.getIndex();
+      const options = index.contents.map(item =>
+        `<option value="${foundry.utils.escapeHTML(item._id)}">${foundry.utils.escapeHTML(item.name)}</option>`
+      ).join("");
+      const chosen = await Dialog.prompt({
+        title: "Choose Playbook",
+        content: `<form><label>Playbook <select name="playbook">${options}</select></label></form>`,
+        callback: html => html.find('[name="playbook"]').val()
+      });
+      if (!chosen) return;
+      const playbook = await pack.getDocument(chosen);
+      if (!playbook) return;
+      const attribute = playbook.system.abilityIncrease;
+      if (!ATTRIBUTES.includes(attribute)) return ui.notifications.error("Playbook has an invalid starting Attribute.");
+      const value = Number(this.actor.system.attributes?.[attribute] ?? 0);
+      if (value >= 3) return ui.notifications.warn("Starting Attribute increase would exceed +3.");
+      const moveIndex = await movePack.getIndex();
+      const basicIndex = await basicPack.getIndex();
+      const signatureId = playbook.system.signatureMove;
+      const signatureEntry = moveIndex.contents.find(item =>
+        item.flags?.["echoes-of-destiny"]?.sourceId === signatureId
+      );
+      // Pack indexes may not include custom flags. Resolve from full documents when needed.
+      const resolve = async (sourcePack, sourceIndex, sourceId) => {
+        for (const entry of sourceIndex.contents) {
+          const doc = await sourcePack.getDocument(entry._id);
+          if (doc?.getFlag("echoes-of-destiny", "sourceId") === sourceId) return doc;
+        }
+        return null;
+      };
+      const signature = signatureEntry
+        ? await movePack.getDocument(signatureEntry._id)
+        : await resolve(movePack, moveIndex, signatureId);
+      if (!signature) return ui.notifications.error("Signature Move is missing from the compendium.");
+      const basicMoves = await Promise.all(basicIndex.contents.map(entry => basicPack.getDocument(entry._id)));
+      if (basicMoves.some(item => !item) || basicMoves.length !== 3) {
+        return ui.notifications.error("The Basic Moves compendium is incomplete.");
+      }
+      const optionalMoves = [];
+      for (const sourceId of playbook.system.optionalMoves ?? []) {
+        const doc = await resolve(movePack, moveIndex, sourceId);
+        if (!doc) return ui.notifications.error("A playbook optional move is missing.");
+        optionalMoves.push(doc);
+      }
+      const optionHtml = optionalMoves.map((item, index) =>
+        `<option value="${index}">${foundry.utils.escapeHTML(item.name)}</option>`
+      ).join("");
+      const optionalChoice = await Dialog.prompt({
+        title: "Starting Optional Move",
+        content: `<p>Choose one optional move for ${foundry.utils.escapeHTML(playbook.name)}.</p><select name="optional">${optionHtml}</select>`,
+        callback: html => Number(html.find('[name="optional"]').val())
+      });
+      if (optionalChoice === null || optionalChoice === undefined || !optionalMoves[optionalChoice]) return;
+      if (this.actor.items.some(item => item.type === "playbook")) return;
+      const existing = new Set(this.actor.items.filter(item => item.type === "move")
+        .map(item => item.getFlag("echoes-of-destiny", "sourceId")));
+      const granted = [signature, ...basicMoves, optionalMoves[optionalChoice]]
+        .filter(item => !existing.has(item.getFlag("echoes-of-destiny", "sourceId")));
+      await this.actor.createEmbeddedDocuments("Item", [
+        playbook.toObject(), ...granted.map(item => item.toObject())
+      ]);
+      await this.actor.update({[`system.attributes.${attribute}`]: value + 1});
+      ui.notifications.info(`${playbook.name} selected; starting moves granted.`);
+    });
     html.find("[data-open-compendium]").on("click", event => {
       event.preventDefault();
       const pack = game.packs.get(event.currentTarget.dataset.openCompendium);
