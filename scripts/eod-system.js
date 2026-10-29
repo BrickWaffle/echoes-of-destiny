@@ -1,3 +1,11 @@
+const REFLECTION_QUESTIONS = [
+  "Did you make a meaningful connection with another character?",
+  "Did you learn something important about the galaxy?",
+  "Did you take a risk or face danger?",
+  "Did you pursue your personal goals or beliefs?",
+  "Did you create trouble, complications, or consequences?",
+  "Did you reveal something significant about your character?"
+];
 const ATTRIBUTES = ["might", "agility", "wits", "presence", "force"];
 function outcome(total) {
   if (total <= 6) return { key: "complications", label: "Complications..." };
@@ -35,12 +43,75 @@ class EODCharacterSheet extends ActorSheet {
     data.isVehicle = this.actor.type === "vehicle";
     data.isOrganization = this.actor.type === "organization";
     data.isLocation = this.actor.type === "location";
+    if (data.isCharacter) {
+      const reflection = this.actor.system.reflections ?? {};
+      const selected = Array.isArray(reflection.selected) ? reflection.selected : [];
+      const answered = Array.isArray(reflection.answered) ? reflection.answered : [];
+      data.reflectionQuestions = REFLECTION_QUESTIONS.map((question, index) => ({
+        index, question, selected: selected.includes(index), answered: answered.includes(index)
+      }));
+      data.reflectionCount = selected.length;
+      data.reflectionAwarded = reflection.awarded === true;
+      data.reflectionXP = answered.filter(index => selected.includes(index)).length;
+      data.xpBoxes = Array.from({length: 5}, (_, index) => ({
+        index, checked: index < Number(this.actor.system.xp || 0)
+      }));
+    }
     data.moves = this.actor.items.filter(i => i.type === "move");
     data.equipment = this.actor.items.filter(i => i.type === "equipment");
     return data;
   }
   activateListeners(html) {
     super.activateListeners(html);
+    html.find("[data-reflection-select]").on("change", async event => {
+      const index = Number(event.currentTarget.dataset.reflectionSelect);
+      const reflection = this.actor.system.reflections ?? {};
+      if (reflection.awarded) return this.render();
+      const selected = [...(reflection.selected ?? [])];
+      const next = event.currentTarget.checked
+        ? [...selected, index]
+        : selected.filter(value => value !== index);
+      if (next.length > 3) {
+        ui.notifications.warn("Choose no more than three Reflection Questions.");
+        return this.render();
+      }
+      await this.actor.update({
+        "system.reflections.selected": next,
+        "system.reflections.answered": (reflection.answered ?? []).filter(value => next.includes(value))
+      });
+    });
+    html.find("[data-reflection-answer]").on("change", async event => {
+      const index = Number(event.currentTarget.dataset.reflectionAnswer);
+      const reflection = this.actor.system.reflections ?? {};
+      if (reflection.awarded || !(reflection.selected ?? []).includes(index)) return this.render();
+      const answers = reflection.answered ?? [];
+      const next = event.currentTarget.checked
+        ? [...new Set([...answers, index])]
+        : answers.filter(value => value !== index);
+      await this.actor.update({"system.reflections.answered": next});
+    });
+    html.find("[data-reflection-award]").on("click", async event => {
+      event.preventDefault();
+      const reflection = this.actor.system.reflections ?? {};
+      if (reflection.awarded) return;
+      const selected = reflection.selected ?? [];
+      if (selected.length !== 3) return ui.notifications.warn("Select exactly three Reflection Questions.");
+      const earned = (reflection.answered ?? []).filter(index => selected.includes(index)).length;
+      const xp = Number(this.actor.system.xp || 0);
+      if (xp + earned > 5) return ui.notifications.warn("XP would exceed five. Spend a full XP track on an advancement first.");
+      await this.actor.update({"system.xp": xp + earned, "system.reflections.awarded": true});
+    });
+    html.find("[data-reflection-reset]").on("click", async event => {
+      event.preventDefault();
+      if (!this.actor.system.reflections?.awarded) return;
+      await this.actor.update({
+        "system.reflections.answered": [], "system.reflections.awarded": false
+      });
+    });
+    html.find("[data-xp-box]").on("change", async event => {
+      const index = Number(event.currentTarget.dataset.xpBox);
+      await this.actor.update({"system.xp": event.currentTarget.checked ? index + 1 : index});
+    });
     html.find("[data-roll-attribute]").on("click", event => {
       event.preventDefault();
       const attribute = event.currentTarget.dataset.rollAttribute;
