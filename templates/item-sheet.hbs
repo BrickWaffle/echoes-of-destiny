@@ -1,0 +1,22 @@
+<form class="eod-sheet" autocomplete="off">
+  <header class="sheet-header">
+    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" width="72" height="72"/>
+    <div class="identity">
+      <input class="actor-name" name="name" value="{{item.name}}" placeholder="Name"/>
+      <span class="actor-type">{{item.type}}</span>
+    </div>
+  </header>
+  <section class="sheet-body">
+    <label>Description<textarea name="system.description">{{item.system.description}}</textarea></label>
+    {{#if isMove}}
+      <label>Category<input name="system.category" value="{{item.system.category}}"/></label>
+      <label>Trigger<textarea name="system.trigger">{{item.system.trigger}}</textarea></label>
+    {{/if}}
+    {{#if isPlaybook}}
+      <label>Signature Move<input name="system.signatureMove" value="{{item.system.signatureMove}}"/></label>
+    {{/if}}
+    {{#if isEquipment}}
+      <p>Tag editing and exhaustion controls are planned for the equipment milestone.</p>
+    {{/if}}
+  </section>
+</form>
