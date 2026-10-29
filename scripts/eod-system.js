@@ -56,6 +56,7 @@ class EODCharacterSheet extends ActorSheet {
     }
     data.moves = this.actor.items.filter(i => i.type === "move");
     data.equipment = this.actor.items.filter(i => i.type === "equipment");
+    data.playbooks = this.actor.items.filter(i => i.type === "playbook");
     return data;
   }
   activateListeners(html) {
@@ -75,6 +76,35 @@ class EODCharacterSheet extends ActorSheet {
     html.find("[data-xp-box]").on("change", async event => {
       const index = Number(event.currentTarget.dataset.xpBox);
       await this.actor.update({"system.xp": event.currentTarget.checked ? index + 1 : index});
+    });
+    html.find("[data-create-item]").on("click", async event => {
+      event.preventDefault();
+      const type = event.currentTarget.dataset.createItem;
+      if (!["move", "equipment", "playbook"].includes(type)) return;
+      const item = await this.actor.createEmbeddedDocuments("Item", [{
+        name: type === "move" ? "New Move" : type === "equipment" ? "New Equipment" : "New Playbook",
+        type
+      }]);
+      item[0]?.sheet.render(true);
+    });
+    html.find("[data-edit-item]").on("click", event => {
+      event.preventDefault();
+      this.actor.items.get(event.currentTarget.dataset.editItem)?.sheet.render(true);
+    });
+    html.find("[data-delete-item]").on("click", async event => {
+      event.preventDefault();
+      const item = this.actor.items.get(event.currentTarget.dataset.deleteItem);
+      if (!item) return;
+      const confirmed = await Dialog.confirm({
+        title: "Remove Item", content: `<p>Remove ${foundry.utils.escapeHTML(item.name)} from ${foundry.utils.escapeHTML(this.actor.name)}?</p>`
+      });
+      if (confirmed) await item.delete();
+    });
+    html.find("[data-open-compendium]").on("click", event => {
+      event.preventDefault();
+      const pack = game.packs.get(event.currentTarget.dataset.openCompendium);
+      if (pack) pack.render(true);
+      else ui.notifications.warn("This compendium is not installed yet.");
     });
     html.find("[data-roll-attribute]").on("click", event => {
       event.preventDefault();
