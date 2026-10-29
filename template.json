@@ -92,7 +92,9 @@
         "common"
       ],
       "category": "basic",
-      "trigger": ""
+      "trigger": "",
+      "playbook": "",
+      "results": {}
     },
     "equipment": {
       "templates": [
@@ -107,7 +109,9 @@
       ],
       "signatureMove": "",
       "optionalMoves": [],
-      "echoQuestions": []
+      "echoQuestions": [],
+      "abilityIncrease": "",
+      "slug": ""
     }
   }
 }
