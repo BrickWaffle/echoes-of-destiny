@@ -18,3 +18,13 @@
 .eod-sheet .tab label{display:block;margin:10px 0}
 .eod-sheet .tab textarea{width:100%;min-height:100px}
 .eod-sheet .item-row{padding:8px;border-bottom:1px solid #46545d}
+
+.eod-sheet .eod-reflections{margin:12px 0;padding:12px;background:#20272c;border:1px solid #46545d}
+.eod-sheet .eod-reflections h3{color:#d6a43b;margin:8px 0}
+.eod-sheet .eod-xp-track{display:flex;gap:12px;margin:8px 0 16px}
+.eod-sheet .eod-xp-track label{margin:0}
+.eod-sheet .eod-reflection-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:7px 0;border-bottom:1px solid #46545d}
+.eod-sheet .eod-reflection-row>label:first-child{flex:1;margin:0}
+.eod-sheet .eod-reflection-yes{white-space:nowrap;margin:0}
+.eod-sheet .eod-reflections input[type="checkbox"]{accent-color:#d6a43b}
+.eod-sheet .eod-reflections button{background:#293239;color:#d6a43b;border:1px solid #5c89a8;padding:6px 12px}
