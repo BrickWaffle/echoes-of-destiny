@@ -78,6 +78,7 @@
         <div class="item-row"><span>{{name}}</span><span><button type="button" data-edit-item="{{id}}">Edit</button><button type="button" data-delete-item="{{id}}">Remove</button></span></div>
       {{else}}<p>No moves yet.</p>{{/each}}
       <h3>Playbook</h3>
+      {{#unless playbooks.length}}<button type="button" data-choose-playbook>Choose Playbook and Starting Moves</button>{{/unless}}
       <button type="button" data-open-compendium="echoes-of-destiny.playbooks">Browse Playbooks</button>
       {{#each playbooks}}
         <div class="item-row"><span>{{name}}</span><span><button type="button" data-edit-item="{{id}}">Edit</button><button type="button" data-delete-item="{{id}}">Remove</button></span></div>
