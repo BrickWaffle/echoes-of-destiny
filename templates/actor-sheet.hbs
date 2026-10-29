@@ -63,12 +63,25 @@
     </div>
     <div class="tab" data-group="primary" data-tab="equipment">
       <h3>Equipment</h3>
-      {{#each equipment}}<div class="item-row">{{name}}</div>{{else}}<p>No equipment yet.</p>{{/each}}
+      <button type="button" data-create-item="equipment">Add Equipment</button>
+      {{#each equipment}}
+        <div class="item-row"><span>{{name}}</span><span><button type="button" data-edit-item="{{id}}">Edit</button><button type="button" data-delete-item="{{id}}">Remove</button></span></div>
+      {{else}}<p>No equipment yet.</p>{{/each}}
     </div>
     {{#if isCharacter}}
     <div class="tab" data-group="primary" data-tab="moves">
       <h3>Moves</h3>
-      {{#each moves}}<div class="item-row">{{name}}</div>{{else}}<p>No moves yet.</p>{{/each}}
+      <button type="button" data-create-item="move">Add Move</button>
+      <button type="button" data-open-compendium="echoes-of-destiny.basic-moves">Browse Basic Moves</button>
+      <button type="button" data-open-compendium="echoes-of-destiny.playbook-moves">Browse Playbook Moves</button>
+      {{#each moves}}
+        <div class="item-row"><span>{{name}}</span><span><button type="button" data-edit-item="{{id}}">Edit</button><button type="button" data-delete-item="{{id}}">Remove</button></span></div>
+      {{else}}<p>No moves yet.</p>{{/each}}
+      <h3>Playbook</h3>
+      <button type="button" data-open-compendium="echoes-of-destiny.playbooks">Browse Playbooks</button>
+      {{#each playbooks}}
+        <div class="item-row"><span>{{name}}</span><span><button type="button" data-edit-item="{{id}}">Edit</button><button type="button" data-delete-item="{{id}}">Remove</button></span></div>
+      {{/each}}
     </div>
     <div class="tab" data-group="primary" data-tab="echoes">
       <h3>Echoes of the Past</h3>
