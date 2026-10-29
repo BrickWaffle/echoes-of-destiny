@@ -5,8 +5,8 @@
       <input class="actor-name" name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
       <div class="actor-type">{{actor.type}}</div>
       {{#if isCharacter}}
-      <label>Species <input name="system.species" value="{{system.species}}"/></label>
-      <label>Look <input name="system.look" value="{{system.look}}"/></label>
+      <label>Species <input name="system.species" value="{{actor.system.species}}"/></label>
+      <label>Look <input name="system.look" value="{{actor.system.look}}"/></label>
       {{/if}}
     </div>
   </header>
@@ -28,21 +28,21 @@
   <section class="sheet-body">
     <div class="tab" data-group="primary" data-tab="details">
       <label>Description</label>
-      <textarea name="system.description">{{system.description}}</textarea>
+      <textarea name="system.description">{{actor.system.description}}</textarea>
       {{#if isCharacter}}
-        <label>Vice <input name="system.vice" value="{{system.vice}}"/></label>
-        <label>XP <input type="number" name="system.xp" value="{{system.xp}}" min="0"/></label>
-        <label>Reflections <input type="number" name="system.reflections" value="{{system.reflections}}" min="0" max="3"/></label>
+        <label>Vice <input name="system.vice" value="{{actor.system.vice}}"/></label>
+        <label>XP <input type="number" name="system.xp" value="{{actor.system.xp}}" min="0"/></label>
+        <label>Reflections <input type="number" name="system.reflections" value="{{actor.system.reflections}}" min="0" max="3"/></label>
       {{/if}}
       {{#if isOrganization}}
-        <label>Influence <input type="number" name="system.influence" value="{{system.influence}}"/></label>
-        <label>Resources <input type="number" name="system.resources" value="{{system.resources}}"/></label>
-        <label>Reputation <input type="number" name="system.reputation" value="{{system.reputation}}"/></label>
-        <label>Hidden Agenda <textarea name="system.agenda">{{system.agenda}}</textarea></label>
+        <label>Influence <input type="number" name="system.influence" value="{{actor.system.influence}}"/></label>
+        <label>Resources <input type="number" name="system.resources" value="{{actor.system.resources}}"/></label>
+        <label>Reputation <input type="number" name="system.reputation" value="{{actor.system.reputation}}"/></label>
+        <label>Hidden Agenda <textarea name="system.agenda">{{actor.system.agenda}}</textarea></label>
       {{/if}}
       <h3>Conditions</h3>
-      {{#each system.conditions}}
-        <input name="system.conditions.{{@index}}" value="{{this}}" placeholder="Condition"/>
+      {{#each actor.system.conditions}}
+        <input name="system.conditions.{{@key}}" value="{{this}}" placeholder="Condition"/>
       {{/each}}
     </div>
     <div class="tab" data-group="primary" data-tab="equipment">
