@@ -1,0 +1,73 @@
+{
+  "Actor": {
+    "types": [
+      "character",
+      "npc",
+      "vehicle",
+      "location",
+      "organization"
+    ],
+    "templates": {
+      "common": {
+        "description": "",
+        "conditions": [
+          "",
+          "",
+          ""
+        ]
+      },
+      "attributes": {
+        "might": 0,
+        "agility": 0,
+        "wits": 0,
+        "presence": 0,
+        "force": 0
+      },
+      "character": {
+        "species": "",
+        "look": "",
+        "vice": "",
+        "xp": 0,
+        "reflections": 0,
+        "echoes": {
+          "past": [],
+          "destiny": []
+        }
+      },
+      "npc": {},
+      "vehicle": {},
+      "location": {},
+      "organization": {
+        "influence": 0,
+        "resources": 0,
+        "reputation": 0,
+        "agenda": ""
+      }
+    }
+  },
+  "Item": {
+    "types": [
+      "move",
+      "equipment",
+      "playbook"
+    ],
+    "templates": {
+      "common": {
+        "description": ""
+      },
+      "move": {
+        "category": "basic",
+        "trigger": ""
+      },
+      "equipment": {
+        "tags": [],
+        "exhaustedTags": []
+      },
+      "playbook": {
+        "signatureMove": "",
+        "optionalMoves": [],
+        "echoQuestions": []
+      }
+    }
+  }
+}
