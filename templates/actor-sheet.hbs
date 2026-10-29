@@ -31,8 +31,31 @@
       <textarea name="system.description">{{actor.system.description}}</textarea>
       {{#if isCharacter}}
         <label>Vice <input name="system.vice" value="{{actor.system.vice}}"/></label>
-        <label>XP <input type="number" name="system.xp" value="{{actor.system.xp}}" min="0"/></label>
-        <label>Reflections <input type="number" name="system.reflections" value="{{actor.system.reflections}}" min="0" max="3"/></label>
+        <section class="eod-reflections">
+          <h3>XP Track</h3>
+          <div class="eod-xp-track">
+            {{#each xpBoxes}}
+              <label><input type="checkbox" data-xp-box="{{index}}" {{#if checked}}checked{{/if}} aria-label="XP box {{index}}"/></label>
+            {{/each}}
+          </div>
+          <h3>Reflections</h3>
+          <p>Choose three questions as your roleplaying goals. At session's end, answer Yes to those you fulfilled and award one XP for each.</p>
+          <div class="eod-reflection-list">
+            {{#each reflectionQuestions}}
+              <div class="eod-reflection-row">
+                <label><input type="checkbox" data-reflection-select="{{index}}" {{#if selected}}checked{{/if}} {{#if ../reflectionAwarded}}disabled{{/if}}/> {{question}}</label>
+                <label class="eod-reflection-yes"><input type="checkbox" data-reflection-answer="{{index}}" {{#if answered}}checked{{/if}} {{#unless selected}}disabled{{/unless}} {{#if ../reflectionAwarded}}disabled{{/if}}/> Yes</label>
+              </div>
+            {{/each}}
+          </div>
+          <p>{{reflectionCount}} of 3 selected · {{reflectionXP}} XP earned this session</p>
+          {{#if reflectionAwarded}}
+            <p>Session XP awarded. Begin the next session to clear answers and choose new questions.</p>
+            <button type="button" data-reflection-reset>Begin Next Session</button>
+          {{else}}
+            <button type="button" data-reflection-award>Award Session XP</button>
+          {{/if}}
+        </section>
       {{/if}}
       {{#if isOrganization}}
         <label>Influence <input type="number" name="system.influence" value="{{actor.system.influence}}"/></label>
