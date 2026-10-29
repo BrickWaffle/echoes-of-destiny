@@ -1,0 +1,20 @@
+.eod.sheet.actor .window-content{background:#151a1e;color:#e7e0cf;padding:12px}
+.eod-sheet{height:100%;display:flex;flex-direction:column;gap:12px}
+.eod-sheet .sheet-header{display:flex;gap:16px;align-items:center}
+.eod-sheet .profile-img{object-fit:cover;border:1px solid #5c89a8}
+.eod-sheet .identity{flex:1;display:grid;gap:5px}
+.eod-sheet .actor-name{font-size:24px}
+.eod-sheet .actor-type{text-transform:uppercase;letter-spacing:.12em;color:#d6a43b}
+.eod-sheet input,.eod-sheet textarea{background:#0d1216;color:#e7e0cf;border:1px solid #46545d;padding:5px}
+.eod-sheet .attributes{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.eod-sheet .attribute{display:flex;flex-direction:column;background:#20272c;padding:8px;border:1px solid #5c89a8}
+.eod-sheet .attribute button{color:#d6a43b;background:#293239}
+.eod-sheet .sheet-tabs{display:flex;border-bottom:1px solid #d6a43b;gap:10px}
+.eod-sheet .sheet-tabs a{padding:6px 10px;text-transform:uppercase}
+.eod-sheet .sheet-tabs a.active{color:#d6a43b;border-bottom:2px solid #d6a43b}
+.eod-sheet .sheet-body{overflow:auto;flex:1}
+.eod-sheet .tab{display:none}
+.eod-sheet .tab.active{display:block}
+.eod-sheet .tab label{display:block;margin:10px 0}
+.eod-sheet .tab textarea{width:100%;min-height:100px}
+.eod-sheet .item-row{padding:8px;border-bottom:1px solid #46545d}
