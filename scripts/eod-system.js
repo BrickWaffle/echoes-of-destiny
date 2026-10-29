@@ -46,13 +46,10 @@ class EODCharacterSheet extends ActorSheet {
     if (data.isCharacter) {
       const reflection = this.actor.system.reflections ?? {};
       const selected = Array.isArray(reflection.selected) ? reflection.selected : [];
-      const answered = Array.isArray(reflection.answered) ? reflection.answered : [];
       data.reflectionQuestions = REFLECTION_QUESTIONS.map((question, index) => ({
-        index, question, selected: selected.includes(index), answered: answered.includes(index)
+        index, question, selected: selected.includes(index)
       }));
       data.reflectionCount = selected.length;
-      data.reflectionAwarded = reflection.awarded === true;
-      data.reflectionXP = answered.filter(index => selected.includes(index)).length;
       data.xpBoxes = Array.from({length: 5}, (_, index) => ({
         index, checked: index < Number(this.actor.system.xp || 0)
       }));
@@ -65,9 +62,7 @@ class EODCharacterSheet extends ActorSheet {
     super.activateListeners(html);
     html.find("[data-reflection-select]").on("change", async event => {
       const index = Number(event.currentTarget.dataset.reflectionSelect);
-      const reflection = this.actor.system.reflections ?? {};
-      if (reflection.awarded) return this.render();
-      const selected = [...(reflection.selected ?? [])];
+      const selected = [...(this.actor.system.reflections?.selected ?? [])];
       const next = event.currentTarget.checked
         ? [...selected, index]
         : selected.filter(value => value !== index);
@@ -75,38 +70,7 @@ class EODCharacterSheet extends ActorSheet {
         ui.notifications.warn("Choose no more than three Reflection Questions.");
         return this.render();
       }
-      await this.actor.update({
-        "system.reflections.selected": next,
-        "system.reflections.answered": (reflection.answered ?? []).filter(value => next.includes(value))
-      });
-    });
-    html.find("[data-reflection-answer]").on("change", async event => {
-      const index = Number(event.currentTarget.dataset.reflectionAnswer);
-      const reflection = this.actor.system.reflections ?? {};
-      if (reflection.awarded || !(reflection.selected ?? []).includes(index)) return this.render();
-      const answers = reflection.answered ?? [];
-      const next = event.currentTarget.checked
-        ? [...new Set([...answers, index])]
-        : answers.filter(value => value !== index);
-      await this.actor.update({"system.reflections.answered": next});
-    });
-    html.find("[data-reflection-award]").on("click", async event => {
-      event.preventDefault();
-      const reflection = this.actor.system.reflections ?? {};
-      if (reflection.awarded) return;
-      const selected = reflection.selected ?? [];
-      if (selected.length !== 3) return ui.notifications.warn("Select exactly three Reflection Questions.");
-      const earned = (reflection.answered ?? []).filter(index => selected.includes(index)).length;
-      const xp = Number(this.actor.system.xp || 0);
-      if (xp + earned > 5) return ui.notifications.warn("XP would exceed five. Spend a full XP track on an advancement first.");
-      await this.actor.update({"system.xp": xp + earned, "system.reflections.awarded": true});
-    });
-    html.find("[data-reflection-reset]").on("click", async event => {
-      event.preventDefault();
-      if (!this.actor.system.reflections?.awarded) return;
-      await this.actor.update({
-        "system.reflections.answered": [], "system.reflections.awarded": false
-      });
+      await this.actor.update({"system.reflections.selected": next});
     });
     html.find("[data-xp-box]").on("change", async event => {
       const index = Number(event.currentTarget.dataset.xpBox);
