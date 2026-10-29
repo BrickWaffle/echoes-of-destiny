@@ -39,22 +39,15 @@
             {{/each}}
           </div>
           <h3>Reflections</h3>
-          <p>Choose three questions as your roleplaying goals. At session's end, answer Yes to those you fulfilled and award one XP for each.</p>
+          <p>Select up to three questions for the session. Discuss them with the Director at session's end, then mark earned XP directly on the track above.</p>
           <div class="eod-reflection-list">
             {{#each reflectionQuestions}}
               <div class="eod-reflection-row">
-                <label><input type="checkbox" data-reflection-select="{{index}}" {{#if selected}}checked{{/if}} {{#if ../reflectionAwarded}}disabled{{/if}}/> {{question}}</label>
-                <label class="eod-reflection-yes"><input type="checkbox" data-reflection-answer="{{index}}" {{#if answered}}checked{{/if}} {{#unless selected}}disabled{{/unless}} {{#if ../reflectionAwarded}}disabled{{/if}}/> Yes</label>
+                <label><input type="checkbox" data-reflection-select="{{index}}" {{#if selected}}checked{{/if}}/> {{question}}</label>
               </div>
             {{/each}}
           </div>
-          <p>{{reflectionCount}} of 3 selected · {{reflectionXP}} XP earned this session</p>
-          {{#if reflectionAwarded}}
-            <p>Session XP awarded. Begin the next session to clear answers and choose new questions.</p>
-            <button type="button" data-reflection-reset>Begin Next Session</button>
-          {{else}}
-            <button type="button" data-reflection-award>Award Session XP</button>
-          {{/if}}
+          <p>{{reflectionCount}} of 3 selected</p>
         </section>
       {{/if}}
       {{#if isOrganization}}
