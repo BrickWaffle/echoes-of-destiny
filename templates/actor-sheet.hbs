@@ -1,0 +1,65 @@
+<form class="eod-sheet" autocomplete="off">
+  <header class="sheet-header">
+    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" width="96" height="96"/>
+    <div class="identity">
+      <input class="actor-name" name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
+      <div class="actor-type">{{actor.type}}</div>
+      {{#if isCharacter}}
+      <label>Species <input name="system.species" value="{{system.species}}"/></label>
+      <label>Look <input name="system.look" value="{{system.look}}"/></label>
+      {{/if}}
+    </div>
+  </header>
+  {{#if isCharacter}}
+  <section class="attributes">
+    {{#each attributes}}
+      <div class="attribute">
+        <button type="button" data-roll-attribute="{{key}}" title="Roll {{label}} (Shift: Advantage, Alt: Disadvantage)">{{label}}</button>
+        <input type="number" name="system.attributes.{{key}}" value="{{value}}" min="-2" max="3"/>
+      </div>
+    {{/each}}
+  </section>
+  {{/if}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="details">Details</a>
+    <a class="item" data-tab="equipment">Equipment</a>
+    {{#if isCharacter}}<a class="item" data-tab="moves">Moves</a><a class="item" data-tab="echoes">Echoes</a>{{/if}}
+  </nav>
+  <section class="sheet-body">
+    <div class="tab" data-group="primary" data-tab="details">
+      <label>Description</label>
+      <textarea name="system.description">{{system.description}}</textarea>
+      {{#if isCharacter}}
+        <label>Vice <input name="system.vice" value="{{system.vice}}"/></label>
+        <label>XP <input type="number" name="system.xp" value="{{system.xp}}" min="0"/></label>
+        <label>Reflections <input type="number" name="system.reflections" value="{{system.reflections}}" min="0" max="3"/></label>
+      {{/if}}
+      {{#if isOrganization}}
+        <label>Influence <input type="number" name="system.influence" value="{{system.influence}}"/></label>
+        <label>Resources <input type="number" name="system.resources" value="{{system.resources}}"/></label>
+        <label>Reputation <input type="number" name="system.reputation" value="{{system.reputation}}"/></label>
+        <label>Hidden Agenda <textarea name="system.agenda">{{system.agenda}}</textarea></label>
+      {{/if}}
+      <h3>Conditions</h3>
+      {{#each system.conditions}}
+        <input name="system.conditions.{{@index}}" value="{{this}}" placeholder="Condition"/>
+      {{/each}}
+    </div>
+    <div class="tab" data-group="primary" data-tab="equipment">
+      <h3>Equipment</h3>
+      {{#each equipment}}<div class="item-row">{{name}}</div>{{else}}<p>No equipment yet.</p>{{/each}}
+    </div>
+    {{#if isCharacter}}
+    <div class="tab" data-group="primary" data-tab="moves">
+      <h3>Moves</h3>
+      {{#each moves}}<div class="item-row">{{name}}</div>{{else}}<p>No moves yet.</p>{{/each}}
+    </div>
+    <div class="tab" data-group="primary" data-tab="echoes">
+      <h3>Echoes of the Past</h3>
+      <p>Echo tracking is planned for the next milestone.</p>
+      <h3>Echoes of Destiny</h3>
+      <p>Echo tracking is planned for the next milestone.</p>
+    </div>
+    {{/if}}
+  </section>
+</form>
