@@ -49,6 +49,22 @@ class EODCharacterSheet extends ActorSheet {
     });
   }
 }
+class EODItemSheet extends ItemSheet {
+  static get defaultOptions() {
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      classes: ["eod", "sheet", "item"],
+      template: "systems/echoes-of-destiny/templates/item-sheet.hbs",
+      width: 520, height: 450, resizable: true
+    });
+  }
+  getData(options = {}) {
+    const data = super.getData(options);
+    data.isMove = this.item.type === "move";
+    data.isEquipment = this.item.type === "equipment";
+    data.isPlaybook = this.item.type === "playbook";
+    return data;
+  }
+}
 Hooks.once("init", () => {
   CONFIG.Actor.documentClass = EODActor;
   Actors.unregisterSheet("core", ActorSheet);
@@ -56,6 +72,11 @@ Hooks.once("init", () => {
     types: ["character", "npc", "vehicle", "location", "organization"],
     makeDefault: true,
     label: "Echoes of Destiny Sheet"
+  });
+  Items.unregisterSheet("core", ItemSheet);
+  Items.registerSheet("echoes-of-destiny", EODItemSheet, {
+    types: ["move", "equipment", "playbook"], makeDefault: true,
+    label: "Echoes of Destiny Item Sheet"
   });
   console.info("Echoes of Destiny | Standalone system initialized");
 });
