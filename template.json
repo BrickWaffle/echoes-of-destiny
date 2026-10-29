@@ -33,11 +33,24 @@
       "look": "",
       "vice": "",
       "xp": 0,
-      "reflections": 0,
+      "reflections": {
+        "selected": [],
+        "answered": [],
+        "awarded": false
+      },
       "echoes": {
         "past": [],
         "destiny": []
-      }
+      },
+      "advancements": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
     },
     "npc": {
       "templates": [
