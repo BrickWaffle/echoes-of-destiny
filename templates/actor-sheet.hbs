@@ -69,7 +69,7 @@
         {{/if}}
         <label>Description</label><textarea name="system.description">{{actor.system.description}}</textarea>
         {{#if isVehicle}}
-          <h3>Equipment</h3>
+          <h3 class="eod-section-spaced">Equipment</h3>
           {{#each equipment}}<div class="item-row"><div class="eod-gear-info"><button type="button" class="eod-item-name" data-edit-item="{{id}}">{{name}}</button><div class="eod-tag-list">{{#each tags}}<button type="button" class="eod-tag {{#if exhausted}}is-exhausted{{/if}}" data-tag-item="{{../id}}" data-tag-toggle="{{index}}">{{name}}{{#if exhausted}} (Exhausted){{/if}}</button>{{/each}}</div></div><span><button type="button" data-delete-item="{{id}}">Remove</button></span></div>{{else}}<p>No equipment yet.</p>{{/each}}
           <button type="button" data-create-item="equipment">Add Equipment</button>
         {{/if}}
@@ -89,7 +89,7 @@
       <div class="tab" data-group="primary" data-tab="moves">
         <h3>Basic Moves</h3>
         {{#each basicMoves}}<div class="item-row"><div class="eod-move-info"><button type="button" class="eod-item-name" data-edit-item="{{id}}">{{name}}</button>{{#if description}}: {{description}}{{/if}}</div><span><button type="button" data-delete-item="{{id}}">Remove</button></span></div>{{else}}<p>No Basic Moves yet.</p>{{/each}}
-        <h3>Playbook Moves</h3>
+        <h3 class="eod-section-spaced">Playbook Moves</h3>
         {{#each playbookMoves}}<div class="item-row"><div class="eod-move-info"><button type="button" class="eod-item-name" data-edit-item="{{id}}">{{name}}</button>{{#if description}}: {{description}}{{/if}}</div><span><button type="button" data-delete-item="{{id}}">Remove</button></span></div>{{else}}<p>No Playbook Moves yet.</p>{{/each}}
       </div>
       <div class="tab" data-group="primary" data-tab="echoes">
