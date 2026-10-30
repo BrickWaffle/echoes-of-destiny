@@ -49,6 +49,7 @@ for (const [pack, entries] of packs) {
       type: playbook ? "playbook" : "move",
       img: playbook ? "icons/svg/book.svg" : "icons/svg/d20.svg",
       system,
+      ...(folderIds.has(entry.playbook) ? {folder: folderIds.get(entry.playbook)} : {}),
       flags: {"echoes-of-destiny": {sourceId}}
     };
     await fs.writeFile(path.join(source, sourceId + ".json"), JSON.stringify(document, null, 2) + "\n");
