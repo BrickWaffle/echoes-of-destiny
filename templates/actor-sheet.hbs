@@ -38,6 +38,16 @@
               <label><input type="checkbox" data-xp-box="{{index}}" {{#if checked}}checked{{/if}} aria-label="XP box {{index}}"/></label>
             {{/each}}
           </div>
+          <h3>Advancement</h3>
+          <p>Each advancement costs 5 XP and may be taken once. Completed choices remain marked.</p>
+          <div class="eod-advancement-list">
+            {{#each advancementRows}}
+              <div class="eod-advancement-row">
+                <span>{{#if completed}}✓ {{/if}}{{label}}</span>
+                <button type="button" data-advance="{{index}}" {{#if completed}}disabled{{/if}}>{{#if completed}}Taken{{else}}Spend 5 XP{{/if}}</button>
+              </div>
+            {{/each}}
+          </div>
           <h3>Reflections</h3>
           <p>Select up to three questions for the session. Discuss them with the Director at session's end, then mark earned XP directly on the track above.</p>
           <div class="eod-reflection-list">
