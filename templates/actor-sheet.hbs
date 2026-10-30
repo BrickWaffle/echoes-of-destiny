@@ -5,8 +5,27 @@
       <input class="actor-name" name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
       <div class="actor-type">{{actor.type}}</div>
       {{#if isCharacter}}
-      <label>Species <input name="system.species" value="{{actor.system.species}}"/></label>
-      <label>Look <input name="system.look" value="{{actor.system.look}}"/></label>
+        <div class="eod-header-fields">
+          <label>Playbook
+            {{#if selectedPlaybook}}<span class="eod-playbook-selected">{{selectedPlaybook}}</span>
+            {{else}}<select data-select-playbook><option value="">Choose Playbook</option>{{#each playbookChoices}}<option value="{{id}}">{{name}}</option>{{/each}}</select>{{/if}}
+          </label>
+          <label>Look <input name="system.look" value="{{actor.system.look}}"/></label>
+          <label>Vice <input name="system.vice" value="{{actor.system.vice}}"/></label>
+        </div>
+        <div class="eod-species-row">
+          <label>Species <input name="system.species" value="{{actor.system.species}}"/></label>
+          <div class="eod-inline-tags"><div class="eod-tag-list">{{#each actorTags}}<button type="button" class="eod-tag {{#if exhausted}}is-exhausted{{/if}}" data-actor-tag-toggle="{{index}}">{{name}}{{#if exhausted}} (Exhausted){{/if}}</button>{{/each}}</div><button type="button" data-edit-actor-tags>Edit Tags</button></div>
+        </div>
+      {{else if isNpc}}
+        <div class="eod-header-fields">
+          <label>Species <input name="system.species" value="{{actor.system.species}}"/></label>
+          <label>Look <input name="system.look" value="{{actor.system.look}}"/></label>
+          <label>Vice <input name="system.vice" value="{{actor.system.vice}}"/></label>
+        </div>
+      {{else if isVehicle}}
+        <div class="eod-species-row"><label>Model <input name="system.model" value="{{actor.system.model}}"/></label>
+        <div class="eod-inline-tags"><div class="eod-tag-list">{{#each actorTags}}<button type="button" class="eod-tag {{#if exhausted}}is-exhausted{{/if}}" data-actor-tag-toggle="{{index}}">{{name}}{{#if exhausted}} (Exhausted){{/if}}</button>{{/each}}</div><button type="button" data-edit-actor-tags>Edit Tags</button></div></div>
       {{/if}}
     </div>
   </header>
@@ -22,102 +41,68 @@
   {{/if}}
   <nav class="sheet-tabs tabs" data-group="primary">
     <a class="item" data-tab="details">Details</a>
-    <a class="item" data-tab="equipment">Equipment</a>
-    {{#if isCharacter}}<a class="item" data-tab="moves">Moves</a><a class="item" data-tab="echoes">Echoes</a>{{/if}}
+    {{#if isCharacter}}<a class="item" data-tab="equipment">Equipment</a><a class="item" data-tab="moves">Moves</a><a class="item" data-tab="echoes">Echoes</a>{{/if}}
+    {{#if isVehicle}}<a class="item" data-tab="equipment">Equipment</a>{{/if}}
   </nav>
   <section class="sheet-body">
     <div class="tab" data-group="primary" data-tab="details">
-      {{#if hasActorTags}}
-        <section class="eod-actor-tags">
-          <h3>{{#if isCharacter}}Species & Character Tags{{else}}Tags{{/if}}</h3>
-          <button type="button" data-edit-actor-tags>Edit Tags</button>
-          <div class="eod-tag-list">
-            {{#each actorTags}}
-              <button type="button" class="eod-tag {{#if exhausted}}is-exhausted{{/if}}" data-actor-tag-toggle="{{index}}" title="Toggle exhausted/available">{{name}}{{#if exhausted}} (Exhausted){{/if}}</button>
-            {{else}}<p>No tags yet.</p>{{/each}}
-          </div>
-        </section>
-      {{/if}}
-      <label>Description</label>
-      <textarea name="system.description">{{actor.system.description}}</textarea>
       {{#if isCharacter}}
-        <label>Vice <input name="system.vice" value="{{actor.system.vice}}"/></label>
+        <h3>Conditions</h3>
+        <div class="eod-condition-row">{{#each actor.system.conditions}}<input name="system.conditions.{{@key}}" value="{{this}}" placeholder="Condition"/>{{/each}}</div>
         <section class="eod-reflections">
+          <h3>Reflections</h3>
+          <p>Select up to three questions for the session. Discuss them with the Director at session's end, then mark earned XP directly on the track below.</p>
+          <div class="eod-reflection-list">{{#each reflectionQuestions}}<div class="eod-reflection-row"><label><input type="checkbox" data-reflection-select="{{index}}" {{#if selected}}checked{{/if}}/> {{question}}</label></div>{{/each}}</div>
+          <p>{{reflectionCount}} of 3 selected</p>
           <h3>XP Track</h3>
-          <div class="eod-xp-track">
-            {{#each xpBoxes}}
-              <label><input type="checkbox" data-xp-box="{{index}}" {{#if checked}}checked{{/if}} aria-label="XP box {{index}}"/></label>
-            {{/each}}
-          </div>
+          <div class="eod-xp-track">{{#each xpBoxes}}<label><input type="checkbox" data-xp-box="{{index}}" {{#if checked}}checked{{/if}} aria-label="XP box {{index}}"/></label>{{/each}}</div>
           <h3>Advancement</h3>
           <p>Each advancement costs 5 XP and may be taken once. Completed choices remain marked.</p>
-          <div class="eod-advancement-list">
-            {{#each advancementRows}}
-              <div class="eod-advancement-row">
-                <span>{{#if completed}}✓ {{/if}}{{label}}</span>
-                <button type="button" data-advance="{{index}}" {{#if completed}}disabled{{/if}}>{{#if completed}}Taken{{else}}Spend 5 XP{{/if}}</button>
-              </div>
-            {{/each}}
-          </div>
-          <h3>Reflections</h3>
-          <p>Select up to three questions for the session. Discuss them with the Director at session's end, then mark earned XP directly on the track above.</p>
-          <div class="eod-reflection-list">
-            {{#each reflectionQuestions}}
-              <div class="eod-reflection-row">
-                <label><input type="checkbox" data-reflection-select="{{index}}" {{#if selected}}checked{{/if}}/> {{question}}</label>
-              </div>
-            {{/each}}
-          </div>
-          <p>{{reflectionCount}} of 3 selected</p>
+          <div class="eod-advancement-list">{{#each advancementRows}}<div class="eod-advancement-row"><span>{{#if completed}}✓ {{/if}}{{label}}</span><button type="button" data-advance="{{index}}" {{#if completed}}disabled{{/if}}>{{#if completed}}Taken{{else}}Spend 5 XP{{/if}}</button></div>{{/each}}</div>
         </section>
+      {{else}}
+        {{#if hasActorTags}}
+          <section class="eod-actor-tags">
+            <h3>{{#if isNpc}}Species & NPC Tags{{else if isVehicle}}Vehicle Tags{{else}}Tags{{/if}}</h3>
+            <div class="eod-inline-tags"><div class="eod-tag-list">{{#each actorTags}}<button type="button" class="eod-tag {{#if exhausted}}is-exhausted{{/if}}" data-actor-tag-toggle="{{index}}">{{name}}{{#if exhausted}} (Exhausted){{/if}}</button>{{/each}}</div><button type="button" data-edit-actor-tags>Edit Tags</button></div>
+          </section>
+        {{/if}}
+        <label>Description</label><textarea name="system.description">{{actor.system.description}}</textarea>
+        {{#if isOrganization}}{{#if showHiddenAgenda}}
+          <label>Hidden Agenda <textarea name="system.agenda">{{actor.system.agenda}}</textarea></label>
+        {{/if}}{{/if}}
       {{/if}}
-      {{#if isOrganization}}
-        <label>Influence <input type="number" name="system.influence" value="{{actor.system.influence}}"/></label>
-        <label>Resources <input type="number" name="system.resources" value="{{actor.system.resources}}"/></label>
-        <label>Reputation <input type="number" name="system.reputation" value="{{actor.system.reputation}}"/></label>
-        <label>Hidden Agenda <textarea name="system.agenda">{{actor.system.agenda}}</textarea></label>
-      {{/if}}
-      <h3>Conditions</h3>
-      {{#each actor.system.conditions}}
-        <input name="system.conditions.{{@key}}" value="{{this}}" placeholder="Condition"/>
-      {{/each}}
-    </div>
-    <div class="tab" data-group="primary" data-tab="equipment">
-      <h3>Equipment</h3>
-      <button type="button" data-create-item="equipment">Add Equipment</button>
-      {{#each equipment}}
-        <div class="item-row"><div class="eod-gear-info"><strong>{{name}}</strong><div class="eod-tag-list">{{#each tags}}<button type="button" class="eod-tag {{#if exhausted}}is-exhausted{{/if}}" data-tag-item="{{../id}}" data-tag-toggle="{{index}}" title="Toggle exhausted/available">{{name}}{{#if exhausted}} (Exhausted){{/if}}</button>{{/each}}</div></div><span><button type="button" data-edit-item="{{id}}">Edit</button><button type="button" data-delete-item="{{id}}">Remove</button></span></div>
-      {{else}}<p>No equipment yet.</p>{{/each}}
     </div>
     {{#if isCharacter}}
-    <div class="tab" data-group="primary" data-tab="moves">
-      <h3>Moves</h3>
-      <button type="button" data-create-item="move">Add Move</button>
-      <button type="button" data-open-compendium="echoes-of-destiny.basic-moves">Browse Basic Moves</button>
-      <button type="button" data-open-compendium="echoes-of-destiny.playbook-moves">Browse Playbook Moves</button>
-      {{#each moves}}
-        <div class="item-row"><span>{{name}}</span><span><button type="button" data-edit-item="{{id}}">Edit</button><button type="button" data-delete-item="{{id}}">Remove</button></span></div>
-      {{else}}<p>No moves yet.</p>{{/each}}
-      <h3>Playbook</h3>
-      {{#unless playbooks.length}}<button type="button" data-choose-playbook>Choose Playbook and Starting Moves</button>{{/unless}}
-      <button type="button" data-open-compendium="echoes-of-destiny.playbooks">Browse Playbooks</button>
-      {{#each playbooks}}
-        <div class="item-row"><span>{{name}}</span><span><button type="button" data-edit-item="{{id}}">Edit</button><button type="button" data-delete-item="{{id}}">Remove</button></span></div>
-      {{/each}}
-    </div>
-    <div class="tab" data-group="primary" data-tab="echoes">
-      <p>Echoes begin unanswered. Narrate the scene during play to raise the current result one tier; each question may be resolved once.</p>
-      <h3>Echoes of the Past</h3>
-      {{#each pastEchoes}}
-        <div class="eod-echo-row"><p>{{question}}</p><button type="button" {{#if resolved}}data-echo-view="past"{{else}}data-echo-record="past"{{/if}} data-echo-index="{{index}}">{{#if resolved}}Resolved — View{{else}}Resolve During Play{{/if}}</button></div>
-      {{/each}}
-      <h3>Echoes of Destiny</h3>
-      {{#if hasDestinyEchoes}}
-        {{#each destinyEchoes}}
-          <div class="eod-echo-row"><p>{{question}}</p><button type="button" {{#if resolved}}data-echo-view="destiny"{{else}}data-echo-record="destiny"{{/if}} data-echo-index="{{index}}">{{#if resolved}}Resolved — View{{else}}Resolve During Play{{/if}}</button></div>
-        {{/each}}
-      {{else}}<p>Choose a playbook to see its six Echoes of Destiny.</p>{{/if}}
-    </div>
+      <div class="tab" data-group="primary" data-tab="equipment">
+        <h3>Equipment</h3>
+        {{#each equipment}}
+          <div class="item-row"><div class="eod-gear-info"><button type="button" class="eod-item-name" data-edit-item="{{id}}">{{name}}</button><div class="eod-tag-list">{{#each tags}}<button type="button" class="eod-tag {{#if exhausted}}is-exhausted{{/if}}" data-tag-item="{{../id}}" data-tag-toggle="{{index}}">{{name}}{{#if exhausted}} (Exhausted){{/if}}</button>{{/each}}</div></div><span><button type="button" data-delete-item="{{id}}">Remove</button></span></div>
+        {{else}}<p>No equipment yet.</p>{{/each}}
+        <button type="button" data-create-item="equipment">Add Equipment</button>
+      </div>
+      <div class="tab" data-group="primary" data-tab="moves">
+        <h3>Moves</h3>
+        {{#each moves}}
+          <div class="item-row"><div class="eod-move-info"><button type="button" class="eod-item-name" data-edit-item="{{id}}">{{name}}</button>{{#if description}}: {{description}}{{/if}}</div><span><button type="button" data-delete-item="{{id}}">Remove</button></span></div>
+        {{else}}<p>No moves yet.</p>{{/each}}
+      </div>
+      <div class="tab" data-group="primary" data-tab="echoes">
+        <p>Echoes begin unanswered. Narrate the scene during play to raise the current result one tier; each question may be resolved once.</p>
+        <h3>Echoes of the Past</h3>
+        {{#each pastEchoes}}<div class="eod-echo-row"><div class="eod-echo-copy"><p>{{question}}</p>{{#if resolved}}<p class="eod-echo-answer">{{answer}}</p>{{/if}}</div><button type="button" {{#if resolved}}data-echo-unmark="past"{{else}}data-echo-record="past"{{/if}} data-echo-index="{{index}}">{{#if resolved}}Unmark{{else}}Resolve During Play{{/if}}</button></div>{{/each}}
+        <h3>Echoes of Destiny</h3>
+        {{#if hasDestinyEchoes}}
+          {{#each destinyEchoes}}<div class="eod-echo-row"><div class="eod-echo-copy"><p>{{question}}</p>{{#if resolved}}<p class="eod-echo-answer">{{answer}}</p>{{/if}}</div><button type="button" {{#if resolved}}data-echo-unmark="destiny"{{else}}data-echo-record="destiny"{{/if}} data-echo-index="{{index}}">{{#if resolved}}Unmark{{else}}Resolve During Play{{/if}}</button></div>{{/each}}
+        {{else}}<p>Choose a playbook to see its six Echoes of Destiny.</p>{{/if}}
+      </div>
+    {{/if}}
+    {{#if isVehicle}}
+      <div class="tab" data-group="primary" data-tab="equipment">
+        <h3>Equipment</h3>
+        {{#each equipment}}<div class="item-row"><div class="eod-gear-info"><button type="button" class="eod-item-name" data-edit-item="{{id}}">{{name}}</button><div class="eod-tag-list">{{#each tags}}<button type="button" class="eod-tag {{#if exhausted}}is-exhausted{{/if}}" data-tag-item="{{../id}}" data-tag-toggle="{{index}}">{{name}}{{#if exhausted}} (Exhausted){{/if}}</button>{{/each}}</div></div><span><button type="button" data-delete-item="{{id}}">Remove</button></span></div>{{else}}<p>No equipment yet.</p>{{/each}}
+        <button type="button" data-create-item="equipment">Add Equipment</button>
+      </div>
     {{/if}}
   </section>
 </form>
