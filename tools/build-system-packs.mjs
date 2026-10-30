@@ -62,8 +62,16 @@ for (const [pack, entries] of packs) {
   const verify = path.join(root, ".pack-verify-system", pack);
   await fs.rm(verify, {recursive: true, force: true});
   await extractPack(target, verify, {log: false});
-  const docs = (await fs.readdir(verify, {recursive: true})).filter(name => name.endsWith(".json") && !name.startsWith("folder-"));
-  if (docs.length !== entries.length) throw new Error(pack + ": roundtrip document count mismatch");
+  const extracted = (await fs.readdir(verify, {recursive: true})).filter(name => name.endsWith(".json"));
+  const documents = await Promise.all(extracted.map(async name =>
+    JSON.parse(await fs.readFile(path.join(verify, name), "utf8"))
+  ));
+  const itemCount = documents.filter(doc => doc._key?.startsWith("!items!") || (doc.type === "move" || doc.type === "playbook")).length;
+  const folderCount = documents.filter(doc => doc._key?.startsWith("!folders!") || (doc.type === "Item" && !doc.system)).length;
+  if (itemCount !== entries.length || folderCount !== folderIds.size) {
+    throw new Error(pack + ": roundtrip mismatch: " + itemCount + " Items (expected " + entries.length +
+      "), " + folderCount + " folders (expected " + folderIds.size + ")");
+  }
   await fs.rm(verify, {recursive: true, force: true});
   console.log(pack + ": " + entries.length + " native Items");
 }
