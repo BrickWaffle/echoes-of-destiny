@@ -74,12 +74,14 @@
     },
     "location": {
       "templates": [
-        "common"
+        "common",
+        "tags"
       ]
     },
     "organization": {
       "templates": [
-        "common"
+        "common",
+        "tags"
       ],
       "influence": 0,
       "resources": 0,
