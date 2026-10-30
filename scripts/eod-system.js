@@ -14,6 +14,15 @@ const REFLECTION_QUESTIONS = [
   "Did you create trouble, complications, or consequences?",
   "Did you reveal something significant about your character?"
 ];
+const ADVANCEMENT_LABELS = [
+  "Increase an ability modifier by 1 (max +3)",
+  "Increase an ability modifier by 1 (max +3)",
+  "Increase an ability modifier by 1 (max +3)",
+  "Choose an additional move from your playbook",
+  "Choose an additional move from your playbook",
+  "Create a custom move for your character",
+  "Choose one optional move from another playbook"
+];
 const ATTRIBUTES = ["might", "agility", "wits", "presence", "force"];
 function outcome(total) {
   if (total <= 6) return { key: "complications", label: "Complications..." };
@@ -67,6 +76,9 @@ class EODCharacterSheet extends ActorSheet {
       const playbook = this.actor.items.find(item => item.type === "playbook");
       data.destinyEchoes = echoRows(playbook?.system.echoQuestions ?? [], echoRecords.destiny);
       data.hasDestinyEchoes = data.destinyEchoes.length > 0;
+      data.advancementRows = ADVANCEMENT_LABELS.map((label, index) => ({
+        index, label, completed: Boolean(this.actor.system.advancements?.[index])
+      }));
       data.xpBoxes = Array.from({length: 5}, (_, index) => ({
         index, checked: index < Number(this.actor.system.xp || 0)
       }));
@@ -98,6 +110,76 @@ class EODCharacterSheet extends ActorSheet {
     html.find("[data-xp-box]").on("change", async event => {
       const index = Number(event.currentTarget.dataset.xpBox);
       await this.actor.update({"system.xp": event.currentTarget.checked ? index + 1 : index});
+    });
+    html.find("[data-advance]").on("click", async event => {
+      event.preventDefault();
+      if (this.actor.type !== "character") return;
+      const index = Number(event.currentTarget.dataset.advance);
+      if (!Number.isInteger(index) || index < 0 || index >= ADVANCEMENT_LABELS.length) return;
+      const used = [...(this.actor.system.advancements ?? Array(7).fill(false))];
+      if (used[index]) return ui.notifications.warn("This advancement has already been taken.");
+      if (Number(this.actor.system.xp ?? 0) < 5) return ui.notifications.warn("Five XP are required.");
+      const esc = foundry.utils.escapeHTML;
+      let change = null;
+      if (index < 3) {
+        const eligible = ATTRIBUTES.filter(key => Number(this.actor.system.attributes?.[key] ?? 0) < 3);
+        if (!eligible.length) return ui.notifications.warn("All Attributes are at the maximum.");
+        const choice = await Dialog.prompt({
+          title: "Increase an Attribute",
+          content: `<p>Spend 5 XP to increase one Attribute by +1 (maximum +3).</p><select name="attribute">${eligible.map(key => `<option value="${key}">${key}</option>`).join("")}</select>`,
+          callback: html => html.find('[name="attribute"]').val()
+        });
+        if (!eligible.includes(choice)) return;
+        change = {attribute: choice};
+      } else if (index === 3 || index === 4 || index === 6) {
+        const playbook = this.actor.items.find(item => item.type === "playbook");
+        if (!playbook) return ui.notifications.warn("Choose a playbook first.");
+        const pack = game.packs.get("echoes-of-destiny.playbook-moves");
+        if (!pack) return ui.notifications.error("Playbook Moves compendium is missing.");
+        let sourceIds;
+        if (index === 6) {
+          const otherPack = game.packs.get("echoes-of-destiny.playbooks");
+          if (!otherPack) return ui.notifications.error("Playbooks compendium is missing.");
+          const otherIndex = await otherPack.getIndex();
+          const otherBooks = await Promise.all(otherIndex.contents.map(entry => otherPack.getDocument(entry._id)));
+          sourceIds = otherBooks.filter(book => book && book.system.slug !== playbook.system.slug)
+            .flatMap(book => book.system.optionalMoves ?? []);
+        } else sourceIds = playbook.system.optionalMoves ?? [];
+        const owned = new Set(this.actor.items.filter(item => item.type === "move")
+          .map(item => item.getFlag("echoes-of-destiny", "sourceId")));
+        const moveIndex = await pack.getIndex();
+        const all = await Promise.all(moveIndex.contents.map(entry => pack.getDocument(entry._id)));
+        const choices = all.filter(item => item && sourceIds.includes(item.getFlag("echoes-of-destiny", "sourceId"))
+          && !owned.has(item.getFlag("echoes-of-destiny", "sourceId")));
+        if (!choices.length) return ui.notifications.warn("No eligible unowned moves remain.");
+        const selected = await Dialog.prompt({
+          title: "Choose Advancement Move",
+          content: `<p>Spend 5 XP to learn one move.</p><select name="move">${choices.map(item => `<option value="${item.id}">${esc(item.name)} — ${esc(item.system.playbook || "")}</option>`).join("")}</select>`,
+          callback: html => html.find('[name="move"]').val()
+        });
+        const item = choices.find(item => item.id === selected);
+        if (!item) return;
+        change = {item};
+      } else if (index === 5) {
+        const name = await Dialog.prompt({
+          title: "Create a Custom Move",
+          content: '<p>Spend 5 XP to create a custom move. Refine its mechanics with the Director.</p><label>Move name <input name="move-name" type="text" required></label>',
+          callback: html => html.find('[name="move-name"]').val()?.trim()
+        });
+        if (!name) return;
+        change = {customName: name};
+      }
+      if (!change || Number(this.actor.system.xp ?? 0) < 5 || this.actor.system.advancements?.[index]) return;
+      if (change.attribute && Number(this.actor.system.attributes[change.attribute]) >= 3) return;
+      if (change.item && this.actor.items.some(item => item.getFlag("echoes-of-destiny", "sourceId") === change.item.getFlag("echoes-of-destiny", "sourceId"))) return;
+      if (change.item) await this.actor.createEmbeddedDocuments("Item", [change.item.toObject()]);
+      if (change.customName) await this.actor.createEmbeddedDocuments("Item", [{
+        name: change.customName, type: "move", system: {category: "custom", description: "Work with the Director to define this move."}
+      }]);
+      const update = {"system.xp": 0, [`system.advancements.${index}`]: true};
+      if (change.attribute) update[`system.attributes.${change.attribute}`] = Number(this.actor.system.attributes[change.attribute]) + 1;
+      await this.actor.update(update);
+      ui.notifications.info("Advancement completed; 5 XP spent.");
     });
     html.find("[data-echo-record]").on("click", async event => {
       event.preventDefault();
