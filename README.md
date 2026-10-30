@@ -1,116 +1,45 @@
-# Echoes of Destiny
+# Star Wars: Echoes of Destiny
 
-**Echoes of Destiny** is a Foundry VTT module for running the Echoes of Destiny Star Wars narrative RPG using the [Powered by the Apocalypse system for Foundry VTT](https://github.com/asacolips-projects/pbta).
+A **standalone** narrative Star Wars roleplaying **Game System** for **Foundry VTT v14**. Version **3.0.0** does **not** require the PbtA system or the older Echoes of Destiny module.
 
-The module turns the general-purpose PbtA system into a ready-to-play Echoes of Destiny implementation, providing the game's sheet configuration, playbooks, moves, Echo mechanics, equipment support, custom actor types, and a unified galactic datapad-inspired visual theme.
-
-## Requirements
-
-- **Foundry VTT:** v14 (verified with build 367)
-- **Game System:** PbtA 1.2.2
-
-The PbtA game system must be installed separately.
+> **Major-version transition:** v2.x was an add-on module requiring PbtA; v3.x is a standalone Foundry Game System. Existing v2 worlds are not automatically migrated. Back up worlds before changing systems and create a new v3 world for initial use.
 
 ## Installation
 
-In Foundry VTT, open **Add-on Modules → Install Module**, paste the following URL into the **Manifest URL** field, and choose **Install**:
-
-**[Echoes of Destiny Manifest](https://raw.githubusercontent.com/BrickWaffle/echoes-of-destiny/main/module.json)**
+In Foundry VTT, choose **Game Systems → Install System** and enter:
 
 ```text
-https://raw.githubusercontent.com/BrickWaffle/echoes-of-destiny/main/module.json
+https://raw.githubusercontent.com/BrickWaffle/echoes-of-destiny/main/system.json
 ```
 
-The manifest always points Foundry to the current released package.
+Or install the release ZIP from [GitHub Releases](https://github.com/BrickWaffle/echoes-of-destiny/releases) into the Foundry `Data/systems/` directory. The ZIP contains the `echoes-of-destiny/` folder.
 
-## What the Module Adds
+## System features
 
-### Complete Echoes of Destiny Sheet Configuration
+- Five Attributes (Might, Agility, Wits, Presence, Force) ranging from −2 to +3, and 2d6 resolution with Advantage and Disadvantage.
+- Character creation with seven playbooks, their designated +1 Attribute, an additional player-chosen +1 Attribute, and starting moves.
+- Three Basic Moves and 42 Playbook Moves in compendiums; Playbook Moves are grouped into seven folders.
+- Editable and exhaustible Tags on Characters, Equipment, NPCs, Vehicles, Locations, and Organizations.
+- Echoes of the Past and playbook-specific Echoes of Destiny, with recorded scenes, one-time resolution, and an Unmark option.
+- Reflections, manual XP tracking, and seven one-time Advancement options at 5 XP each.
+- Native Actor sheets for Characters, NPCs, Vehicles, Locations, and Organizations.
+- Dark datapad-inspired interface.
 
-The module automatically configures PbtA for Echoes of Destiny, including the five core Attributes:
+## Actor permissions
 
-- Might
-- Agility
-- Wits
-- Presence
-- Force
-
-It also adds the game's character fields, Conditions, Reflections, Advancements, equipment categories, move categories, and other system-specific sheet configuration.
-
-### Echoes
-
-Character sheets include a dedicated **Echoes** tab for **Echoes of the Past** and **Echoes of Destiny**. Echo questions can be tracked directly on the character sheet as they are revealed and resolved during play.
-
-### Playbooks
-
-The included **Playbooks** compendium contains the seven Echoes of Destiny playbooks:
-
-- Scoundrel
-- Soldier
-- Pilot
-- Force User
-- Engineer
-- Diplomat
-- Scout
-
-Playbooks grant their Signature Move through PbtA's playbook system, apply their starting ability increase, provide their optional moves for later selection, and include their Echoes of Destiny prompts.
-
-### Moves
-
-Two move compendiums provide the rules content needed during play:
-
-- **Basic Moves** — the core moves available to all characters.
-- **Playbook Moves** — Signature and optional moves organized by playbook.
-
-Move descriptions are formatted for direct use from Foundry character sheets and compendiums.
-
-### Equipment Tags
-
-Equipment supports persistent tag availability. Tags can be pushed or made unavailable during play and their state remains tracked on the sheet, supporting Echoes of Destiny's fiction-first equipment system without requiring separate bookkeeping.
-
-### Custom Actor Types
-
-In addition to characters and standard NPCs, the module provides dedicated sheet configurations for:
-
-- **Vehicles** — including Conditions and Cargo.
-- **Locations** — including descriptions, Location Events, and Resources.
-- **Organizations** — including Influence, Resources, Reputation, Hidden Agenda, Political Moves, Covert Operations, and Assets.
-
-Character-only features such as Moves and Echoes are kept off sheets where they do not apply.
-
-### Echoes of Destiny Theme
-
-All supported sheets use a shared galactic datapad-inspired interface with dark instrument panels, amber highlights, restrained cockpit blue accents, and system-specific styling designed to feel at home in a Star Wars game while remaining readable at the table.
-
-## Compendiums
-
-Installing the module provides three Foundry compendium packs:
-
-| Compendium | Contents |
-| --- | --- |
-| **Echoes of Destiny: Basic Moves** | Core moves used by every character |
-| **Echoes of Destiny: Playbook Moves** | Signature and optional moves for all seven playbooks |
-| **Echoes of Destiny: Playbooks** | Complete playbook definitions and Echo prompts |
+Organization Hidden Agenda is shown only to the GM or Actor owners; Observer-level users do not see it on the sheet. Use Foundry permissions appropriately when assigning ownership.
 
 ## Development
 
-The authoritative PbtA sheet configuration is maintained in `config/sheet-config.toml`. Running:
+The native compendium sources are `src/compendium-moves.json` and `src/compendium-playbooks.json`. To compile the standalone packs:
 
 ```bash
-python3 tools/build-sheet-config.py
+npm install --ignore-scripts
+node tools/build-system-packs.mjs
 ```
 
-generates `scripts/sheet-config.js`, which applies the configuration through PbtA's `pbtaSheetConfig` module override hook. The generated JavaScript should not be edited directly.
-
-Compendium source records are maintained in `src/compendium-moves.json` and `src/compendium-playbooks.json`. To rebuild the Foundry LevelDB packs:
-
-```bash
-npm install
-npm run build:packs
-```
-
-The GitHub release workflow regenerates the sheet configuration and compendium packs before packaging each release.
+The `feature/standalone-system-v3` branch builds a test artifact on each push. The dedicated `release-standalone-system.yml` workflow packages the Game System for v3 tags after changes are merged to `main`. The legacy `package.yml` workflow is restricted to v2 tags.
 
 ## License
 
-Released under the [MIT License](LICENSE).
+MIT; see [LICENSE](LICENSE).
