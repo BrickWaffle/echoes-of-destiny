@@ -102,3 +102,25 @@
 .eod-sheet .eod-advancement-row span{flex:1}
 .eod-sheet .sheet-body .eod-advancement-row button{white-space:nowrap}
 .eod-sheet .sheet-body .eod-advancement-row button:disabled{opacity:.55;cursor:default;color:#aeb5ba}
+
+/* Actor sheet layout refinement */
+.eod-sheet .identity{min-width:0}
+.eod-sheet .eod-header-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.eod-sheet .eod-header-fields label,.eod-sheet .eod-species-row label{display:flex;flex-direction:column;gap:4px;min-width:0}
+.eod-sheet .eod-header-fields input,.eod-sheet .eod-header-fields select,.eod-sheet .eod-species-row input{width:100%;min-width:0;background:#0d1216;color:#e7e0cf;border:1px solid #46545d;padding:5px}
+.eod-sheet .eod-playbook-selected{display:block;padding:5px;color:#d6a43b}
+.eod-sheet .eod-species-row{display:grid;grid-template-columns:minmax(130px,1fr) minmax(0,2fr);align-items:end;gap:12px}
+.eod-sheet .eod-inline-tags{display:flex;align-items:center;flex-wrap:wrap;gap:8px;min-width:0}
+.eod-sheet .eod-inline-tags .eod-tag-list{margin:0}
+.eod-sheet .eod-inline-tags>button,.eod-sheet .eod-item-name{background:#293239;color:#d6a43b;border:1px solid #5c89a8;border-radius:4px;padding:5px 9px;cursor:pointer}
+.eod-sheet .eod-inline-tags>button{white-space:nowrap}
+.eod-sheet .eod-condition-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.eod-sheet .eod-condition-row input{min-width:0;width:100%}
+.eod-sheet .eod-move-info{flex:1;min-width:0;overflow-wrap:anywhere;line-height:1.5}
+.eod-sheet .sheet-body .eod-item-name{border:0;background:transparent;color:#d6a43b;font-weight:700;min-height:0;padding:0;text-align:left;display:inline}
+.eod-sheet .sheet-body .eod-item-name:hover{text-decoration:underline;background:transparent}
+.eod-sheet .eod-echo-row{display:flex;align-items:flex-start;gap:14px;justify-content:space-between}
+.eod-sheet .eod-echo-copy{flex:1;min-width:0}
+.eod-sheet .eod-echo-answer{font-style:italic;color:#c9c4b9;white-space:pre-wrap;margin-top:7px!important}
+.eod-sheet .eod-echo-row>button{flex:0 0 auto;white-space:nowrap}
+@media(max-width:650px){.eod-sheet .eod-header-fields{grid-template-columns:1fr}.eod-sheet .eod-species-row{grid-template-columns:1fr}.eod-sheet .eod-condition-row{grid-template-columns:1fr}.eod-sheet .eod-echo-row{flex-direction:column}}
