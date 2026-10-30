@@ -19,6 +19,12 @@ for (const [pack, entries] of packs) {
   await fs.rm(source, {recursive: true, force: true});
   await fs.rm(target, {recursive: true, force: true});
   await fs.mkdir(source, {recursive: true});
+  const folderIds = new Map();
+  if (pack === "playbook-moves") {
+    for (const name of [...new Set(entries.map(entry => entry.playbook))].sort()) {
+      folderIds.set(name, idFor("folder:" + name));
+    }
+  }
   for (const entry of entries) {
     const playbook = pack === "playbooks";
     const sourceId = playbook ? "eod-playbook-" + entry.slug : entry.id;
