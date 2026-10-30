@@ -111,7 +111,13 @@ class EODCharacterSheet extends ActorSheet {
         index, checked: index < Number(this.actor.system.xp || 0)
       }));
     }
-    data.moves = this.actor.items.filter(i => i.type === "move").map(item => ({id:item.id,name:item.name,description:item.system.description || item.system.trigger || ""}));
+    const moveRows = this.actor.items.filter(i => i.type === "move").map(item => ({
+      id: item.id, name: item.name,
+      description: item.system.description || item.system.trigger || "",
+      basic: item.system.category === "basic" || ["The Careful Move", "The Risky Move", "The Vulnerable Move"].includes(item.name)
+    }));
+    data.basicMoves = moveRows.filter(item => item.basic);
+    data.playbookMoves = moveRows.filter(item => !item.basic);
     data.equipment = this.actor.items.filter(i => i.type === "equipment").map(item => ({
       id: item.id, name: item.name,
       tags: (item.system.tags ?? []).map((tag, index) => ({
@@ -149,7 +155,7 @@ class EODCharacterSheet extends ActorSheet {
       const index = Number(event.currentTarget.dataset.xpBox);
       await this.actor.update({"system.xp": event.currentTarget.checked ? index + 1 : index});
     });
-    html.find("[data-advance]").on("click", async event => {
+    const advanceHandler = async event => {
       event.preventDefault();
       if (this.actor.type !== "character") return;
       const index = Number(event.currentTarget.dataset.advance);
@@ -220,6 +226,26 @@ class EODCharacterSheet extends ActorSheet {
       if (change.attribute) update[`system.attributes.${change.attribute}`] = Number(this.actor.system.attributes[change.attribute]) + 1;
       await this.actor.update(update);
       ui.notifications.info("Advancement completed; 5 XP spent.");
+      this.render();
+    };
+    html.find("[data-open-advancement]").on("click", event => {
+      event.preventDefault();
+      const rows = ADVANCEMENT_LABELS.map((label, index) => {
+        const completed = Boolean(this.actor.system.advancements?.[index]);
+        return `<div class="eod-advancement-row"><span>${completed ? "✓ " : ""}${foundry.utils.escapeHTML(label)}</span><button type="button" data-advance="${index}" ${completed ? "disabled" : ""}>${completed ? "Taken" : "Spend 5 XP"}</button></div>`;
+      }).join("");
+      const dialog = new Dialog({
+        title: "Character Advancement",
+        content: `<div class="eod-advancement-dialog"><p>Each advancement costs 5 XP and may be selected once. Current XP: ${Number(this.actor.system.xp ?? 0)}</p>${rows}</div>`,
+        buttons: {close: {label: "Close"}},
+        render: dialogHtml => {
+          dialogHtml.find("[data-advance]").on("click", async click => {
+            await advanceHandler(click);
+            dialog.close();
+          });
+        }
+      }, {width: 620});
+      dialog.render(true);
     });
     html.find("[data-echo-record]").on("click", async event => {
       event.preventDefault();
