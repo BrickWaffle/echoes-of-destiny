@@ -368,20 +368,34 @@ class EODCharacterSheet extends ActorSheet {
       if (!chosen) return;
       const playbook = await pack.getDocument(chosen);
       if (!playbook) return;
-      // The player chooses any eligible Attribute after selecting a playbook.
-      // No character data is committed until the optional move is also chosen.
-      const eligibleAttributes = ATTRIBUTES.filter(key => Number(this.actor.system.attributes?.[key] ?? 0) < 3);
-      if (!eligibleAttributes.length) return ui.notifications.warn("All Attributes are already at +3.");
+      // Playbook grants +1 to its designated Attribute, AND the player
+      // chooses an additional +1 to any Attribute (including the same one).
+      // Both increases must respect the +3 cap.
+      const playbookAttribute = playbook.system.abilityIncrease;
+      if (!ATTRIBUTES.includes(playbookAttribute)) {
+        return ui.notifications.error("Playbook has an invalid designated Attribute.");
+      }
+      const base = Object.fromEntries(ATTRIBUTES.map(key =>
+        [key, Number(this.actor.system.attributes?.[key] ?? 0)]
+      ));
+      if (base[playbookAttribute] >= 3) {
+        return ui.notifications.warn("The playbook's designated Attribute is already at +3.");
+      }
+      const afterPlaybook = {...base, [playbookAttribute]: base[playbookAttribute] + 1};
+      const eligibleAttributes = ATTRIBUTES.filter(key => afterPlaybook[key] < 3);
+      if (!eligibleAttributes.length) {
+        return ui.notifications.warn("No Attribute can receive the additional +1 without exceeding +3.");
+      }
       const attribute = await Dialog.prompt({
-        title: "Starting Attribute Increase",
-        content: `<p>Choose any Attribute to increase by +1 (maximum +3) for your starting playbook.</p>
+        title: "Additional Starting Attribute Increase",
+        content: `<p>${foundry.utils.escapeHTML(playbook.name)} grants +1 to ${playbookAttribute[0].toUpperCase() + playbookAttribute.slice(1)}.</p>
+          <p>Choose another +1 to any eligible Attribute. You may choose the playbook Attribute again if it remains below +3.</p>
           <select name="attribute">${eligibleAttributes.map(key =>
-            `<option value="${key}">${key[0].toUpperCase() + key.slice(1)} (${Number(this.actor.system.attributes?.[key] ?? 0)} → ${Number(this.actor.system.attributes?.[key] ?? 0) + 1})</option>`
+            `<option value="${key}">${key[0].toUpperCase() + key.slice(1)} (${afterPlaybook[key]} → ${afterPlaybook[key] + 1})</option>`
           ).join("")}</select>`,
         callback: html => html.find('[name="attribute"]').val()
       });
       if (!eligibleAttributes.includes(attribute)) return;
-      const value = Number(this.actor.system.attributes?.[attribute] ?? 0);
       const moveIndex = await movePack.getIndex();
       const basicIndex = await basicPack.getIndex();
       const signatureId = playbook.system.signatureMove;
@@ -427,7 +441,9 @@ class EODCharacterSheet extends ActorSheet {
       await this.actor.createEmbeddedDocuments("Item", [
         playbook.toObject(), ...granted.map(item => item.toObject())
       ]);
-      await this.actor.update({[`system.attributes.${attribute}`]: value + 1});
+      const increases = {[playbookAttribute]: afterPlaybook[playbookAttribute]};
+      increases[attribute] = afterPlaybook[attribute] + 1;
+      await this.actor.update({system: {attributes: {...base, ...increases}}});
       ui.notifications.info(`${playbook.name} selected; starting moves granted.`);
     });
     html.find("[data-playbook-init]").on("click", async event => {
