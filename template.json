@@ -59,14 +59,18 @@
       "templates": [
         "common",
         "tags"
-      ]
+      ],
+      "species": "",
+      "look": "",
+      "vice": ""
     },
     "vehicle": {
       "templates": [
         "common",
         "tags"
       ],
-      "cargo": ""
+      "cargo": "",
+      "model": ""
     },
     "location": {
       "templates": [
