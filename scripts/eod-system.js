@@ -79,6 +79,8 @@ class EODCharacterSheet extends ActorSheet {
     data.attributes = ATTRIBUTES.map(key => ({ key, label: key[0].toUpperCase() + key.slice(1), value: this.actor.system.attributes?.[key] ?? 0 }));
     data.isCharacter = this.actor.type === "character";
     data.isVehicle = this.actor.type === "vehicle";
+    data.hasActorTags = ["character", "npc", "vehicle"].includes(this.actor.type);
+    data.actorTags = (this.actor.system.tags ?? []).map((name, index) => ({index, name, exhausted: (this.actor.system.exhaustedTags ?? []).includes(index)}));
     data.isOrganization = this.actor.type === "organization";
     data.isLocation = this.actor.type === "location";
     if (data.isCharacter) {
@@ -244,6 +246,32 @@ class EODCharacterSheet extends ActorSheet {
         content: `<p style="white-space:pre-wrap">${foundry.utils.escapeHTML(record.answer)}</p>`,
         callback: () => true
       });
+    });
+    html.find("[data-edit-actor-tags]").on("click", async event => {
+      event.preventDefault();
+      if (!["character", "npc", "vehicle"].includes(this.actor.type)) return;
+      const esc = foundry.utils.escapeHTML;
+      const old = this.actor.system.tags ?? [];
+      const value = await Dialog.prompt({
+        title: "Edit Tags",
+        content: `<p>Enter tags separated by commas.</p><input name="tags" style="width:100%" value="${esc(old.join(", "))}">`,
+        callback: html => html.find('[name="tags"]').val()
+      });
+      if (value === null || value === undefined) return;
+      const tags = [...new Set(String(value).split(",").map(tag => tag.trim()).filter(Boolean))];
+      const exhaustedNames = new Set((this.actor.system.exhaustedTags ?? []).map(index => old[index]));
+      const exhaustedTags = tags.flatMap((tag, index) => exhaustedNames.has(tag) ? [index] : []);
+      await this.actor.update({"system.tags": tags, "system.exhaustedTags": exhaustedTags});
+    });
+    html.find("[data-actor-tag-toggle]").on("click", async event => {
+      event.preventDefault();
+      if (!["character", "npc", "vehicle"].includes(this.actor.type)) return;
+      const index = Number(event.currentTarget.dataset.actorTagToggle);
+      if (!Number.isInteger(index) || index < 0 || index >= (this.actor.system.tags?.length ?? 0)) return;
+      const exhausted = new Set(this.actor.system.exhaustedTags ?? []);
+      if (exhausted.has(index)) exhausted.delete(index);
+      else exhausted.add(index);
+      await this.actor.update({"system.exhaustedTags": [...exhausted].sort((a,b) => a-b)});
     });
     html.find("[data-tag-toggle]").on("click", async event => {
       event.preventDefault();
