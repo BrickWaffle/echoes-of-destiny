@@ -42,6 +42,14 @@ class EODActor extends Actor {
           : Number(this.system.attributes?.[key] ?? 0);
       }
     }
+    for (const key of ATTRIBUTES) {
+      const dotted = `system.attributes.${key}`;
+      if (!Object.prototype.hasOwnProperty.call(changed, dotted)) continue;
+      const numeric = Number(changed[dotted]);
+      changed[dotted] = Number.isFinite(numeric)
+        ? Math.max(-2, Math.min(3, Math.trunc(numeric)))
+        : Number(this.system.attributes?.[key] ?? 0);
+    }
     return super._preUpdate(changed, options, user);
   }
   async rollAttribute(attribute, { advantage = 0 } = {}) {
