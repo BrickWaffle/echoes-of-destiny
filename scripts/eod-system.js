@@ -70,7 +70,7 @@ class EODCharacterSheet extends ActorSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["eod", "sheet", "actor"],
       template: "systems/echoes-of-destiny/templates/actor-sheet.hbs",
-      width: 760, height: 700, resizable: true,
+      width: 760, height: 940, resizable: true,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "details" }]
     });
   }
