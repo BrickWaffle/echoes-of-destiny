@@ -244,7 +244,7 @@ class EODCharacterSheet extends ActorSheet {
             dialog.close();
           });
         }
-      }, {width: 620});
+      }, {width: 620, classes: ["eod-advancement-window"]});
       dialog.render(true);
     });
     html.find("[data-echo-record]").on("click", async event => {
