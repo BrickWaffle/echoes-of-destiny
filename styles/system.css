@@ -97,3 +97,8 @@
 .eod-sheet .eod-echo-row p{margin:0 0 8px;line-height:1.4}
 .eod.sheet.item .window-content{background:#151a1e;color:#e7e0cf;padding:12px}
 .eod.sheet.item .eod-sheet .sheet-body button{color:#e7e0cf;background:#293239;border:1px solid #5c89a8;padding:6px 12px}
+
+.eod-sheet .eod-advancement-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid #46545d}
+.eod-sheet .eod-advancement-row span{flex:1}
+.eod-sheet .sheet-body .eod-advancement-row button{white-space:nowrap}
+.eod-sheet .sheet-body .eod-advancement-row button:disabled{opacity:.55;cursor:default;color:#aeb5ba}
