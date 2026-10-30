@@ -65,7 +65,7 @@
       <h3>Equipment</h3>
       <button type="button" data-create-item="equipment">Add Equipment</button>
       {{#each equipment}}
-        <div class="item-row"><span>{{name}}</span><span><button type="button" data-edit-item="{{id}}">Edit</button><button type="button" data-delete-item="{{id}}">Remove</button></span></div>
+        <div class="item-row"><div class="eod-gear-info"><strong>{{name}}</strong><div class="eod-tag-list">{{#each tags}}<button type="button" class="eod-tag {{#if exhausted}}is-exhausted{{/if}}" data-tag-item="{{../id}}" data-tag-toggle="{{index}}" title="Toggle exhausted/available">{{name}}{{#if exhausted}} (Exhausted){{/if}}</button>{{/each}}</div></div><span><button type="button" data-edit-item="{{id}}">Edit</button><button type="button" data-delete-item="{{id}}">Remove</button></span></div>
       {{else}}<p>No equipment yet.</p>{{/each}}
     </div>
     {{#if isCharacter}}
@@ -85,10 +85,17 @@
       {{/each}}
     </div>
     <div class="tab" data-group="primary" data-tab="echoes">
+      <p>Echoes begin unanswered. Narrate the scene during play to raise the current result one tier; each question may be resolved once.</p>
       <h3>Echoes of the Past</h3>
-      <p>Echo tracking is planned for the next milestone.</p>
+      {{#each pastEchoes}}
+        <div class="eod-echo-row"><p>{{question}}</p><button type="button" {{#if resolved}}data-echo-view="past"{{else}}data-echo-record="past"{{/if}} data-echo-index="{{index}}">{{#if resolved}}Resolved — View{{else}}Resolve During Play{{/if}}</button></div>
+      {{/each}}
       <h3>Echoes of Destiny</h3>
-      <p>Echo tracking is planned for the next milestone.</p>
+      {{#if hasDestinyEchoes}}
+        {{#each destinyEchoes}}
+          <div class="eod-echo-row"><p>{{question}}</p><button type="button" {{#if resolved}}data-echo-view="destiny"{{else}}data-echo-record="destiny"{{/if}} data-echo-index="{{index}}">{{#if resolved}}Resolved — View{{else}}Resolve During Play{{/if}}</button></div>
+        {{/each}}
+      {{else}}<p>Choose a playbook to see its six Echoes of Destiny.</p>{{/if}}
     </div>
     {{/if}}
   </section>
