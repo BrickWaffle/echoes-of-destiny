@@ -368,10 +368,20 @@ class EODCharacterSheet extends ActorSheet {
       if (!chosen) return;
       const playbook = await pack.getDocument(chosen);
       if (!playbook) return;
-      const attribute = playbook.system.abilityIncrease;
-      if (!ATTRIBUTES.includes(attribute)) return ui.notifications.error("Playbook has an invalid starting Attribute.");
+      // The player chooses any eligible Attribute after selecting a playbook.
+      // No character data is committed until the optional move is also chosen.
+      const eligibleAttributes = ATTRIBUTES.filter(key => Number(this.actor.system.attributes?.[key] ?? 0) < 3);
+      if (!eligibleAttributes.length) return ui.notifications.warn("All Attributes are already at +3.");
+      const attribute = await Dialog.prompt({
+        title: "Starting Attribute Increase",
+        content: `<p>Choose any Attribute to increase by +1 (maximum +3) for your starting playbook.</p>
+          <select name="attribute">${eligibleAttributes.map(key =>
+            `<option value="${key}">${key[0].toUpperCase() + key.slice(1)} (${Number(this.actor.system.attributes?.[key] ?? 0)} → ${Number(this.actor.system.attributes?.[key] ?? 0) + 1})</option>`
+          ).join("")}</select>`,
+        callback: html => html.find('[name="attribute"]').val()
+      });
+      if (!eligibleAttributes.includes(attribute)) return;
       const value = Number(this.actor.system.attributes?.[attribute] ?? 0);
-      if (value >= 3) return ui.notifications.warn("Starting Attribute increase would exceed +3.");
       const moveIndex = await movePack.getIndex();
       const basicIndex = await basicPack.getIndex();
       const signatureId = playbook.system.signatureMove;
