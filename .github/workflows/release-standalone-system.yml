@@ -1,0 +1,39 @@
+name: Release Standalone Foundry System
+on:
+  push:
+    tags:
+      - "v3.*"
+      - "3.*"
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm install --ignore-scripts
+      - name: Compile system compendiums
+        run: node tools/build-system-packs.mjs
+      - name: Validate version matches tag
+        shell: bash
+        run: |
+          node -e 'const m=require("./system.json");if(m.version!==process.env.VERSION.replace(/^v/,""))throw new Error("Manifest version "+m.version+" does not match tag "+process.env.VERSION)'
+        env:
+          VERSION: ${{ github.ref_name }}
+      - name: Stage and validate standalone package
+        run: |
+          mkdir -p dist/echoes-of-destiny
+          cp system.json template.json README.md LICENSE dist/echoes-of-destiny/
+          cp -R scripts styles templates system-packs dist/echoes-of-destiny/
+          cd dist
+          zip -qr ../echoes-of-destiny.zip echoes-of-destiny
+          unzip -t ../echoes-of-destiny.zip
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: echoes-of-destiny.zip
+          generate_release_notes: true
