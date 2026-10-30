@@ -25,6 +25,10 @@ for (const [pack, entries] of packs) {
       folderIds.set(name, idFor("folder:" + name));
     }
   }
+  for (const [name, id] of folderIds) {
+    const folder = {_id: id, _key: "!folders!" + id, name, type: "Item", sorting: "a", sort: 0, color: "#d6a43b"};
+    await fs.writeFile(path.join(source, "folder-" + id + ".json"), JSON.stringify(folder, null, 2) + "\n");
+  }
   for (const entry of entries) {
     const playbook = pack === "playbooks";
     const sourceId = playbook ? "eod-playbook-" + entry.slug : entry.id;
