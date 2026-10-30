@@ -266,7 +266,21 @@ class EODItemSheet extends ItemSheet {
     data.isMove = this.item.type === "move";
     data.isEquipment = this.item.type === "equipment";
     data.isPlaybook = this.item.type === "playbook";
+    data.equipmentTagText = (this.item.system.tags ?? []).join(", ");
     return data;
+  }
+  activateListeners(html) {
+    super.activateListeners(html);
+    html.find("[data-save-tags]").on("click", async event => {
+      event.preventDefault();
+      const tags = [...new Set((html.find('[name="tag-list"]').val() ?? "")
+        .split(",").map(tag => tag.trim()).filter(Boolean))];
+      const old = this.item.system.tags ?? [];
+      const exhaustedNames = new Set((this.item.system.exhaustedTags ?? []).map(index => old[index]));
+      const exhaustedTags = tags.flatMap((tag, index) => exhaustedNames.has(tag) ? [index] : []);
+      await this.item.update({"system.tags": tags, "system.exhaustedTags": exhaustedTags});
+      ui.notifications.info("Equipment tags saved.");
+    });
   }
 }
 Hooks.once("init", () => {
