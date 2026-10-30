@@ -22,12 +22,17 @@
         "wits": 0,
         "presence": 0,
         "force": 0
+      },
+      "tags": {
+        "tags": [],
+        "exhaustedTags": []
       }
     },
     "character": {
       "templates": [
         "common",
-        "attributes"
+        "attributes",
+        "tags"
       ],
       "species": "",
       "look": "",
@@ -52,12 +57,14 @@
     },
     "npc": {
       "templates": [
-        "common"
+        "common",
+        "tags"
       ]
     },
     "vehicle": {
       "templates": [
-        "common"
+        "common",
+        "tags"
       ],
       "cargo": ""
     },
