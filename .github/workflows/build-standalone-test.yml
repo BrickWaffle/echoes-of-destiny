@@ -8,7 +8,7 @@ on:
       version:
         description: Development package version
         required: false
-        default: 3.0.0-alpha.2
+        default: 3.0.0-alpha.3
 permissions:
   contents: read
 jobs:
@@ -31,7 +31,7 @@ jobs:
           cd dist
           zip -qr ../echoes-of-destiny-system-test.zip echoes-of-destiny
         env:
-          BUILD_VERSION: ${{ inputs.version || '3.0.0-alpha.2' }}
+          BUILD_VERSION: ${{ inputs.version || '3.0.0-alpha.3' }}
       - uses: actions/upload-artifact@v4
         with:
           name: echoes-of-destiny-system-test
