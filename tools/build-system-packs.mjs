@@ -62,7 +62,7 @@ for (const [pack, entries] of packs) {
   const verify = path.join(root, ".pack-verify-system", pack);
   await fs.rm(verify, {recursive: true, force: true});
   await extractPack(target, verify, {log: false});
-  const docs = (await fs.readdir(verify, {recursive: true})).filter(name => name.endsWith(".json"));
+  const docs = (await fs.readdir(verify, {recursive: true})).filter(name => name.endsWith(".json") && !name.startsWith("folder-"));
   if (docs.length !== entries.length) throw new Error(pack + ": roundtrip document count mismatch");
   await fs.rm(verify, {recursive: true, force: true});
   console.log(pack + ": " + entries.length + " native Items");
