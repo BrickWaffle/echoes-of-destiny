@@ -176,7 +176,9 @@ class EODCharacterSheet extends ActorSheet {
       if (change.customName) await this.actor.createEmbeddedDocuments("Item", [{
         name: change.customName, type: "move", system: {category: "custom", description: "Work with the Director to define this move."}
       }]);
-      const update = {"system.xp": 0, [`system.advancements.${index}`]: true};
+      const completed = [...(this.actor.system.advancements ?? Array(7).fill(false))];
+      completed[index] = true;
+      const update = {"system.xp": 0, "system.advancements": completed};
       if (change.attribute) update[`system.attributes.${change.attribute}`] = Number(this.actor.system.attributes[change.attribute]) + 1;
       await this.actor.update(update);
       ui.notifications.info("Advancement completed; 5 XP spent.");
