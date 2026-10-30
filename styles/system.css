@@ -28,3 +28,63 @@
 .eod-sheet .eod-reflection-yes{white-space:nowrap;margin:0}
 .eod-sheet .eod-reflections input[type="checkbox"]{accent-color:#d6a43b}
 .eod-sheet .eod-reflections button{background:#293239;color:#d6a43b;border:1px solid #5c89a8;padding:6px 12px}
+
+/* Native actor item controls: scoped to avoid Foundry's default black-on-dark buttons. */
+.eod-sheet .sheet-body button {
+  color:#e7e0cf;
+  background:#293239;
+  border:1px solid #5c89a8;
+  border-radius:4px;
+  min-height:30px;
+  padding:5px 12px;
+  width:auto;
+  line-height:1.25;
+  cursor:pointer;
+}
+.eod-sheet .sheet-body button:hover,
+.eod-sheet .sheet-body button:focus-visible {
+  color:#f4c96a;
+  background:#35434b;
+  border-color:#d6a43b;
+}
+.eod-sheet .tab > button[data-create-item],
+.eod-sheet .tab > button[data-choose-playbook],
+.eod-sheet .tab > button[data-open-compendium] {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin:3px 6px 10px 0;
+}
+.eod-sheet .item-row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  min-height:44px;
+  padding:7px 4px;
+  border-bottom:1px solid #46545d;
+}
+.eod-sheet .item-row > span:first-child {
+  flex:1;
+  min-width:0;
+  color:#e7e0cf;
+  font-weight:600;
+  overflow-wrap:anywhere;
+}
+.eod-sheet .item-row > span:last-child {
+  display:flex;
+  flex:0 0 auto;
+  gap:6px;
+  align-items:center;
+}
+.eod-sheet .item-row button {
+  margin:0;
+  min-width:58px;
+}
+.eod-sheet .item-row [data-delete-item] {
+  color:#efb9aa;
+}
+@media (max-width:600px) {
+  .eod-sheet .item-row {align-items:flex-start;}
+  .eod-sheet .item-row > span:last-child {flex-wrap:wrap;justify-content:flex-end;}
+}
