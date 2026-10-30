@@ -1,3 +1,11 @@
+const PAST_ECHO_QUESTIONS = [
+  "Narrate a flashback to a time when someone from your past taught you a lesson, skill, or way of seeing the galaxy that you still depend on. What happened that made the lesson stick?",
+  "Narrate a scene from your youth or early travels when you encountered something that challenged everything you thought you knew about the galaxy.",
+  "Who from your past would you trust with your life? Narrate a moment when this person proved they could be trusted, especially when doing so put something important at risk.",
+  "Who from your past would you never want to see again? Narrate the last time you encountered this person. Show what happened between you, and why neither of you could simply walk away.",
+  "Narrate a scene when an experience, betrayal, or revelation forced you to question a belief you once held dear.",
+  "Narrate the moment you walked away from a person, place, duty, or way of life. Show what made you leave and what it cost you."
+];
 const REFLECTION_QUESTIONS = [
   "Did you make a meaningful connection with another character?",
   "Did you learn something important about the galaxy?",
@@ -50,12 +58,26 @@ class EODCharacterSheet extends ActorSheet {
         index, question, selected: selected.includes(index)
       }));
       data.reflectionCount = selected.length;
+      const echoRecords = this.actor.system.echoes ?? {};
+      const echoRows = (questions, records) => questions.map((question, index) => ({
+        index, question, answer: records?.[index]?.answer ?? "",
+        resolved: Boolean(records?.[index]?.resolved)
+      }));
+      data.pastEchoes = echoRows(PAST_ECHO_QUESTIONS, echoRecords.past);
+      const playbook = this.actor.items.find(item => item.type === "playbook");
+      data.destinyEchoes = echoRows(playbook?.system.echoQuestions ?? [], echoRecords.destiny);
+      data.hasDestinyEchoes = data.destinyEchoes.length > 0;
       data.xpBoxes = Array.from({length: 5}, (_, index) => ({
         index, checked: index < Number(this.actor.system.xp || 0)
       }));
     }
     data.moves = this.actor.items.filter(i => i.type === "move");
-    data.equipment = this.actor.items.filter(i => i.type === "equipment");
+    data.equipment = this.actor.items.filter(i => i.type === "equipment").map(item => ({
+      id: item.id, name: item.name,
+      tags: (item.system.tags ?? []).map((tag, index) => ({
+        index, name: tag, exhausted: (item.system.exhaustedTags ?? []).includes(index)
+      }))
+    }));
     data.playbooks = this.actor.items.filter(i => i.type === "playbook");
     return data;
   }
@@ -76,6 +98,47 @@ class EODCharacterSheet extends ActorSheet {
     html.find("[data-xp-box]").on("change", async event => {
       const index = Number(event.currentTarget.dataset.xpBox);
       await this.actor.update({"system.xp": event.currentTarget.checked ? index + 1 : index});
+    });
+    html.find("[data-echo-record]").on("click", async event => {
+      event.preventDefault();
+      const group = event.currentTarget.dataset.echoRecord;
+      const index = Number(event.currentTarget.dataset.echoIndex);
+      if (!["past", "destiny"].includes(group) || !Number.isInteger(index) || index < 0 || index >= 6) return;
+      const questions = group === "past" ? PAST_ECHO_QUESTIONS :
+        (this.actor.items.find(item => item.type === "playbook")?.system.echoQuestions ?? []);
+      if (!questions[index]) return;
+      const records = [...(this.actor.system.echoes?.[group] ?? [])];
+      if (records[index]?.resolved) return ui.notifications.warn("This Echo has already been resolved.");
+      const answer = await Dialog.prompt({
+        title: "Resolve Echo",
+        content: `<p>${foundry.utils.escapeHTML(questions[index])}</p><p>Record the scene narrated during play:</p><textarea name="answer" rows="7" style="width:100%"></textarea>`,
+        callback: html => html.find('[name="answer"]').val()?.trim() ?? ""
+      });
+      if (!answer) return;
+      records[index] = {answer, resolved: true};
+      await this.actor.update({[`system.echoes.${group}`]: records});
+    });
+    html.find("[data-echo-view]").on("click", async event => {
+      event.preventDefault();
+      const group = event.currentTarget.dataset.echoView;
+      const index = Number(event.currentTarget.dataset.echoIndex);
+      const record = this.actor.system.echoes?.[group]?.[index];
+      if (!record?.resolved) return;
+      await Dialog.prompt({
+        title: "Resolved Echo",
+        content: `<p style="white-space:pre-wrap">${foundry.utils.escapeHTML(record.answer)}</p>`,
+        callback: () => true
+      });
+    });
+    html.find("[data-tag-toggle]").on("click", async event => {
+      event.preventDefault();
+      const item = this.actor.items.get(event.currentTarget.dataset.tagItem);
+      const index = Number(event.currentTarget.dataset.tagToggle);
+      if (item?.type !== "equipment" || !Number.isInteger(index) || index < 0 || index >= (item.system.tags?.length ?? 0)) return;
+      const exhausted = new Set(item.system.exhaustedTags ?? []);
+      if (exhausted.has(index)) exhausted.delete(index);
+      else exhausted.add(index);
+      await item.update({"system.exhaustedTags": [...exhausted].sort((a,b) => a-b)});
     });
     html.find("[data-create-item]").on("click", async event => {
       event.preventDefault();
