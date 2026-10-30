@@ -1,0 +1,62 @@
+{
+  "id": "echoes-of-destiny",
+  "title": "Echoes of Destiny",
+  "description": "Standalone narrative Star Wars roleplaying game system for Foundry VTT.",
+  "version": "3.0.0",
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14.369"
+  },
+  "authors": [
+    {
+      "name": "BrickWaffle"
+    }
+  ],
+  "esmodules": [
+    "scripts/eod-system.js"
+  ],
+  "styles": [
+    "styles/system.css"
+  ],
+  "documentTypes": {
+    "Actor": {
+      "character": {},
+      "npc": {},
+      "vehicle": {},
+      "location": {},
+      "organization": {}
+    },
+    "Item": {
+      "move": {},
+      "equipment": {},
+      "playbook": {}
+    }
+  },
+  "url": "https://github.com/BrickWaffle/echoes-of-destiny",
+  "manifest": "https://raw.githubusercontent.com/BrickWaffle/echoes-of-destiny/main/system.json",
+  "download": "https://github.com/BrickWaffle/echoes-of-destiny/releases/latest/download/echoes-of-destiny.zip",
+  "license": "MIT",
+  "packs": [
+    {
+      "name": "basic-moves",
+      "label": "Echoes of Destiny: Basic Moves",
+      "path": "system-packs/basic-moves",
+      "type": "Item",
+      "system": "echoes-of-destiny"
+    },
+    {
+      "name": "playbook-moves",
+      "label": "Echoes of Destiny: Playbook Moves",
+      "path": "system-packs/playbook-moves",
+      "type": "Item",
+      "system": "echoes-of-destiny"
+    },
+    {
+      "name": "playbooks",
+      "label": "Echoes of Destiny: Playbooks",
+      "path": "system-packs/playbooks",
+      "type": "Item",
+      "system": "echoes-of-destiny"
+    }
+  ]
+}

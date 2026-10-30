@@ -1,0 +1,23 @@
+<form class="eod-sheet" autocomplete="off">
+  <header class="sheet-header">
+    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" width="72" height="72"/>
+    <div class="identity">
+      <input class="actor-name" name="name" value="{{item.name}}" placeholder="Name"/>
+      <span class="actor-type">{{item.type}}</span>
+    </div>
+  </header>
+  <section class="sheet-body">
+    <label>Description<textarea name="system.description">{{item.system.description}}</textarea></label>
+    {{#if isMove}}
+      <label>Category<input name="system.category" value="{{item.system.category}}"/></label>
+      <label>Trigger<textarea name="system.trigger">{{item.system.trigger}}</textarea></label>
+    {{/if}}
+    {{#if isPlaybook}}
+      <label>Signature Move<input name="system.signatureMove" value="{{item.system.signatureMove}}"/></label>
+      <label>Starting Attribute Increase<input name="system.abilityIncrease" value="{{item.system.abilityIncrease}}"/></label>
+    {{/if}}
+    {{#if isEquipment}}
+      <label>Tags (comma-separated)<input type="text" name="tag-list" value="{{equipmentTagText}}" placeholder="Reliable, Concealable"/></label><button type="button" data-save-tags>Save Tags</button><p>Exhaust or restore tags on the owning actor sheet.</p>
+    {{/if}}
+  </section>
+</form>

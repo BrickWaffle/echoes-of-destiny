@@ -1,0 +1,38 @@
+name: Build Standalone System Test Package
+on:
+  push:
+    branches:
+      - feature/standalone-system-v3
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Development package version
+        required: false
+        default: 3.0.0-alpha.3
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install --ignore-scripts
+      - name: Compile native system compendiums
+        run: node tools/build-system-packs.mjs
+      - name: Package standalone system
+        run: |
+          mkdir -p dist/echoes-of-destiny
+          cp system.json template.json dist/echoes-of-destiny/
+          cp -R scripts styles templates system-packs dist/echoes-of-destiny/
+          node -e 'const fs=require("fs");const p="dist/echoes-of-destiny/system.json";const j=JSON.parse(fs.readFileSync(p));j.version=process.env.BUILD_VERSION;j.manifest=undefined;j.download=undefined;fs.writeFileSync(p,JSON.stringify(j,null,2))'
+          cd dist
+          zip -qr ../echoes-of-destiny-system-test.zip echoes-of-destiny
+        env:
+          BUILD_VERSION: ${{ inputs.version || '3.0.0-alpha.3' }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: echoes-of-destiny-system-test
+          path: echoes-of-destiny-system-test.zip

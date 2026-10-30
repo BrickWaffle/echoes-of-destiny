@@ -1,0 +1,130 @@
+{
+  "Actor": {
+    "types": [
+      "character",
+      "npc",
+      "vehicle",
+      "location",
+      "organization"
+    ],
+    "templates": {
+      "common": {
+        "description": "",
+        "conditions": {
+          "one": "",
+          "two": "",
+          "three": ""
+        }
+      },
+      "attributes": {
+        "might": 0,
+        "agility": 0,
+        "wits": 0,
+        "presence": 0,
+        "force": 0
+      },
+      "tags": {
+        "tags": [],
+        "exhaustedTags": []
+      }
+    },
+    "character": {
+      "templates": [
+        "common",
+        "attributes",
+        "tags"
+      ],
+      "species": "",
+      "look": "",
+      "vice": "",
+      "xp": 0,
+      "reflections": {
+        "selected": []
+      },
+      "echoes": {
+        "past": [],
+        "destiny": []
+      },
+      "advancements": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    "npc": {
+      "templates": [
+        "common",
+        "tags"
+      ],
+      "species": "",
+      "look": "",
+      "vice": ""
+    },
+    "vehicle": {
+      "templates": [
+        "common",
+        "tags"
+      ],
+      "cargo": "",
+      "model": ""
+    },
+    "location": {
+      "templates": [
+        "common",
+        "tags"
+      ]
+    },
+    "organization": {
+      "templates": [
+        "common",
+        "tags"
+      ],
+      "influence": 0,
+      "resources": 0,
+      "reputation": 0,
+      "agenda": ""
+    }
+  },
+  "Item": {
+    "types": [
+      "move",
+      "equipment",
+      "playbook"
+    ],
+    "templates": {
+      "common": {
+        "description": ""
+      }
+    },
+    "move": {
+      "templates": [
+        "common"
+      ],
+      "category": "basic",
+      "trigger": "",
+      "playbook": "",
+      "results": {}
+    },
+    "equipment": {
+      "templates": [
+        "common"
+      ],
+      "tags": [],
+      "exhaustedTags": []
+    },
+    "playbook": {
+      "templates": [
+        "common"
+      ],
+      "signatureMove": "",
+      "optionalMoves": [],
+      "echoQuestions": [],
+      "abilityIncrease": "",
+      "slug": ""
+    }
+  }
+}

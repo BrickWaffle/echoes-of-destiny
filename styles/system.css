@@ -1,0 +1,193 @@
+.eod.sheet.actor .window-content{background:#151a1e;color:#e7e0cf;padding:12px}
+.eod-sheet{height:100%;display:flex;flex-direction:column;gap:12px}
+.eod-sheet .sheet-header{display:flex;gap:16px;align-items:center}
+.eod-sheet .profile-img{object-fit:cover;border:1px solid #5c89a8}
+.eod-sheet .identity{flex:1;display:grid;gap:5px}
+.eod-sheet .actor-name{font-size:24px}
+.eod-sheet .actor-type{text-transform:uppercase;letter-spacing:.12em;color:#d6a43b}
+.eod-sheet input,.eod-sheet textarea{background:#0d1216;color:#e7e0cf;border:1px solid #46545d;padding:5px}
+.eod-sheet .attributes{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.eod-sheet .attribute{display:flex;flex-direction:column;background:#20272c;padding:8px;border:1px solid #5c89a8}
+.eod-sheet .attribute button{color:#d6a43b;background:#293239}
+.eod-sheet .sheet-tabs{display:flex;border-bottom:1px solid #d6a43b;gap:10px}
+.eod-sheet .sheet-tabs a{padding:6px 10px;text-transform:uppercase}
+.eod-sheet .sheet-tabs a.active{color:#d6a43b;border-bottom:2px solid #d6a43b}
+.eod-sheet .sheet-body{overflow:auto;flex:1}
+.eod-sheet .tab{display:none}
+.eod-sheet .tab.active{display:block}
+.eod-sheet .tab label{display:block;margin:10px 0}
+.eod-sheet .tab textarea{width:100%;min-height:100px}
+.eod-sheet .item-row{padding:8px;border-bottom:1px solid #46545d}
+
+.eod-sheet .eod-reflections{margin:12px 0;padding:12px;background:#20272c;border:1px solid #46545d}
+.eod-sheet .eod-reflections h3{color:#d6a43b;margin:8px 0}
+.eod-sheet .eod-xp-track{display:flex;gap:12px;margin:8px 0 16px}
+.eod-sheet .eod-xp-track label{margin:0}
+.eod-sheet .eod-reflection-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:7px 0;border-bottom:1px solid #46545d}
+.eod-sheet .eod-reflection-row>label:first-child{flex:1;margin:0}
+.eod-sheet .eod-reflection-yes{white-space:nowrap;margin:0}
+.eod-sheet .eod-reflections input[type="checkbox"]{accent-color:#d6a43b}
+.eod-sheet .eod-reflections button{background:#293239;color:#d6a43b;border:1px solid #5c89a8;padding:6px 12px}
+
+/* Native actor item controls: scoped to avoid Foundry's default black-on-dark buttons. */
+.eod-sheet .sheet-body button {
+  color:#e7e0cf;
+  background:#293239;
+  border:1px solid #5c89a8;
+  border-radius:4px;
+  min-height:30px;
+  padding:5px 12px;
+  width:auto;
+  line-height:1.25;
+  cursor:pointer;
+}
+.eod-sheet .sheet-body button:hover,
+.eod-sheet .sheet-body button:focus-visible {
+  color:#f4c96a;
+  background:#35434b;
+  border-color:#d6a43b;
+}
+.eod-sheet .tab > button[data-create-item],
+.eod-sheet .tab > button[data-choose-playbook],
+.eod-sheet .tab > button[data-open-compendium] {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin:3px 6px 10px 0;
+}
+.eod-sheet .item-row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  min-height:44px;
+  padding:7px 4px;
+  border-bottom:1px solid #46545d;
+}
+.eod-sheet .item-row > span:first-child {
+  flex:1;
+  min-width:0;
+  color:#e7e0cf;
+  font-weight:600;
+  overflow-wrap:anywhere;
+}
+.eod-sheet .item-row > span:last-child {
+  display:flex;
+  flex:0 0 auto;
+  gap:6px;
+  align-items:center;
+}
+.eod-sheet .item-row button {
+  margin:0;
+  min-width:58px;
+}
+.eod-sheet .item-row [data-delete-item] {
+  color:#efb9aa;
+}
+@media (max-width:600px) {
+  .eod-sheet .item-row {align-items:flex-start;}
+  .eod-sheet .item-row > span:last-child {flex-wrap:wrap;justify-content:flex-end;}
+}
+
+.eod-sheet .eod-gear-info{flex:1;min-width:0}
+.eod-sheet .eod-tag-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.eod-sheet .sheet-body .eod-tag{font-size:12px;min-height:25px;padding:3px 8px;color:#d6a43b}
+.eod-sheet .sheet-body .eod-tag.is-exhausted{color:#aab0b4;text-decoration:line-through;border-style:dashed;opacity:.75}
+.eod-sheet .eod-echo-row{padding:10px 0;border-bottom:1px solid #46545d}
+.eod-sheet .eod-echo-row p{margin:0 0 8px;line-height:1.4}
+.eod.sheet.item .window-content{background:#151a1e;color:#e7e0cf;padding:12px}
+.eod.sheet.item .eod-sheet .sheet-body button{color:#e7e0cf;background:#293239;border:1px solid #5c89a8;padding:6px 12px}
+
+.eod-sheet .eod-advancement-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid #46545d}
+.eod-sheet .eod-advancement-row span{flex:1}
+.eod-sheet .sheet-body .eod-advancement-row button{white-space:nowrap}
+.eod-sheet .sheet-body .eod-advancement-row button:disabled{opacity:.55;cursor:default;color:#aeb5ba}
+
+/* Actor sheet layout refinement */
+.eod-sheet .identity{min-width:0}
+.eod-sheet .eod-header-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.eod-sheet .eod-header-fields label,.eod-sheet .eod-species-row label{display:flex;flex-direction:column;gap:4px;min-width:0}
+.eod-sheet .eod-header-fields input,.eod-sheet .eod-header-fields select,.eod-sheet .eod-species-row input{width:100%;min-width:0;background:#0d1216;color:#e7e0cf;border:1px solid #46545d;padding:5px}
+.eod-sheet .eod-playbook-selected{display:block;padding:5px;color:#d6a43b}
+.eod-sheet .eod-species-row{display:grid;grid-template-columns:minmax(130px,1fr) minmax(0,2fr);align-items:end;gap:12px}
+.eod-sheet .eod-inline-tags{display:flex;align-items:center;flex-wrap:wrap;gap:8px;min-width:0}
+.eod-sheet .eod-inline-tags .eod-tag-list{margin:0}
+.eod-sheet .eod-inline-tags>button,.eod-sheet .eod-item-name{background:#293239;color:#d6a43b;border:1px solid #5c89a8;border-radius:4px;padding:5px 9px;cursor:pointer}
+.eod-sheet .eod-inline-tags>button{white-space:nowrap}
+.eod-sheet .eod-condition-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.eod-sheet .eod-condition-row input{min-width:0;width:100%}
+.eod-sheet .eod-move-info{flex:1;min-width:0;overflow-wrap:anywhere;line-height:1.5}
+.eod-sheet .sheet-body .eod-item-name{border:0;background:transparent;color:#d6a43b;font-weight:700;min-height:0;padding:0;text-align:left;display:inline}
+.eod-sheet .sheet-body .eod-item-name:hover{text-decoration:underline;background:transparent}
+.eod-sheet .eod-echo-row{display:flex;align-items:flex-start;gap:14px;justify-content:space-between}
+.eod-sheet .eod-echo-copy{flex:1;min-width:0}
+.eod-sheet .eod-echo-answer{font-style:italic;color:#c9c4b9;white-space:pre-wrap;margin-top:7px!important}
+.eod-sheet .eod-echo-row>button{flex:0 0 auto;white-space:nowrap}
+@media(max-width:650px){.eod-sheet .eod-header-fields{grid-template-columns:1fr}.eod-sheet .eod-species-row{grid-template-columns:1fr}.eod-sheet .eod-condition-row{grid-template-columns:1fr}.eod-sheet .eod-echo-row{flex-direction:column}}
+
+/* Header controls: override Foundry's global button/select defaults */
+.eod.sheet.actor .eod-sheet .eod-header-fields select,
+.eod.sheet.actor .eod-sheet .eod-header-fields select option {
+  color:#e7e0cf!important;background:#20272c!important;
+  border:1px solid #5c89a8;color-scheme:dark;
+}
+.eod.sheet.actor .eod-sheet .eod-header-fields select{height:30px}
+.eod.sheet.actor .eod-sheet .eod-header-fields select:focus{border-color:#d6a43b;outline:1px solid #d6a43b}
+.eod.sheet.actor .eod-sheet .eod-species-row{grid-template-columns:minmax(150px,1fr) minmax(0,2fr);align-items:end}
+.eod.sheet.actor .eod-sheet .eod-inline-tags{display:flex;flex-wrap:nowrap;align-items:center;gap:7px;min-width:0}
+.eod.sheet.actor .eod-sheet .eod-inline-tags .eod-tag-list{display:flex;flex:1 1 auto;flex-wrap:wrap;align-items:center;gap:5px;min-width:0}
+.eod.sheet.actor .eod-sheet .eod-inline-tags .eod-tag,
+.eod.sheet.actor .eod-sheet .eod-inline-tags>button {
+  display:inline-flex;flex:0 0 auto;width:auto!important;min-width:0!important;max-width:none;
+  min-height:26px;height:auto;margin:0;padding:3px 8px;
+  border:1px solid #5c89a8;border-radius:4px;background:#293239;color:#d6a43b;
+  font-size:12px;line-height:1.3;text-align:center;white-space:nowrap;cursor:pointer;
+}
+.eod.sheet.actor .eod-sheet .eod-inline-tags .eod-tag.is-exhausted{color:#aab0b4;text-decoration:line-through;border-style:dashed;opacity:.75}
+.eod.sheet.actor .eod-sheet .eod-inline-tags>button{margin-left:auto}
+.eod-sheet .eod-xp-controls{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.eod-sheet .eod-xp-controls .eod-xp-track{margin:8px 0}
+.eod-sheet .eod-npc-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+.eod.sheet.actor .eod-sheet .tab.active{display:block}
+.eod-advancement-dialog{color:#e7e0cf}
+.eod-advancement-dialog .eod-advancement-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #46545d}
+.eod-advancement-dialog .eod-advancement-row span{flex:1}
+.eod-advancement-dialog button{width:auto!important;min-width:92px;padding:5px 10px;background:#293239;color:#d6a43b;border:1px solid #5c89a8}
+.eod-advancement-dialog button:disabled{opacity:.55}
+@media(max-width:650px){.eod.sheet.actor .eod-sheet .eod-species-row{grid-template-columns:1fr}.eod.sheet.actor .eod-sheet .eod-inline-tags{flex-wrap:wrap}}
+
+/* Advancement is a Foundry Dialog, outside the actor sheet's dark theme.
+   Give its window and content an explicit matching palette. */
+.eod-advancement-window .window-content {
+  background:#151a1e!important;
+  color:#e7e0cf!important;
+  padding:14px!important;
+}
+.eod-advancement-window .window-content p,
+.eod-advancement-window .eod-advancement-dialog,
+.eod-advancement-window .eod-advancement-row span {
+  color:#e7e0cf!important;
+}
+.eod-advancement-window .dialog-buttons button {
+  background:#293239!important;
+  color:#d6a43b!important;
+  border:1px solid #5c89a8!important;
+}
+.eod-advancement-window .dialog-buttons button:hover,
+.eod-advancement-window .eod-advancement-dialog button:hover:not(:disabled) {
+  background:#35434b!important;
+  color:#f4c96a!important;
+}
+.eod-sheet .eod-section-spaced { margin-top:22px; padding-top:8px; }
+
+/* Move name is an inline edit affordance, not a text-field or a boxed button. */
+.eod.sheet.actor .eod-sheet .eod-move-info .eod-item-name {
+  display:inline!important;width:auto!important;min-width:0!important;
+  margin:0!important;padding:0!important;vertical-align:baseline;
+  border:0!important;box-shadow:none!important;line-height:inherit;
+  white-space:normal;
+}
+.eod-move-preview{scrollbar-width:auto;scrollbar-color:#d6a43b #20272c}
+.eod-move-preview::-webkit-scrollbar{width:12px}
+.eod-move-preview::-webkit-scrollbar-thumb{background:#6d7e87;border:2px solid #20272c;border-radius:6px}
+.eod-move-preview::-webkit-scrollbar-track{background:#20272c}
