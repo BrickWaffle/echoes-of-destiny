@@ -28,7 +28,7 @@ function moveChoicePreview(moves, selectName, valueFor = item => item.id) {
   const options = moves.map(item => `<option value="${escape(String(valueFor(item)))}">${escape(item.name)}${item.system.playbook ? " — " + escape(item.system.playbook) : ""}</option>`).join("");
   const descriptions = moves.map(item => [String(valueFor(item)), item.system.description || item.system.trigger || "No move description available."]);
   return {
-    content: `<div class="eod-move-choice"><select name="${selectName}" style="width:100%">${options}</select><div class="eod-move-preview" style="white-space:pre-wrap;margin-top:12px;padding:12px;border:1px solid #5c89a8;background:#20272c;color:#e7e0cf;min-height:72px"></div></div>`,
+    content: `<div class="eod-move-choice"><select name="${selectName}" style="width:100%">${options}</select><div class="eod-move-preview" role="region" aria-label="Selected move description (scroll for more)" tabindex="0" style="white-space:pre-wrap;margin-top:12px;padding:12px;border:1px solid #5c89a8;background:#20272c;color:#e7e0cf;min-height:145px;max-height:260px;overflow-y:auto;scrollbar-gutter:stable"></div></div>`,
     render: html => {
       const descriptionsById = new Map(descriptions);
       const select = html.find(`[name="${selectName}"]`);
