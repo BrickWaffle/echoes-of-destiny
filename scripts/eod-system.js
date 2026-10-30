@@ -23,6 +23,21 @@ const ADVANCEMENT_LABELS = [
   "Create a custom move for your character",
   "Choose one optional move from another playbook"
 ];
+function moveChoicePreview(moves, selectName, valueFor = item => item.id) {
+  const escape = foundry.utils.escapeHTML;
+  const options = moves.map(item => `<option value="${escape(String(valueFor(item)))}">${escape(item.name)}${item.system.playbook ? " — " + escape(item.system.playbook) : ""}</option>`).join("");
+  const descriptions = moves.map(item => [String(valueFor(item)), item.system.description || item.system.trigger || "No move description available."]);
+  return {
+    content: `<div class="eod-move-choice"><select name="${selectName}" style="width:100%">${options}</select><div class="eod-move-preview" style="white-space:pre-wrap;margin-top:12px;padding:12px;border:1px solid #5c89a8;background:#20272c;color:#e7e0cf;min-height:72px"></div></div>`,
+    render: html => {
+      const descriptionsById = new Map(descriptions);
+      const select = html.find(`[name="${selectName}"]`);
+      const refresh = () => html.find(".eod-move-preview").text(descriptionsById.get(String(select.val())) || "");
+      select.on("change", refresh);
+      refresh();
+    }
+  };
+}
 const ATTRIBUTES = ["might", "agility", "wits", "presence", "force"];
 function outcome(total) {
   if (total <= 6) return { key: "complications", label: "Complications..." };
@@ -198,7 +213,8 @@ class EODCharacterSheet extends ActorSheet {
         if (!choices.length) return ui.notifications.warn("No eligible unowned moves remain.");
         const selected = await Dialog.prompt({
           title: "Choose Advancement Move",
-          content: `<p>Spend 5 XP to learn one move.</p><select name="move">${choices.map(item => `<option value="${item.id}">${esc(item.name)} — ${esc(item.system.playbook || "")}</option>`).join("")}</select>`,
+          content: `<p>Spend 5 XP to learn one move.</p>` + moveChoicePreview(choices, "move").content,
+          render: moveChoicePreview(choices, "move").render,
           callback: html => html.find('[name="move"]').val()
         });
         const item = choices.find(item => item.id === selected);
@@ -424,12 +440,11 @@ class EODCharacterSheet extends ActorSheet {
         if (!doc) return ui.notifications.error("A playbook optional move is missing.");
         optionalMoves.push(doc);
       }
-      const optionHtml = optionalMoves.map((item, index) =>
-        `<option value="${index}">${foundry.utils.escapeHTML(item.name)}</option>`
-      ).join("");
+      const movePreview = moveChoicePreview(optionalMoves, "optional", item => optionalMoves.indexOf(item));
       const optionalChoice = await Dialog.prompt({
         title: "Starting Optional Move",
-        content: `<p>Choose one optional move for ${foundry.utils.escapeHTML(playbook.name)}.</p><select name="optional">${optionHtml}</select>`,
+        content: `<p>Choose one optional move for ${foundry.utils.escapeHTML(playbook.name)}.</p>` + movePreview.content,
+        render: movePreview.render,
         callback: html => Number(html.find('[name="optional"]').val())
       });
       if (optionalChoice === null || optionalChoice === undefined || !optionalMoves[optionalChoice]) return;
