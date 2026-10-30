@@ -27,6 +27,17 @@
   </nav>
   <section class="sheet-body">
     <div class="tab" data-group="primary" data-tab="details">
+      {{#if hasActorTags}}
+        <section class="eod-actor-tags">
+          <h3>{{#if isCharacter}}Species & Character Tags{{else}}Tags{{/if}}</h3>
+          <button type="button" data-edit-actor-tags>Edit Tags</button>
+          <div class="eod-tag-list">
+            {{#each actorTags}}
+              <button type="button" class="eod-tag {{#if exhausted}}is-exhausted{{/if}}" data-actor-tag-toggle="{{index}}" title="Toggle exhausted/available">{{name}}{{#if exhausted}} (Exhausted){{/if}}</button>
+            {{else}}<p>No tags yet.</p>{{/each}}
+          </div>
+        </section>
+      {{/if}}
       <label>Description</label>
       <textarea name="system.description">{{actor.system.description}}</textarea>
       {{#if isCharacter}}
