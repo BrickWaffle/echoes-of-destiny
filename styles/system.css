@@ -179,3 +179,15 @@
   color:#f4c96a!important;
 }
 .eod-sheet .eod-section-spaced { margin-top:22px; padding-top:8px; }
+
+/* Move name is an inline edit affordance, not a text-field or a boxed button. */
+.eod.sheet.actor .eod-sheet .eod-move-info .eod-item-name {
+  display:inline!important;width:auto!important;min-width:0!important;
+  margin:0!important;padding:0!important;vertical-align:baseline;
+  border:0!important;box-shadow:none!important;line-height:inherit;
+  white-space:normal;
+}
+.eod-move-preview{scrollbar-width:auto;scrollbar-color:#d6a43b #20272c}
+.eod-move-preview::-webkit-scrollbar{width:12px}
+.eod-move-preview::-webkit-scrollbar-thumb{background:#6d7e87;border:2px solid #20272c;border-radius:6px}
+.eod-move-preview::-webkit-scrollbar-track{background:#20272c}
