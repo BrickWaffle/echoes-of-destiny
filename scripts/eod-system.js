@@ -460,3 +460,11 @@ Hooks.once("init", () => {
   });
   console.info("Echoes of Destiny | Standalone system initialized");
 });
+
+Hooks.once("ready", async () => {
+  const pack = game.packs.get("echoes-of-destiny.playbooks");
+  if (pack) {
+    try { await pack.getIndex(); }
+    catch (error) { console.warn("Echoes of Destiny | Unable to preload playbook choices", error); }
+  }
+});
