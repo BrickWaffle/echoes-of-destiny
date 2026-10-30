@@ -31,6 +31,19 @@ function outcome(total) {
   return { key: "critical", label: "Critical Success!" };
 }
 class EODActor extends Actor {
+  async _preUpdate(changed, options, user) {
+    if (this.type === "character" && changed.system?.attributes) {
+      for (const key of ATTRIBUTES) {
+        if (!Object.prototype.hasOwnProperty.call(changed.system.attributes, key)) continue;
+        const raw = changed.system.attributes[key];
+        const numeric = Number(raw);
+        changed.system.attributes[key] = Number.isFinite(numeric)
+          ? Math.max(-2, Math.min(3, Math.trunc(numeric)))
+          : Number(this.system.attributes?.[key] ?? 0);
+      }
+    }
+    return super._preUpdate(changed, options, user);
+  }
   async rollAttribute(attribute, { advantage = 0 } = {}) {
     if (!ATTRIBUTES.includes(attribute)) throw new Error("Unknown Echoes of Destiny attribute");
     const modifier = Number(this.system.attributes?.[attribute] ?? 0);
@@ -95,6 +108,16 @@ class EODCharacterSheet extends ActorSheet {
   }
   activateListeners(html) {
     super.activateListeners(html);
+    html.find('input[name^="system.attributes."]').on("change", event => {
+      const input = event.currentTarget;
+      const value = Number(input.value);
+      if (!Number.isFinite(value)) {
+        const key = input.name.split(".").pop();
+        input.value = this.actor.system.attributes?.[key] ?? 0;
+      } else {
+        input.value = Math.max(-2, Math.min(3, Math.trunc(value)));
+      }
+    });
     html.find("[data-reflection-select]").on("change", async event => {
       const index = Number(event.currentTarget.dataset.reflectionSelect);
       const selected = [...(this.actor.system.reflections?.selected ?? [])];
