@@ -312,7 +312,7 @@ class EODCharacterSheet extends ActorSheet {
     });
     html.find("[data-actor-tag-toggle]").on("click", async event => {
       event.preventDefault();
-      if (!["character", "npc", "vehicle"].includes(this.actor.type)) return;
+      if (!["character", "npc", "vehicle", "location", "organization"].includes(this.actor.type)) return;
       const index = Number(event.currentTarget.dataset.actorTagToggle);
       if (!Number.isInteger(index) || index < 0 || index >= (this.actor.system.tags?.length ?? 0)) return;
       const exhausted = new Set(this.actor.system.exhaustedTags ?? []);
