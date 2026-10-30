@@ -17,7 +17,7 @@
       <label>Starting Attribute Increase<input name="system.abilityIncrease" value="{{item.system.abilityIncrease}}"/></label>
     {{/if}}
     {{#if isEquipment}}
-      <p>Tag editing and exhaustion controls are planned for the equipment milestone.</p>
+      <label>Tags (comma-separated)<input type="text" name="tag-list" value="{{equipmentTagText}}" placeholder="Reliable, Concealable"/></label><button type="button" data-save-tags>Save Tags</button><p>Exhaust or restore tags on the owning actor sheet.</p>
     {{/if}}
   </section>
 </form>
