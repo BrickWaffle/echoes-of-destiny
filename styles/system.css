@@ -88,3 +88,12 @@
   .eod-sheet .item-row {align-items:flex-start;}
   .eod-sheet .item-row > span:last-child {flex-wrap:wrap;justify-content:flex-end;}
 }
+
+.eod-sheet .eod-gear-info{flex:1;min-width:0}
+.eod-sheet .eod-tag-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.eod-sheet .sheet-body .eod-tag{font-size:12px;min-height:25px;padding:3px 8px;color:#d6a43b}
+.eod-sheet .sheet-body .eod-tag.is-exhausted{color:#aab0b4;text-decoration:line-through;border-style:dashed;opacity:.75}
+.eod-sheet .eod-echo-row{padding:10px 0;border-bottom:1px solid #46545d}
+.eod-sheet .eod-echo-row p{margin:0 0 8px;line-height:1.4}
+.eod.sheet.item .window-content{background:#151a1e;color:#e7e0cf;padding:12px}
+.eod.sheet.item .eod-sheet .sheet-body button{color:#e7e0cf;background:#293239;border:1px solid #5c89a8;padding:6px 12px}
