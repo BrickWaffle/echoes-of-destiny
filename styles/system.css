@@ -124,3 +124,34 @@
 .eod-sheet .eod-echo-answer{font-style:italic;color:#c9c4b9;white-space:pre-wrap;margin-top:7px!important}
 .eod-sheet .eod-echo-row>button{flex:0 0 auto;white-space:nowrap}
 @media(max-width:650px){.eod-sheet .eod-header-fields{grid-template-columns:1fr}.eod-sheet .eod-species-row{grid-template-columns:1fr}.eod-sheet .eod-condition-row{grid-template-columns:1fr}.eod-sheet .eod-echo-row{flex-direction:column}}
+
+/* Header controls: override Foundry's global button/select defaults */
+.eod.sheet.actor .eod-sheet .eod-header-fields select,
+.eod.sheet.actor .eod-sheet .eod-header-fields select option {
+  color:#e7e0cf!important;background:#20272c!important;
+  border:1px solid #5c89a8;color-scheme:dark;
+}
+.eod.sheet.actor .eod-sheet .eod-header-fields select{height:30px}
+.eod.sheet.actor .eod-sheet .eod-header-fields select:focus{border-color:#d6a43b;outline:1px solid #d6a43b}
+.eod.sheet.actor .eod-sheet .eod-species-row{grid-template-columns:minmax(150px,1fr) minmax(0,2fr);align-items:end}
+.eod.sheet.actor .eod-sheet .eod-inline-tags{display:flex;flex-wrap:nowrap;align-items:center;gap:7px;min-width:0}
+.eod.sheet.actor .eod-sheet .eod-inline-tags .eod-tag-list{display:flex;flex:1 1 auto;flex-wrap:wrap;align-items:center;gap:5px;min-width:0}
+.eod.sheet.actor .eod-sheet .eod-inline-tags .eod-tag,
+.eod.sheet.actor .eod-sheet .eod-inline-tags>button {
+  display:inline-flex;flex:0 0 auto;width:auto!important;min-width:0!important;max-width:none;
+  min-height:26px;height:auto;margin:0;padding:3px 8px;
+  border:1px solid #5c89a8;border-radius:4px;background:#293239;color:#d6a43b;
+  font-size:12px;line-height:1.3;text-align:center;white-space:nowrap;cursor:pointer;
+}
+.eod.sheet.actor .eod-sheet .eod-inline-tags .eod-tag.is-exhausted{color:#aab0b4;text-decoration:line-through;border-style:dashed;opacity:.75}
+.eod.sheet.actor .eod-sheet .eod-inline-tags>button{margin-left:auto}
+.eod-sheet .eod-xp-controls{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.eod-sheet .eod-xp-controls .eod-xp-track{margin:8px 0}
+.eod-sheet .eod-npc-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+.eod.sheet.actor .eod-sheet .tab.active{display:block}
+.eod-advancement-dialog{color:#e7e0cf}
+.eod-advancement-dialog .eod-advancement-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #46545d}
+.eod-advancement-dialog .eod-advancement-row span{flex:1}
+.eod-advancement-dialog button{width:auto!important;min-width:92px;padding:5px 10px;background:#293239;color:#d6a43b;border:1px solid #5c89a8}
+.eod-advancement-dialog button:disabled{opacity:.55}
+@media(max-width:650px){.eod.sheet.actor .eod-sheet .eod-species-row{grid-template-columns:1fr}.eod.sheet.actor .eod-sheet .eod-inline-tags{flex-wrap:wrap}}
