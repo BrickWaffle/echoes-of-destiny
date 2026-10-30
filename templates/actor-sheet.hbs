@@ -23,6 +23,7 @@
           <label>Look <input name="system.look" value="{{actor.system.look}}"/></label>
           <label>Vice <input name="system.vice" value="{{actor.system.vice}}"/></label>
         </div>
+        <div class="eod-inline-tags"><div class="eod-tag-list">{{#each actorTags}}<button type="button" class="eod-tag {{#if exhausted}}is-exhausted{{/if}}" data-actor-tag-toggle="{{index}}">{{name}}{{#if exhausted}} (Exhausted){{/if}}</button>{{/each}}</div><button type="button" data-edit-actor-tags>Edit Tags</button></div>
       {{else if isVehicle}}
         <div class="eod-species-row"><label>Model <input name="system.model" value="{{actor.system.model}}"/></label>
         <div class="eod-inline-tags"><div class="eod-tag-list">{{#each actorTags}}<button type="button" class="eod-tag {{#if exhausted}}is-exhausted{{/if}}" data-actor-tag-toggle="{{index}}">{{name}}{{#if exhausted}} (Exhausted){{/if}}</button>{{/each}}</div><button type="button" data-edit-actor-tags>Edit Tags</button></div></div>
@@ -61,11 +62,13 @@
           <div class="eod-advancement-list">{{#each advancementRows}}<div class="eod-advancement-row"><span>{{#if completed}}✓ {{/if}}{{label}}</span><button type="button" data-advance="{{index}}" {{#if completed}}disabled{{/if}}>{{#if completed}}Taken{{else}}Spend 5 XP{{/if}}</button></div>{{/each}}</div>
         </section>
       {{else}}
-        {{#if hasActorTags}}
+        {{#if isLocation}}
           <section class="eod-actor-tags">
             <h3>{{#if isNpc}}Species & NPC Tags{{else if isVehicle}}Vehicle Tags{{else}}Tags{{/if}}</h3>
             <div class="eod-inline-tags"><div class="eod-tag-list">{{#each actorTags}}<button type="button" class="eod-tag {{#if exhausted}}is-exhausted{{/if}}" data-actor-tag-toggle="{{index}}">{{name}}{{#if exhausted}} (Exhausted){{/if}}</button>{{/each}}</div><button type="button" data-edit-actor-tags>Edit Tags</button></div>
           </section>
+        {{else if isOrganization}}
+          <section class="eod-actor-tags"><h3>Tags</h3><div class="eod-inline-tags"><div class="eod-tag-list">{{#each actorTags}}<button type="button" class="eod-tag {{#if exhausted}}is-exhausted{{/if}}" data-actor-tag-toggle="{{index}}">{{name}}{{#if exhausted}} (Exhausted){{/if}}</button>{{/each}}</div><button type="button" data-edit-actor-tags>Edit Tags</button></div></section>
         {{/if}}
         <label>Description</label><textarea name="system.description">{{actor.system.description}}</textarea>
         {{#if isOrganization}}{{#if showHiddenAgenda}}
