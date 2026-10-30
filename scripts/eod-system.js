@@ -78,8 +78,13 @@ class EODCharacterSheet extends ActorSheet {
     const data = super.getData(options);
     data.attributes = ATTRIBUTES.map(key => ({ key, label: key[0].toUpperCase() + key.slice(1), value: this.actor.system.attributes?.[key] ?? 0 }));
     data.isCharacter = this.actor.type === "character";
+    data.isNpc = this.actor.type === "npc";
+    data.hasSpecies = ["character", "npc"].includes(this.actor.type);
+    data.showHiddenAgenda = game.user.isGM || this.actor.isOwner;
+    data.selectedPlaybook = this.actor.items.find(item => item.type === "playbook")?.name ?? "";
+    data.playbookChoices = (game.packs.get("echoes-of-destiny.playbooks")?.index?.contents ?? []).map(item => ({id:item._id,name:item.name}));
     data.isVehicle = this.actor.type === "vehicle";
-    data.hasActorTags = ["character", "npc", "vehicle"].includes(this.actor.type);
+    data.hasActorTags = ["character", "npc", "vehicle", "location", "organization"].includes(this.actor.type);
     data.actorTags = (this.actor.system.tags ?? []).map((name, index) => ({index, name, exhausted: (this.actor.system.exhaustedTags ?? []).includes(index)}));
     data.isOrganization = this.actor.type === "organization";
     data.isLocation = this.actor.type === "location";
@@ -106,7 +111,7 @@ class EODCharacterSheet extends ActorSheet {
         index, checked: index < Number(this.actor.system.xp || 0)
       }));
     }
-    data.moves = this.actor.items.filter(i => i.type === "move");
+    data.moves = this.actor.items.filter(i => i.type === "move").map(item => ({id:item.id,name:item.name,description:item.system.description || item.system.trigger || ""}));
     data.equipment = this.actor.items.filter(i => i.type === "equipment").map(item => ({
       id: item.id, name: item.name,
       tags: (item.system.tags ?? []).map((tag, index) => ({
@@ -249,7 +254,7 @@ class EODCharacterSheet extends ActorSheet {
     });
     html.find("[data-edit-actor-tags]").on("click", async event => {
       event.preventDefault();
-      if (!["character", "npc", "vehicle"].includes(this.actor.type)) return;
+      if (!["character", "npc", "vehicle", "location", "organization"].includes(this.actor.type)) return;
       const esc = foundry.utils.escapeHTML;
       const old = this.actor.system.tags ?? [];
       const value = await Dialog.prompt({
@@ -272,6 +277,21 @@ class EODCharacterSheet extends ActorSheet {
       if (exhausted.has(index)) exhausted.delete(index);
       else exhausted.add(index);
       await this.actor.update({"system.exhaustedTags": [...exhausted].sort((a,b) => a-b)});
+    });
+    html.find("[data-echo-unmark]").on("click", async event => {
+      event.preventDefault();
+      const group = event.currentTarget.dataset.echoUnmark;
+      const index = Number(event.currentTarget.dataset.echoIndex);
+      if (!["past", "destiny"].includes(group) || !Number.isInteger(index) || index < 0 || index >= 6) return;
+      const records = [...(this.actor.system.echoes?.[group] ?? [])];
+      if (!records[index]?.resolved) return;
+      const confirmed = await Dialog.confirm({
+        title: "Unmark Echo",
+        content: "<p>Clear the recorded scene and return this Echo to its unresolved state?</p>"
+      });
+      if (!confirmed) return;
+      records[index] = {answer: "", resolved: false};
+      await this.actor.update({[`system.echoes.${group}`]: records});
     });
     html.find("[data-tag-toggle]").on("click", async event => {
       event.preventDefault();
@@ -306,7 +326,7 @@ class EODCharacterSheet extends ActorSheet {
       });
       if (confirmed) await item.delete();
     });
-    html.find("[data-choose-playbook]").on("click", async event => {
+    html.find("[data-select-playbook]").on("change", async event => {
       event.preventDefault();
       if (this.actor.type !== "character") return;
       if (this.actor.items.some(item => item.type === "playbook")) {
@@ -318,15 +338,7 @@ class EODCharacterSheet extends ActorSheet {
       if (!pack || !movePack || !basicPack) {
         return ui.notifications.error("Required Echoes of Destiny compendiums are missing.");
       }
-      const index = await pack.getIndex();
-      const options = index.contents.map(item =>
-        `<option value="${foundry.utils.escapeHTML(item._id)}">${foundry.utils.escapeHTML(item.name)}</option>`
-      ).join("");
-      const chosen = await Dialog.prompt({
-        title: "Choose Playbook",
-        content: `<form><label>Playbook <select name="playbook">${options}</select></label></form>`,
-        callback: html => html.find('[name="playbook"]').val()
-      });
+      const chosen = event.currentTarget.value;
       if (!chosen) return;
       const playbook = await pack.getDocument(chosen);
       if (!playbook) return;
@@ -381,6 +393,13 @@ class EODCharacterSheet extends ActorSheet {
       ]);
       await this.actor.update({[`system.attributes.${attribute}`]: value + 1});
       ui.notifications.info(`${playbook.name} selected; starting moves granted.`);
+    });
+    html.find("[data-playbook-init]").on("click", async event => {
+      event.preventDefault();
+      const pack = game.packs.get("echoes-of-destiny.playbooks");
+      if (!pack) return ui.notifications.error("Playbooks compendium is missing.");
+      await pack.getIndex();
+      this.render();
     });
     html.find("[data-open-compendium]").on("click", event => {
       event.preventDefault();
