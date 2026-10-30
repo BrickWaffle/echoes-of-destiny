@@ -96,7 +96,7 @@
         <p>Echoes begin unanswered. Narrate the scene during play to raise the current result one tier; each question may be resolved once.</p>
         <h3>Echoes of the Past</h3>
         {{#each pastEchoes}}<div class="eod-echo-row"><div class="eod-echo-copy"><p>{{question}}</p>{{#if resolved}}<p class="eod-echo-answer">{{answer}}</p>{{/if}}</div><button type="button" {{#if resolved}}data-echo-unmark="past"{{else}}data-echo-record="past"{{/if}} data-echo-index="{{index}}">{{#if resolved}}Unmark{{else}}Resolve During Play{{/if}}</button></div>{{/each}}
-        <h3>Echoes of Destiny</h3>
+        <h3 class="eod-section-spaced">Echoes of Destiny</h3>
         {{#if hasDestinyEchoes}}
           {{#each destinyEchoes}}<div class="eod-echo-row"><div class="eod-echo-copy"><p>{{question}}</p>{{#if resolved}}<p class="eod-echo-answer">{{answer}}</p>{{/if}}</div><button type="button" {{#if resolved}}data-echo-unmark="destiny"{{else}}data-echo-record="destiny"{{/if}} data-echo-index="{{index}}">{{#if resolved}}Unmark{{else}}Resolve During Play{{/if}}</button></div>{{/each}}
         {{else}}<p>Choose a playbook to see its six Echoes of Destiny.</p>{{/if}}
