@@ -155,3 +155,27 @@
 .eod-advancement-dialog button{width:auto!important;min-width:92px;padding:5px 10px;background:#293239;color:#d6a43b;border:1px solid #5c89a8}
 .eod-advancement-dialog button:disabled{opacity:.55}
 @media(max-width:650px){.eod.sheet.actor .eod-sheet .eod-species-row{grid-template-columns:1fr}.eod.sheet.actor .eod-sheet .eod-inline-tags{flex-wrap:wrap}}
+
+/* Advancement is a Foundry Dialog, outside the actor sheet's dark theme.
+   Give its window and content an explicit matching palette. */
+.eod-advancement-window .window-content {
+  background:#151a1e!important;
+  color:#e7e0cf!important;
+  padding:14px!important;
+}
+.eod-advancement-window .window-content p,
+.eod-advancement-window .eod-advancement-dialog,
+.eod-advancement-window .eod-advancement-row span {
+  color:#e7e0cf!important;
+}
+.eod-advancement-window .dialog-buttons button {
+  background:#293239!important;
+  color:#d6a43b!important;
+  border:1px solid #5c89a8!important;
+}
+.eod-advancement-window .dialog-buttons button:hover,
+.eod-advancement-window .eod-advancement-dialog button:hover:not(:disabled) {
+  background:#35434b!important;
+  color:#f4c96a!important;
+}
+.eod-sheet .eod-section-spaced { margin-top:22px; padding-top:8px; }
